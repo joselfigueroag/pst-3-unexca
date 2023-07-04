@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     "django_extensions",
+    "bootstrap5",
 
     "users",
     "common",
@@ -92,9 +93,9 @@ if DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("DATABASE_NAME", "pst_3_unexca"),
-            "USER": os.environ.get("DATABASE_USER", ""),
-            "PASSWORD": os.environ.get("DATABASE_PASSWORD", ""),
+            "NAME": os.environ.get("DATABASE_NAME", "sigedu"),
+            "USER": os.environ.get("DATABASE_USER", "postgres"),
+            "PASSWORD": os.environ.get("DATABASE_PASSWORD", "postgres"),
             "HOST": "127.0.0.1",
             "PORT": "5432",
         },
