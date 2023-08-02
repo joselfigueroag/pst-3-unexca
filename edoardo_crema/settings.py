@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     "django_extensions",
-    "bootstrap5",
+    "django_bootstrap5",
 
     "users",
     "common",
