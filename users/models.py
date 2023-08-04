@@ -2,6 +2,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
+    Group,
 )
 from django.db import models
 
@@ -36,6 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name="direccion de correo electronico", unique=True
     )
+    group = models.ForeignKey(Group, models.SET_NULL, verbose_name="grupo", null=True, default=None, related_name="users")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 

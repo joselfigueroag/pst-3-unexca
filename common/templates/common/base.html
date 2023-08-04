@@ -10,7 +10,8 @@
     {% bootstrap_messages %}
   </head>
   <body>
-    <div class="container p-5 border border-primary mt-5">
-      base
+      <div class="container">
+        {% include "common/partials/header.html" %}
+        {% block content %}{% endblock content %}
   </body>
 </html>
