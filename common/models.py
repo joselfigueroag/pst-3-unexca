@@ -17,6 +17,7 @@ class Country(TimeStamp):
 
 class State(TimeStamp):
     name = models.CharField(max_length=50, null=False)
+    capital = models.CharField(max_length=50, null=True)
     country = models.ForeignKey(Country,on_delete=models.PROTECT)
 
 class Municipality(TimeStamp):
