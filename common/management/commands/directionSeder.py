@@ -12,10 +12,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if not Country.objects.all():
             new_country = Country.objects.create(name=country_name)
-            print(new_country)
-        """with open(json_file, 'r') as output:
-            data = json.load(output)
-            for item in data:
-                print(item['estado'])"""
-        self.stdout.write(self.style.SUCCESS('Comando ejecutado exitosamente'))
+            print(new_country.id)
+            with open(json_file, 'r') as output:
+                data = json.load(output)
+                for item in data:
+                    print(item['estado'])
+
+        print('ya existe el registro')
+        
+        self.stdout.write(self.style.SUCCESS('Success'))
 
