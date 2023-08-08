@@ -19,11 +19,17 @@ class State(TimeStamp):
     name = models.CharField(max_length=50, null=False)
     capital = models.CharField(max_length=50, null=True)
     country = models.ForeignKey(Country,on_delete=models.PROTECT)
+    def __str__(self) -> str:
+        return f"{self.name,self.capital}"
 
 class Municipality(TimeStamp):
     name = models.CharField(max_length=50, null=False)
     state = models.ForeignKey(State,on_delete=models.PROTECT)
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 class Parish(TimeStamp):
     name = models.CharField(max_length=50, null=False)
     municipality = models.ForeignKey(Municipality,on_delete=models.PROTECT)
+    def __str__(self) -> str:
+        return f"{self.name}"
