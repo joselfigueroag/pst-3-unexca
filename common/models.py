@@ -11,7 +11,7 @@ class TimeStamp(models.Model):
 
 
 class Country(TimeStamp):
-    name = models.CharField(max_length=50, null=False)
+    name = models.CharField(max_length=50, verbose_name="nombre")
 
     class Meta:
         verbose_name = "pais"
@@ -22,10 +22,10 @@ class Country(TimeStamp):
 
 
 class State(TimeStamp):
-    name = models.CharField(max_length=50, null=False)
-    capital = models.CharField(max_length=50, null=True)
+    name = models.CharField(max_length=50, verbose_name="nombre")
+    capital = models.CharField(max_length=50, verbose_name="capital", null=True)
     country = models.ForeignKey(
-        Country, on_delete=models.PROTECT, related_name="states"
+        Country, on_delete=models.PROTECT, related_name="states", verbose_name="pais"
     )
 
     class Meta:
@@ -37,9 +37,12 @@ class State(TimeStamp):
 
 
 class Municipality(TimeStamp):
-    name = models.CharField(max_length=50, null=False)
+    name = models.CharField(max_length=50, verbose_name="nombre")
     state = models.ForeignKey(
-        State, on_delete=models.PROTECT, related_name="municipalities"
+        State,
+        on_delete=models.PROTECT,
+        related_name="municipalities",
+        verbose_name="estado",
     )
 
     class Meta:
@@ -51,9 +54,12 @@ class Municipality(TimeStamp):
 
 
 class Parish(TimeStamp):
-    name = models.CharField(max_length=50, null=False)
+    name = models.CharField(max_length=50, verbose_name="nombre")
     municipality = models.ForeignKey(
-        Municipality, on_delete=models.PROTECT, related_name="parroquia"
+        Municipality,
+        on_delete=models.PROTECT,
+        related_name="parishes",
+        verbose_name="municipio",
     )
 
     class Meta:

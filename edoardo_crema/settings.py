@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "users",
     "common",
     "students",
+    "academic_data",
 ]
 
 MIDDLEWARE = [
