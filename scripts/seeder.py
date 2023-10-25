@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group
 from common.models import Country, State, Parish, Municipality, Gender
+from users.models import User
 import json
 import os
 
@@ -43,3 +44,9 @@ def run():
         for gender in genders:
             Gender.objects.create(name=gender)
         print("Generos creados")
+
+    if not "admin@admin.com" in User.objects.all():
+        group = Group.objects.get(name="admin")
+        user = User.objects.create(email="admin@admin.com", group=group)
+        user.set_password("12345678.")
+        user.save()
