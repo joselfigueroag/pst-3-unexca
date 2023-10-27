@@ -1,0 +1,109 @@
+{% extends "common/base.html" %}
+{% load method_override %}
+
+{% block content %}
+<div class="mt-3">
+  <a
+    type="button"
+    class="btn btn-outline-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#sectionModal"
+    name="new"
+    onclick="handleForm(this)"
+  >
+    + Nueva sección
+  </a>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Grupo</th>
+      <th>*</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for section in sections %}
+    <tr>
+      <td>{{ section.group }}</td>
+      <td>
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#sectionModal"
+          name="edit"
+          data-id="{{ section.id }}"
+          onclick="handleForm(this)"
+        >
+          Editar
+        </button>
+        <a
+          type="button"
+          class="btn btn-danger"
+          href="{% url 'section' section_id=section.id %}"
+        >
+          Eliminar
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="sectionModal"
+  tabindex="-1"
+  aria-labelledby="sectionModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sectionModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <form class="p-3 border border-primary rounded" action="/academic-data/sections/" method="POST" id="form">
+        {% csrf_token %}
+        {% method_override 'PUT' %}
+        <div class="modal-body">
+          <div class="form-group">
+            {{ form.group.label_tag }} <br />
+            {{ form.group }}
+          </div>
+        </div>
+        <hr size="10" class="mt-0">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary mr-auto" type="submit" id="button_edit">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  var form = document.getElementById("form")
+  
+  function clearForm() { 
+    form.reset()
+  }
+
+  function handleForm(obj) {
+    let buttonAction = obj.getAttribute("name")
+    let modal = document.getElementById("sectionModal")
+    let title = modal.querySelector("h5")
+    
+    if (buttonAction === "new") {
+      form.querySelector("input[name='_method']").value = "POST"
+      title.innerHTML = "Nueva Seccion"
+    } else if (buttonAction === "edit") {
+      let sectionId = obj.getAttribute("data-id")
+      form.action = `/academic-data/sections/${sectionId}/`
+      title.innerHTML = "Editar Seccion"
+    }
+  }
+</script>
+
+{% endblock content %}

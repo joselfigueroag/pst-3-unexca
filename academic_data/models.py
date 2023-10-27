@@ -38,3 +38,22 @@ class Subject(TimeStamp):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Grade(TimeStamp):
+    year = models.CharField(max_length=3, verbose_name="año")
+
+    class Meta:
+        verbose_name = "grado"
+        verbose_name_plural = "grados"
+
+
+class Section(TimeStamp):
+    group = models.CharField(max_length=2, verbose_name="grupo")
+
+    class Meta:
+        verbose_name = "seccion"
+        verbose_name_plural = "secciones"
+
+    def __str__(self):
+        return self.group

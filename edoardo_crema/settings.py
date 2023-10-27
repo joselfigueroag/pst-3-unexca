@@ -30,7 +30,10 @@ SECRET_KEY = "django-insecure-35en3_w5yh$kfc%0gi%v1ie&zzcoqw65@ph-g^5%a=py)2clc7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pst3.solutecvzla.com']
+ALLOWED_HOSTS = [
+    'pst3.solutecvzla.com',
+    'localhost'
+]
 
 
 # Application definition
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     
     "django_extensions",
     "django_bootstrap5",
+    "method_override",
 
     "users",
     "common",
@@ -57,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "method_override.middleware.MethodOverrideMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
