@@ -46,6 +46,9 @@ class Grade(TimeStamp):
     class Meta:
         verbose_name = "grado"
         verbose_name_plural = "grados"
+    
+    def __str__(self):
+        return self.year
 
 
 class Section(TimeStamp):

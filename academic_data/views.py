@@ -3,7 +3,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Section, Grade
-from .forms import SectionForm
+from .forms import SectionForm, GradeForm
 
 # Create your views here.
 
@@ -39,6 +39,31 @@ class SectionView(View):
 
 
 class GradeView(View):
+  def __init__(self, *args, **kwargs):
+    self.form = GradeForm()
+    self.grades = Grade.objects.order_by("year")
+
   def get(self, request, *args, **kwargs):
-    grades = Grade.objects.all()
-    return render(request, "academic_data/grades/grades.html", {"grades": grades} )
+    if "grade_id" in kwargs:
+      self.delete(request, kwargs["grade_id"])
+      return redirect('grades')
+    else:
+      return render(
+        request,
+        "academic_data/grades/grades.html",
+        {"grades": self.grades, "form": self.form}
+      )
+
+  def post(self, request):
+    data = request.POST
+    if "year" in data:
+      Grade.objects.create(year=data["year"])
+    return redirect('grades')
+  
+  def put(self, request, grade_id):
+    data = request.PUT
+    Grade.objects.update_or_create(pk=self.kwargs["grade_id"], defaults=data)
+    return redirect('grades')
+
+  def delete(self, request, grade_id):
+    self.grades.get(pk=grade_id).delete()
