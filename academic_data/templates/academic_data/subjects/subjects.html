@@ -7,33 +7,33 @@
     type="button"
     class="btn btn-outline-primary"
     data-bs-toggle="modal"
-    data-bs-target="#gradeModal"
+    data-bs-target="#subjectModal"
     name="new"
     onclick="handleForm(this)"
   >
-    + Nuevo grado
+    + Nueva materia
   </a>
 </div>
 <table class="table">
   <thead>
     <tr>
-      <th>Año</th>
+      <th>Nombre</th>
       <th>*</th>
     </tr>
   </thead>
   <tbody>
-    {% for grade in grades %}
+    {% for subject in subjects %}
     <tr>
-      <td>{{ grade.year }}</td>
+      <td>{{ subject.name }}</td>
       <td>
         <a
           type="button"
           class="btn btn-primary"
           data-bs-toggle="modal"
-          data-bs-target="#gradeModal"
+          data-bs-target="#subjectModal"
           name="edit"
-          data-id="{{ grade.id }}"
-          data-grade="{{ grade }}"
+          data-id="{{ subject.id }}"
+          data-subject="{{ subject }}"
           onclick="handleForm(this)"
         >
           Editar
@@ -41,7 +41,7 @@
         <a
           type="button"
           class="btn btn-danger"
-          href="{% url 'grade' grade_id=grade.id %}"
+          href="{% url 'subject' subject_id=subject.id %}"
         >
           Eliminar
         </a>
@@ -54,9 +54,9 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="gradeModal"
+  id="subjectModal"
   tabindex="-1"
-  aria-labelledby="gradeModalLabel"
+  aria-labelledby="subjectModalLabel"
   aria-hidden="true"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
@@ -64,7 +64,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="gradeModalLabel"></h5>
+        <h5 class="modal-title" id="subjectModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form class="p-3 border border-primary rounded" action="" method="POST" id="form">
@@ -72,8 +72,8 @@
         {% method_override 'PUT' %}
         <div class="modal-body">
           <div class="form-group">
-            {{ form.year.label_tag }} <br />
-            {{ form.year }}
+            {{ form.name.label_tag }} <br />
+            {{ form.name }}
           </div>
         </div>
         <hr size="10" class="mt-0">
@@ -87,29 +87,29 @@
 
 <script>
   let form = document.getElementById("form")
-  let uri = "/academic-data/grades/"
+  let uri = "/academic-data/subjects/"
   
   function handleForm(obj) {
     let buttonAction = obj.getAttribute("name")
-    let modal = document.getElementById("gradeModal")
+    let modal = document.getElementById("subjectModal")
     let title = modal.querySelector("h5")
     
     if (buttonAction === "new") {
       form.reset()
       form.querySelector("input[name='_method']").value = "POST"
       form.action = uri
-      title.innerHTML = "Nuevo Grado"
+      title.innerHTML = "Nueva Materia"
     } else if (buttonAction === "edit") {
-      let gradeId = obj.getAttribute("data-id")
-      let gradeData = obj.getAttribute("data-grade")
-      loadData(gradeData)
-      form.action = `${uri}${gradeId}/`
-      title.innerHTML = "Editar Grado"
+      let subjectId = obj.getAttribute("data-id")
+      let subjectData = obj.getAttribute("data-subject")
+      loadData(subjectData)
+      form.action = `${uri}${subjectId}/`
+      title.innerHTML = "Editar Materia"
     }
   }
 
   function loadData(data) {
-    form.querySelector("input[name='year']").value = data
+    form.querySelector("input[name='name']").value = data
   }
 </script>
 

@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Section, Grade
-from .forms import SectionForm, GradeForm
+from .models import Section, Grade, Subject
+from .forms import SectionForm, GradeForm, SubjectForm
 
 # Create your views here.
 
@@ -67,3 +67,34 @@ class GradeView(View):
 
   def delete(self, request, grade_id):
     self.grades.get(pk=grade_id).delete()
+
+
+class SubjectView(View):
+  def __init__(self, *args, **kwargs):
+    self.form = SubjectForm()
+    self.subjects = Subject.objects.order_by("name")
+
+  def get(self, request, *args, **kwargs):
+    if "subject_id" in kwargs:
+      self.delete(request, kwargs["subject_id"])
+      return redirect('subjects')
+    else:
+      return render(
+        request,
+        "academic_data/subjects/subjects.html",
+        {"subjects": self.subjects, "form": self.form}
+      )
+
+  def post(self, request):
+    data = request.POST
+    if "name" in data:
+      Subject.objects.create(name=data["name"])
+    return redirect('subjects')
+  
+  def put(self, request, subject_id):
+    data = request.PUT
+    Subject.objects.update_or_create(pk=self.kwargs["subject_id"], defaults=data)
+    return redirect('subjects')
+
+  def delete(self, request, subject_id):
+    self.subjects.get(pk=subject_id).delete()

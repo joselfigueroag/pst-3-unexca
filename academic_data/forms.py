@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Section, Grade
+from .models import Section, Grade, Subject
 
 
 class SectionForm(forms.ModelForm):
@@ -13,3 +13,9 @@ class GradeForm(forms.ModelForm):
   class Meta:
     model = Grade
     fields = ["year"]
+
+
+class SubjectForm(forms.ModelForm):
+  class Meta:
+    model = Subject
+    fields = ["name"]
