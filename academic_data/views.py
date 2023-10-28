@@ -35,7 +35,7 @@ class SectionView(View):
     return redirect('sections')
 
   def delete(self, request, section_id):
-    Section.objects.get(pk=section_id).delete()
+    self.sections.get(pk=section_id).delete()
 
 
 class GradeView(View):

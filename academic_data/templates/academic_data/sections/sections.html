@@ -26,16 +26,18 @@
     <tr>
       <td>{{ section.group }}</td>
       <td>
-        <button
+        <a
+          type="button"
           class="btn btn-primary"
           data-bs-toggle="modal"
           data-bs-target="#sectionModal"
           name="edit"
           data-id="{{ section.id }}"
+          data-section="{{ section }}"
           onclick="handleForm(this)"
         >
           Editar
-        </button>
+        </a>
         <a
           type="button"
           class="btn btn-danger"
@@ -63,9 +65,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sectionModalLabel"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form class="p-3 border border-primary rounded" action="/academic-data/sections/" method="POST" id="form">
+      <form class="p-3 border border-primary rounded" action="" method="POST" id="form">
         {% csrf_token %}
         {% method_override 'PUT' %}
         <div class="modal-body">
@@ -84,25 +86,30 @@
 </div>
 
 <script>
-  var form = document.getElementById("form")
+  let form = document.getElementById("form")
+  let uri = "/academic-data/sections/"
   
-  function clearForm() { 
-    form.reset()
-  }
-
   function handleForm(obj) {
     let buttonAction = obj.getAttribute("name")
     let modal = document.getElementById("sectionModal")
     let title = modal.querySelector("h5")
     
     if (buttonAction === "new") {
+      form.reset()
       form.querySelector("input[name='_method']").value = "POST"
+      form.action = uri
       title.innerHTML = "Nueva Seccion"
     } else if (buttonAction === "edit") {
       let sectionId = obj.getAttribute("data-id")
-      form.action = `/academic-data/sections/${sectionId}/`
+      let sectionData = obj.getAttribute("data-section")
+      loadData(sectionData)
+      form.action = `${uri}${sectionId}/`
       title.innerHTML = "Editar Seccion"
     }
+  }
+
+  function loadData(data) {
+    form.querySelector("input[name='group']").value = data
   }
 </script>
 
