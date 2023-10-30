@@ -3,9 +3,6 @@ from django.db import models
 from common.models import TimeStamp, Gender
 
 
-# Create your models here.
-
-
 class Student(TimeStamp):
     first_name = models.CharField(max_length=50, verbose_name="primer nombre")
     second_name = models.CharField(
@@ -30,11 +27,10 @@ class Student(TimeStamp):
 
 
 class AdditionalStudentData(TimeStamp):
-    student = models.ForeignKey(
+    student = models.OneToOneField(
         Student,
         models.CASCADE,
         verbose_name="estudiante",
-        related_name="additional_data",
     )
     size = models.DecimalField(
         verbose_name="talla", max_digits=3, decimal_places=2, null=True, blank=True
@@ -49,11 +45,10 @@ class AdditionalStudentData(TimeStamp):
 
 
 class Representative(TimeStamp):
-    student = models.ForeignKey(
+    student = models.OneToOneField(
         Student,
         models.CASCADE,
         verbose_name="estudiante",
-        related_name="representatives",
     )
     first_name = models.CharField(max_length=50, verbose_name="primer nombre")
     second_name = models.CharField(
@@ -68,7 +63,7 @@ class Representative(TimeStamp):
     phone_number = models.CharField(
         max_length=15, verbose_name="numero de telefono", null=True, blank=True
     )
-    address = models.CharField(max_length=200, verbose_name="direccion")
+    address = models.CharField(max_length=200, verbose_name="direccion", null=True)
 
     class Meta:
         verbose_name = "representante"

@@ -25,4 +25,5 @@ urlpatterns = [
     path("", include("users.urls")),
     path("", include("common.urls")),
     path("academic-data/", include("academic_data.urls")),
+    path("students/", include("students.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

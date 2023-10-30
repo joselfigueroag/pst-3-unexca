@@ -1,0 +1,34 @@
+{% extends "common/base.html" %}
+
+{% block content %}
+  <form class="p-3 border border-primary rounded" action="{% url 'update-student' student_id=student_id %}" method="POST" id="form">
+    {% csrf_token %}
+    <div>
+      <div class="form-group">
+        {{ form.as_p }} <br />
+      </div>
+    </div>
+
+    <hr size="10" class="mt-0">
+
+    <div>
+      <div class="form-group">
+        {{ additional_info_form.as_p }} <br />
+      </div>
+    </div>
+
+    <hr size="10" class="mt-0">
+
+    <div>
+      <div class="form-group">
+        {{ representative_form.as_p }} <br />
+      </div>
+    </div>
+
+    <hr size="10" class="mt-0">
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary mr-auto" type="submit" id="button_edit">Guardar</button>
+    </div>
+  </form>
+{% endblock content %}
