@@ -2,8 +2,6 @@ from django.db import models
 
 from common.models import TimeStamp
 
-# Create your models here.
-
 
 class Teacher(TimeStamp):
     first_name = models.CharField(max_length=50, verbose_name="primer nombre")
@@ -35,20 +33,10 @@ class Subject(TimeStamp):
     class Meta:
         verbose_name = "materia"
         verbose_name_plural = "materias"
+        ordering = ["name"]
 
     def __str__(self):
         return f"{self.name}"
-
-
-class Grade(TimeStamp):
-    year = models.CharField(max_length=3, verbose_name="año")
-
-    class Meta:
-        verbose_name = "grado"
-        verbose_name_plural = "grados"
-    
-    def __str__(self):
-        return self.year
 
 
 class Section(TimeStamp):
@@ -57,6 +45,21 @@ class Section(TimeStamp):
     class Meta:
         verbose_name = "seccion"
         verbose_name_plural = "secciones"
+        ordering = ["group"]
 
     def __str__(self):
         return self.group
+
+
+class Grade(TimeStamp):
+    year = models.CharField(max_length=3, verbose_name="año")
+    sections = models.ManyToManyField(Section, verbose_name="secciones")
+
+    class Meta:
+        verbose_name = "grado"
+        verbose_name_plural = "grados"
+        ordering = ["year"]
+    
+    def __str__(self):
+        sections = [section for section in self.sections.values_list("group", flat=True)]
+        return f"{self.year} - {sections}"

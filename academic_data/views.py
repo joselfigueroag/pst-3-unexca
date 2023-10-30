@@ -10,7 +10,7 @@ from .forms import SectionForm, GradeForm, SubjectForm
 class SectionView(View):
   def __init__(self, *args, **kwargs):
     self.form = SectionForm()
-    self.sections = Section.objects.order_by("group")
+    self.sections = Section.objects.all()
 
   def get(self, request, *args, **kwargs):
     if "section_id" in kwargs:
@@ -41,7 +41,7 @@ class SectionView(View):
 class GradeView(View):
   def __init__(self, *args, **kwargs):
     self.form = GradeForm()
-    self.grades = Grade.objects.order_by("year")
+    self.grades = Grade.objects.all()
 
   def get(self, request, *args, **kwargs):
     if "grade_id" in kwargs:
@@ -55,14 +55,17 @@ class GradeView(View):
       )
 
   def post(self, request):
-    data = request.POST
+    data = dict(request.POST)
     if "year" in data:
-      Grade.objects.create(year=data["year"])
+      grade = Grade.objects.create(year=data["year"][0])
+      grade.sections.set(data["sections"])
     return redirect('grades')
   
   def put(self, request, grade_id):
     data = request.PUT
-    Grade.objects.update_or_create(pk=self.kwargs["grade_id"], defaults=data)
+    sections = data.pop("sections")
+    grade, created = Grade.objects.update_or_create(pk=self.kwargs["grade_id"], defaults=data)
+    grade.sections.set(sections)
     return redirect('grades')
 
   def delete(self, request, grade_id):
@@ -72,7 +75,7 @@ class GradeView(View):
 class SubjectView(View):
   def __init__(self, *args, **kwargs):
     self.form = SubjectForm()
-    self.subjects = Subject.objects.order_by("name")
+    self.subjects = Subject.objects.all()
 
   def get(self, request, *args, **kwargs):
     if "subject_id" in kwargs:

@@ -12,7 +12,7 @@ class SectionForm(forms.ModelForm):
 class GradeForm(forms.ModelForm):
   class Meta:
     model = Grade
-    fields = ["year"]
+    fields = ["year", "sections"]
 
 
 class SubjectForm(forms.ModelForm):
