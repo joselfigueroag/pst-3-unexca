@@ -8,210 +8,53 @@
     <title>Edoardo Crema</title>
     {% load django_bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
     {% bootstrap_messages %}
+    <link id="pagestyle" href="{% static 'common/css/sidebar.css' %}" rel="stylesheet" />
+    
   </head>
   <body>
-    <div class="container">
-      <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-3 px-sm-2 px-0 bg-dark">
-          <div
-            class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100"
-          >
-            <a
-              href="{% url 'home' %}"
-              class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
-            >
-              <span class="fs-5 d-none d-sm-inline">S.I.E.C.</span>
-            </a>
-            <ul
-              class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
-              id="menu"
-            >
-              {% if user.group.name == "admin" %}
-              <li class="nav-item">
-                <a
-                  href="{% url 'user-list' %}"
-                  class="nav-link align-middle px-0"
-                >
-                  <i class="fs-4 bi-house"></i>
-                  <span class="ms-1 d-none d-sm-inline">Usuarios</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  href="{% url 'subjects' %}"
-                  class="nav-link align-middle px-0"
-                >
-                  <i class="fs-4 bi-house"></i>
-                  <span class="ms-1 d-none d-sm-inline">Materias</span>
-                </a>
-              </li>
-              {% endif %}
-              {% if user.group.name == "admin" or user.group.name == "control_estudio" %}
-              <li class="nav-item">
-                <a
-                  href="{% url 'sections' %}"
-                  class="nav-link align-middle px-0"
-                >
-                  <i class="fs-4 bi-house"></i>
-                  <span class="ms-1 d-none d-sm-inline">Secciones</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'grades' %}" class="nav-link align-middle px-0">
-                  <i class="fs-4 bi-house"></i>
-                  <span class="ms-1 d-none d-sm-inline">Grados</span>
-                </a>
-              </li>
-              {% endif %}
-              {% if user.group.name == "admin" or user.group.name == "control_estudio" or user.group.name == "coordinacion" %}
-              <li class="nav-item">
-                <a href="{% url 'students-list' %}" class="nav-link align-middle px-0">
-                  <i class="fs-4 bi-house"></i>
-                  <span class="ms-1 d-none d-sm-inline">Estudiantes</span>
-                </a>
-              </li>
-              {% endif %}
-              {% comment %}
-              <li>
-                <a
-                  href="#submenu1"
-                  data-bs-toggle="collapse"
-                  class="nav-link px-0 align-middle"
-                >
-                  <i class="fs-4 bi-speedometer2"></i>
-                  <span class="ms-1 d-none d-sm-inline">Dashboard</span>
-                </a>
-                <ul
-                  class="collapse show nav flex-column ms-1"
-                  id="submenu1"
-                  data-bs-parent="#menu"
-                >
-                  <li class="w-100">
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Item</span> 1
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Item</span> 2
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" class="nav-link px-0 align-middle">
-                  <i class="fs-4 bi-table"></i>
-                  <span class="ms-1 d-none d-sm-inline">Orders</span></a
-                >
-              </li>
-              <li>
-                <a
-                  href="#submenu2"
-                  data-bs-toggle="collapse"
-                  class="nav-link px-0 align-middle"
-                >
-                  <i class="fs-4 bi-bootstrap"></i>
-                  <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a
-                >
-                <ul
-                  class="collapse nav flex-column ms-1"
-                  id="submenu2"
-                  data-bs-parent="#menu"
-                >
-                  <li class="w-100">
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Item</span> 1</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Item</span> 2</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a
-                  href="#submenu3"
-                  data-bs-toggle="collapse"
-                  class="nav-link px-0 align-middle"
-                >
-                  <i class="fs-4 bi-grid"></i>
-                  <span class="ms-1 d-none d-sm-inline">Products</span>
-                </a>
-                <ul
-                  class="collapse nav flex-column ms-1"
-                  id="submenu3"
-                  data-bs-parent="#menu"
-                >
-                  <li class="w-100">
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Product</span> 1</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Product</span> 2</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Product</span> 3</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-0">
-                      <span class="d-none d-sm-inline">Product</span> 4</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" class="nav-link px-0 align-middle">
-                  <i class="fs-4 bi-people"></i>
-                  <span class="ms-1 d-none d-sm-inline">Customers</span>
-                </a>
-              </li>
-              {% endcomment %}
-            </ul>
-            <hr />
-            <div class="dropdown pb-4">
-              <a
-                href="#"
-                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                id="dropdownUser1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  src="{% static 'common/img/user_image.png' %}"
-                  alt="user"
-                  width="30"
-                  height="30"
-                  class="rounded-circle"
-                />
-                <span class="d-none d-sm-inline mx-1">{{ user }}</span>
+    <div class="container-fluid  row">
+      <div class="col-sm-1 px-sm-4 px-0 min-vh-100 d-none d-sm-block" onmouseover="openMenu('open')" onmouseleave="openMenu('close')">
+          <div class="offcanvas offcanvas-start d-flex col-sm navbar-vertical bg-gradient-dark  navbar-expand-xs border-radius-xl  d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white my-3" tabindex="-1" id="sidebarOffcanvas" data-bs-scroll="true" data-bs-backdrop="true" aria-labelledby="sidebarOffcanvasLabel"  style="backdrop-filter: blur(5px);">
+              <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                  <span class="fs-5 d-none d-sm-inline">Menu</span> 
               </a>
-              <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                {% comment %}
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                {% endcomment %}
-                <li>
-                  <a class="dropdown-item" href="{% url 'logout' %}"
-                    >Cerrar Sesion</a
-                  >
-                </li>
+              <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                  <li class="nav-item">
+                      <a href="/home" class="nav-link align-middle px-0">
+                          <i class="fs-4 bi-house text-white"></i> <span class="text-white ms-1 d-none d-sm-inline">SIGEDU</span>
+                      </a>
+                  </li>
+                  {% if user.group.name == "admin" or user.group.name == "control_estudio" %}
+                    {% if user.group.name == "admin" %}
+                  <li>
+                    <a class="nav-link px-0" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class=" text-white fs-4 bi-sliders"> </i><span class="text-white ms-1 d-none d-sm-inline">Gestion</span></a>
+                    <div class="collapse" id="collapseExample">
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-3">
+                            <li><a class="text-white nav-link px-4" href="{% url 'user-list' %}">Usuarios</a></li>
+                            <li><a class=" text-white nav-link px-4" href="{% url 'subjects' %}">Materias</a></li>
+                    {% endif %}
+                            <li><a class=" text-white nav-link px-4" href="{% url 'students-list' %}">Estudiantes</a></li>
+                        </ul>
+                    </div>  
+                  </li>
+                  {% endif %}
               </ul>
-            </div>
+              <hr>
+              <div class="dropdown pb-4">
+                  <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <img src="{% static 'common/img/User.png' %}" alt="hugenerd" width="50" height="50" class="rounded-circle">
+                      <span class="d-none d-sm-inline mx-1">{{ user }}</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                      <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                  </ul>
+              </div>
           </div>
-        </div>
-        <div class="col py-3">{% block content %}{% endblock content %}</div>
       </div>
-    </div>
+      <div class="col-sm-10 py-3 mt-2">
+        {% block content %}{% endblock content %}
+      </div>
+  </div>
+  <script src="{% static 'common/js/functions.js' %}"></script>
   </body>
 </html>
