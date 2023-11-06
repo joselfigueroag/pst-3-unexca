@@ -1,5 +1,5 @@
 from django import forms
-
+from django.forms import widgets
 from .models import Student, AdditionalStudentData, Representative
 
 
@@ -15,6 +15,15 @@ class StudentForm(forms.ModelForm):
       "gender",
       "identity_card",
     ]
+    widgets = {'birthday_date': widgets.DateInput(attrs={'type': 'date'}),}
+
+  def __init__(self, *args, **kwargs):
+    super(StudentForm, self).__init__(*args, **kwargs)
+    self.fields['first_name'].widget.attrs['pattern'] = '[A-Za-z ]{1,50}'
+    self.fields['second_name'].widget.attrs['pattern'] = '[A-Za-z ]{1,50}'
+    self.fields['first_surname'].widget.attrs['pattern'] = '[A-Za-z ]{1,50}'
+    self.fields['second_surname'].widget.attrs['pattern'] = '[A-Za-z ]{1,50}'
+    self.fields['identity_card'].widget.attrs['pattern'] = '[0-9]{8,10}'
 
 
 class AdditionalStudentDataForm(forms.ModelForm):
@@ -26,6 +35,7 @@ class AdditionalStudentDataForm(forms.ModelForm):
       "email",
       "phone_number",
     ]
+    
 
 
 class RepresentativeForm(forms.ModelForm):
