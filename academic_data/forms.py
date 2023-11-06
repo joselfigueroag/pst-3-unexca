@@ -1,9 +1,19 @@
 from django import forms
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Button
+
 from .models import Section, Grade, Subject, Teacher
 
 
 class SectionForm(forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.fields["group"].widget.attrs.update({
+      "pattern": "[A-Z]",
+      "placeholder": "Ej: A",
+    })
+
   class Meta:
     model = Section
     fields = ["group"]
@@ -12,7 +22,7 @@ class SectionForm(forms.ModelForm):
 class GradeForm(forms.ModelForm):
   class Meta:
     model = Grade
-    fields = ["year", "sections"]
+    fields = ["year"]
 
 
 class SubjectForm(forms.ModelForm):

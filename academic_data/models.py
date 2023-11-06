@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from common.models import TimeStamp, Parish, Gender
+from common.models import TimeStamp, Parish, Gender, Shift
 
 
 class Subject(TimeStamp):
@@ -51,7 +51,7 @@ class Teacher(TimeStamp):
 
 
 class Section(TimeStamp):
-    group = models.CharField(max_length=2, verbose_name="grupo")
+    group = models.CharField(max_length=2, verbose_name="grupo", unique=True)
 
     class Meta:
         verbose_name = "seccion"
@@ -64,7 +64,6 @@ class Section(TimeStamp):
 
 class Grade(TimeStamp):
     year = models.CharField(max_length=3, verbose_name="año")
-    sections = models.ManyToManyField(Section, verbose_name="secciones")
 
     class Meta:
         verbose_name = "grado"
@@ -74,3 +73,12 @@ class Grade(TimeStamp):
     def __str__(self):
         sections = [section for section in self.sections.values_list("group", flat=True)]
         return f"{self.year} - {sections}"
+
+
+class SectionGradeShift(models.Model):
+    section = models.ForeignKey(Section, models.CASCADE)
+    grade = models.ForeignKey(Grade, models.CASCADE)
+    shift = models.ForeignKey(Shift, models.CASCADE)
+
+    class Meta:
+        ordering = ["grade", "section"]

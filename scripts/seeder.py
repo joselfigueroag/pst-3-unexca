@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group
-from common.models import Country, State, Parish, Municipality, Gender
+from common.models import Country, State, Parish, Municipality, Gender, Shift
 from users.models import User
 import json
 import os
@@ -50,3 +50,10 @@ def run():
         user = User.objects.create(email="admin@admin.com", group=group)
         user.set_password("12345678.")
         user.save()
+
+    if not Shift.objects.all():
+        turns = ["mañana", "tarde"]
+
+        for turn in turns:
+            Shift.objects.create(turn=turn)
+        print("Turnos creados")

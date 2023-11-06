@@ -18,7 +18,6 @@
   <thead>
     <tr>
       <th>Año</th>
-      <th>Secciones</th>
       <th>*</th>
     </tr>
   </thead>
@@ -26,11 +25,6 @@
     {% for grade in grades %}
     <tr>
       <td name="year">{{ grade.year }}</td>
-      <td name="sections">
-        {% for section in grade.sections.all %}
-          {{ section.group }} {% if not forloop.last %}- {% endif %}
-        {% endfor %}
-      </td>
       <td>
         <a
           type="button"
@@ -79,10 +73,6 @@
           <div class="form-group">
             {{ form.year.label_tag }} <br />
             {{ form.year }}
-          </div>
-          <div class="form-group">
-            {{ form.sections.label_tag }} <br />
-            {{ form.sections }}
           </div>
         </div>
         <hr size="10" class="mt-0">

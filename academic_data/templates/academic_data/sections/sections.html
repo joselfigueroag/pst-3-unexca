@@ -1,5 +1,8 @@
 {% extends "common/base.html" %}
 {% load method_override %}
+{% load bootstrap_icons %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
 
 {% block content %}
 <div class="mt-3">
@@ -36,14 +39,14 @@
           data-section="{{ section }}"
           onclick="handleForm(this)"
         >
-          Editar
+          {% bs_icon 'pencil-square' %}
         </a>
         <a
           type="button"
           class="btn btn-danger"
           href="{% url 'section' section_id=section.id %}"
         >
-          Eliminar
+          {% bs_icon 'trash' %}
         </a>
       </td>
     </tr>
@@ -67,13 +70,12 @@
         <h5 class="modal-title" id="sectionModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form class="p-3 border border-primary rounded" action="" method="POST" id="form">
+      <form class="p-3 border border-primary rounded needs-validation" action="" method="POST" id="form" novalidate>
         {% csrf_token %}
         {% method_override 'PUT' %}
         <div class="modal-body">
           <div class="form-group">
-            {{ form.group.label_tag }} <br />
-            {{ form.group }}
+            {{ form | crispy }} <br />
           </div>
         </div>
         <hr size="10" class="mt-0">

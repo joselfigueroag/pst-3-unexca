@@ -79,3 +79,14 @@ class Gender(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Shift(models.Model):
+    turn = models.CharField(max_length=20, verbose_name="turno")
+
+    class Meta:
+        verbose_name = "jornada de estudio"
+        verbose_name_plural = "jornadas de estudio"
+    
+    def __str__(self):
+        return f"{self.turn}"
