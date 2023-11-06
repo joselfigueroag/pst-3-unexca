@@ -58,5 +58,8 @@
 .btn-link {
   text-decoration: none !important;
   color: #65656595 !important;
-  
+}
+
+.row-box {
+  padding: 8px;
 }
