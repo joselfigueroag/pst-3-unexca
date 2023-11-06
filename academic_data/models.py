@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from common.models import TimeStamp, Parish, Gender
 
@@ -16,6 +17,10 @@ class Subject(TimeStamp):
 
 
 class Teacher(TimeStamp):
+    class Status(models.TextChoices):
+        ACTIVE = "active", _("activo")
+        INACTIVE = "inactive", _("inactivo")
+
     first_name = models.CharField(max_length=50, verbose_name="primer nombre")
     second_name = models.CharField(
         max_length=50, verbose_name="segundo nombre", null=True, blank=True
@@ -24,6 +29,7 @@ class Teacher(TimeStamp):
     second_surname = models.CharField(
         max_length=50, verbose_name="segundo apellido", null=True, blank=True
     )
+    birthday_date = models.DateField(verbose_name="fecha de nacimiento", null=True)
     identity_card = models.CharField(max_length=10, verbose_name="cedula de identidad")
     gender = models.ForeignKey(Gender, models.PROTECT, verbose_name="genero", related_name="teachers", null=True)
     email = models.EmailField(verbose_name="correo electronico", null=True, blank=True)
@@ -33,6 +39,8 @@ class Teacher(TimeStamp):
     address = models.CharField(max_length=200, verbose_name="direccion")
     parish = models.ForeignKey(Parish, models.SET_NULL, null=True, verbose_name="parroquia")
     subjects = models.ManyToManyField(Subject, verbose_name="materias")
+    start_date = models.DateField(verbose_name="fecha de inicio", null=True)
+    status = models.CharField(max_length=10, verbose_name="estatus", choices=Status.choices, default=Status.ACTIVE)
 
     class Meta:
         verbose_name = "docente"
