@@ -1,6 +1,14 @@
 from django.urls import path
 
-from .views import SectionView, GradeView, SubjectView
+from .views import (
+  SectionView,
+  GradeView,
+  SubjectView,
+  TeacherListView,
+  TeacherCreateView,
+  TeacherUpdateView,
+  delete_teacher,
+)
 
 urlpatterns = [
   path("sections/", SectionView.as_view(), name="sections"),
@@ -9,4 +17,8 @@ urlpatterns = [
   path("grades/<int:grade_id>/", GradeView.as_view(), name="grade"),
   path("subjects/", SubjectView.as_view(), name="subjects"),
   path("subjects/<int:subject_id>/", SubjectView.as_view(), name="subject"),
+  path("teachers/", TeacherListView.as_view(), name="teachers-list"),
+  path("teachers/create/", TeacherCreateView.as_view(), name="create-teacher"),
+  path("update/<int:teacher_id>/", TeacherUpdateView.as_view(), name="update-teacher"),
+  path("delete/<int:teacher_id>/", delete_teacher, name="delete-teacher"),
 ]

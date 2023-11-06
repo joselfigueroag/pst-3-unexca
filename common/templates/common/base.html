@@ -8,53 +8,121 @@
     <title>Edoardo Crema</title>
     {% load django_bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
     {% bootstrap_messages %}
-    <link id="pagestyle" href="{% static 'common/css/sidebar.css' %}" rel="stylesheet" />
-    
+    <link
+      id="pagestyle"
+      href="{% static 'common/css/sidebar.css' %}"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="container-fluid  row">
-      <div class="col-sm-1 px-sm-4 px-0 min-vh-100 d-none d-sm-block" onmouseover="openMenu('open')" onmouseleave="openMenu('close')">
-          <div class="offcanvas offcanvas-start d-flex col-sm navbar-vertical bg-gradient-dark  navbar-expand-xs border-radius-xl  d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white my-3" tabindex="-1" id="sidebarOffcanvas" data-bs-scroll="true" data-bs-backdrop="true" aria-labelledby="sidebarOffcanvasLabel"  style="backdrop-filter: blur(5px);">
-              <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                  <span class="fs-5 d-none d-sm-inline">Menu</span> 
+    <div class="container-fluid row">
+      <div
+        class="col-sm-1 px-sm-4 px-0 min-vh-100 d-none d-sm-block"
+        onmouseover="openMenu('open')"
+        onmouseleave="openMenu('close')"
+      >
+        <div
+          class="offcanvas offcanvas-start d-flex col-sm navbar-vertical bg-gradient-dark navbar-expand-xs border-radius-xl d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white my-3"
+          tabindex="-1"
+          id="sidebarOffcanvas"
+          data-bs-scroll="true"
+          data-bs-backdrop="true"
+          aria-labelledby="sidebarOffcanvasLabel"
+          style="backdrop-filter: blur(5px)"
+        >
+          <a
+            href="#"
+            class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+          >
+            <span class="fs-5 d-none d-sm-inline">Menu</span>
+          </a>
+          <ul
+            class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+            id="menu"
+          >
+            <li class="nav-item">
+              <a href="/home" class="nav-link align-middle px-0">
+                <i class="fs-4 bi-house text-white"></i>
+                <span class="text-white ms-1 d-none d-sm-inline">SIGEDU</span>
               </a>
-              <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                  <li class="nav-item">
-                      <a href="/home" class="nav-link align-middle px-0">
-                          <i class="fs-4 bi-house text-white"></i> <span class="text-white ms-1 d-none d-sm-inline">SIGEDU</span>
-                      </a>
-                  </li>
-                  {% if user.group.name == "admin" or user.group.name == "control_estudio" %}
-                    {% if user.group.name == "admin" %}
+            </li>
+            {% if user.group.name == "admin" or user.group.name == "control_estudio" %}
+            <li>
+              <a
+                class="nav-link px-0"
+                data-bs-toggle="collapse"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                ><i class="text-white fs-4 bi-sliders"> </i
+                ><span class="text-white ms-1 d-none d-sm-inline"
+                  >Gestion</span
+                ></a
+              >
+              <div class="collapse" id="collapseExample">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-3">
                   <li>
-                    <a class="nav-link px-0" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class=" text-white fs-4 bi-sliders"> </i><span class="text-white ms-1 d-none d-sm-inline">Gestion</span></a>
-                    <div class="collapse" id="collapseExample">
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-3">
-                            <li><a class="text-white nav-link px-4" href="{% url 'user-list' %}">Usuarios</a></li>
-                            <li><a class=" text-white nav-link px-4" href="{% url 'subjects' %}">Materias</a></li>
-                    {% endif %}
-                            <li><a class=" text-white nav-link px-4" href="{% url 'students-list' %}">Estudiantes</a></li>
-                        </ul>
-                    </div>  
+                    <a
+                      class="text-white nav-link px-4"
+                      href="{% url 'user-list' %}"
+                      >Usuarios</a
+                    >
                   </li>
-                  {% endif %}
-              </ul>
-              <hr>
-              <div class="dropdown pb-4">
-                  <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="{% static 'common/img/User.png' %}" alt="hugenerd" width="50" height="50" class="rounded-circle">
-                      <span class="d-none d-sm-inline mx-1">{{ user }}</span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                      <li><a class="dropdown-item" href="/logout">Sign out</a></li>
-                  </ul>
+                  <li>
+                    <a
+                      class="text-white nav-link px-4"
+                      href="{% url 'subjects' %}"
+                      >Materias</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-white nav-link px-4"
+                      href="{% url 'students-list' %}"
+                      >Estudiantes</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="text-white nav-link px-4"
+                      href="{% url 'teachers-list' %}"
+                      >Docentes</a
+                    >
+                  </li>
+                </ul>
               </div>
+            </li>
+            {% endif %}
+          </ul>
+          <hr />
+          <div class="dropdown pb-4">
+            <a
+              href="#"
+              class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="{% static 'common/img/User.png' %}"
+                alt="hugenerd"
+                width="50"
+                height="50"
+                class="rounded-circle"
+              />
+              <span class="d-none d-sm-inline mx-1">{{ user }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+              <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+            </ul>
           </div>
+        </div>
       </div>
       <div class="col-sm-10 py-3 mt-2">
         {% block content %}{% endblock content %}
       </div>
-  </div>
-  <script src="{% static 'common/js/functions.js' %}"></script>
+    </div>
+    <script src="{% static 'common/js/functions.js' %}"></script>
   </body>
 </html>
