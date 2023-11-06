@@ -35,3 +35,28 @@
 .bg-gradient-home {
   background-image: linear-gradient(195deg, #eff3f8 0%,  #6f6f6f 100%);
 }
+
+.bg-gradient-light {
+  background-color: #ffffff;
+}
+
+.btn-box {
+  height: 140px;
+  width: 140px;
+  color :#65656595 !important;
+  background-image: radial-gradient(#FFFFFF 0%,#9e9e9e 150% );
+  box-shadow: 10px 5px #bebebe4c;
+  
+}
+
+.bg-gradient-gray {
+  background-image: radial-gradient(#FFFFFF 0%,#9e9e9e 150% );
+  /*color : #9e9e9e !important;*/
+  color: #65656595 !important;
+}
+
+.btn-link {
+  text-decoration: none !important;
+  color: #65656595 !important;
+  
+}

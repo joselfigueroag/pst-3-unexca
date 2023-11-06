@@ -1,10 +1,95 @@
 {% extends "common/base.html" %}
-
+{% load static %}
+{% load bootstrap_icons %}
 {% block content %}
 
-<div class="ml-4 flex items-center md:ml-6">
+<div class="ml-4 flex  justify-content-center md:ml-6 text-center row">
+  <h1 class="col-sm-11 text-light bg-gradient-gray border-radius-xl bar-home">S.I.G.E.D.U</h1>
   <div class="ml-3 relative">
-   
+    <div class="row mt-5 ">
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl"><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="{% url 'students-list' %}">{% bs_icon 'backpack' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">Estudiantes</p>
+          </div>
+        </button>
+      </div>
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl "><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="{% url 'subjects' %}">{% bs_icon 'book' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">Materias</p>
+          </div>
+        </button>
+      </div>
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl "><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="">{% bs_icon 'mortarboard' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">Profesores</p>
+          </div>
+        </button>
+      </div>
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl "><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="">{% bs_icon 'layout-text-window-reverse' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">Matricula</p>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="row mt-5 ">
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl "><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="{% url 'user-list' %}">{% bs_icon 'people' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">Ususarios</p>
+          </div>
+        </button>
+      </div>
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl "><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="">{% bs_icon 'question' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">...</p>
+          </div>
+        </button>
+      </div>
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl "><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="">{% bs_icon 'question' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">...</p>
+          </div>
+        </button>
+      </div>
+      <div class="col-sm-3 text-center">
+        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl "><div class="row">
+          <div class="col-sm-12">
+            <a class="btn-link" href="">{% bs_icon 'question' 'fa-5x' %}</a>
+          </div>
+          <div class="col-sm-12">
+            <p class="">...</p>
+          </div>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
