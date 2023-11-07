@@ -1,112 +1,127 @@
 {% extends "common/base.html" %}
 {% load static %}
 {% load bootstrap_icons %}
-{% block content %}
 
-<div class="ml-4 flex  justify-content-center md:ml-6 text-center row">
+{% block content %}
+<div class="ml-4 flex justify-content-center md:ml-6 text-center row">
   <h1 class="col-sm-11 text-light bg-gradient-gray border-radius-xl bar-home">S.I.G.E.D.U</h1>
   <div class="ml-3 relative">
     <div class="row mt-5 ">
-      <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl">
+      <div class="col-sm-3 mt-2">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'students-list' %}"
+        >
           <div class="row row-box">
             <div class=" col-sm-12">
-              <a class="btn-link" href="{% url 'students-list' %}"><img class="img-button-box" src="{% static 'common/img/students.png' %}" alt="..."></a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Estudiantes</p>
+              <img class="img-button-box" src="{% static 'common/img/students.png' %}" alt="...">
+              Estudiantes
             </div>
           </div>
-        </button>
+        </a>
       </div>
-      <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl ">
+      <div class="col-sm-3 mt-2">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'subjects' %}"
+        >
           <div class="row row-box">
             <div class="col-sm-12">
-              <a class="btn-link" href="{% url 'subjects' %}"><img class="img-button-box" src="{% static 'common/img/materias.png' %}" alt="..."></a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Materias</p>
+              <img class="img-button-box" src="{% static 'common/img/materias.png' %}" alt="...">
+              Materias
             </div>
           </div>
-        </button>
+        </a>
       </div>
       <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl ">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'teachers-list' %}"
+        >
           <div class="row row-box">
             <div class="col-sm-12">
-              <a class="btn-link" href=""><img class="img-button-box" src="{% static 'common/img/profesor.png' %}" alt="..."></a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Profesores</p>
+              <img class="img-button-box" src="{% static 'common/img/profesor.png' %}" alt="...">
+              Profesores
             </div>
           </div>
-        </button>
+        </a>
       </div>
       <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl ">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'teachers-list' %}"
+        >
           <div class="row row-box">
             <div class="col-sm-12">
-              <a class="btn-link" href=""><img class="img-button-box" src="{% static 'common/img/matricula.png' %}" alt="..."></a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Matricula</p>
+              <img class="img-button-box" src="{% static 'common/img/matricula.png' %}" alt="...">
+              Matricula
             </div>
           </div>
-        </button>
+        </a>
       </div>
     </div>
     <div class="row mt-5 ">
       <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl ">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'user-list' %}"
+        >
           <div class="row row-box">
             <div class="col-sm-12">
-              <a class="btn-link" href="{% url 'user-list' %}"><img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="..."></a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Ususarios</p>
+              <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
+              Ususarios
             </div>
           </div>
-        </button>
+        </a>
       </div>
       <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl ">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'grades' %}"
+        >
           <div class="row row-box">
             <div class="col-sm-12">
-              <a class="btn-link" href="{% url 'grades' %}"></a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Grados</p>
+              <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
+              Grados
             </div>
           </div>
-        </button>
+        </a>
       </div>
       <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl ">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'sections' %}"
+        >
           <div class="row row-box">
             <div class="col-sm-12">
-              <a class="btn-link" href="{% url 'sections' %}">{% bs_icon 'question' 'fa-5x' %}</a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Secciones</p>
+              <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
+              Secciones
             </div>
           </div>
-        </button>
+        </a>
       </div>
       <div class="col-sm-3 text-center mt-2">
-        <button type="button" class="btn btn btn-secondary border-0 btn-box border-radius-xl ">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'logout' %}"
+        >
           <div class="row row-box">
             <div class="col-sm-12">
-              <a class="btn-link" href="/logout"><img class="img-button-box" src="{% static 'common/img/logout.png' %}" alt="..."></a>
-            </div>
-            <div class="col-sm-12">
-              <p class="">Cerrar Sesion</p>
+              <img class="img-button-box" src="{% static 'common/img/logout.png' %}" alt="...">
+              Salir
             </div>
           </div>
-        </button>
+        </a>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock content %}
