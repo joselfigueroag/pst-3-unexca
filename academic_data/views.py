@@ -157,7 +157,7 @@ class SubjectView(View):
 
 class TeacherListView(ListView):
   template_name = "academic_data/teachers/teachers_list.html"
-  queryset = Teacher.objects.all()
+  queryset = Teacher.objects.select_related("parish", "gender").prefetch_related("subjects")
 
 
 class TeacherCreateView(CreateView):
@@ -166,20 +166,14 @@ class TeacherCreateView(CreateView):
   form_class = TeacherForm
 
   def post(self, request, *args, **kwargs):
-    data = dict(request.POST)
-    teacher = Teacher.objects.create(
-      first_name=data["first_name"][0],
-      second_name=data["second_name"][0],
-      first_surname=data["first_surname"][0],
-      second_surname=data["second_surname"][0],
-      identity_card=data["identity_card"][0],
-      gender_id=data["gender"][0],
-      email=data["email"][0],
-      phone_number=data["phone_number"][0],
-    )
-    teacher.subjects.set(data["subjects"])
-
-    return redirect("teachers-list")
+    teacher_form = self.form_class(request.POST)
+    if teacher_form.is_valid():
+      teacher_form.save()
+      messages.success(request, "Registro de docente exitoso")
+      return redirect("teachers-list")
+    else:
+      messages.error(request, "No se puedo registrar al docente")
+      return render(request, self.template_name, {'form': teacher_form})
 
 
 class TeacherUpdateView(UpdateView):
@@ -187,31 +181,26 @@ class TeacherUpdateView(UpdateView):
   model = Teacher
   form_class = TeacherForm
 
+  def get_object(self, queryset=None):
+    return Teacher.objects.get(pk=self.kwargs.get("teacher_id"))
+
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     teacher = self.get_object()
     context["teacher_id"] = teacher.id
     return context
 
-  def get_object(self, queryset=None):
-    teacher_id = self.kwargs.get("teacher_id")
-    return Teacher.objects.get(pk=teacher_id)
-
   def post(self, request, *args, **kwargs):
-    data = dict(request.POST)
-    teacher_id = self.kwargs["teacher_id"]
+    teacher = self.get_object()
+    teacher_form = self.form_class(request.POST, instance=teacher)
+    if teacher_form.is_valid():
+      teacher_form.save()
+      messages.success(request, "Informacion de docente actualizada")
+      return redirect("teachers-list")
+    else:
+      messages.error(request, "No se pudo actualizar la informacion del docente")
+      return render(request, self.template_name, {'form': teacher_form, "teacher_id": teacher.id})
 
-    teacher = Teacher.objects.get(pk=teacher_id)
-    teacher.first_name = data["first_name"][0]
-    teacher.second_name = data["second_name"][0]
-    teacher.first_surname = data["first_surname"][0]
-    teacher.second_surname = data["second_surname"][0]
-    teacher.identity_card = data["identity_card"][0]
-    teacher.gender_id = data["gender"][0]
-    teacher.email = data["email"][0]
-    teacher.phone_number = data["phone_number"][0]
-    teacher.save()
-    teacher.subjects.set(data["subjects"])
 
     return redirect("teachers-list")
 

@@ -9,4 +9,5 @@ def index(request):
 
 
 def home(request):
-    return render(request, "common/home.html")
+    groups = ["admin", "docente", "evaluacion", "control_estudio", "coordinador"]
+    return render(request, "common/home.html", {"groups": groups})

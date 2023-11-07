@@ -1,10 +1,15 @@
+import re
 from django import forms
+from django.forms import widgets
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Button
 
 from .models import Section, Grade, Subject, Teacher
 
+
+NUMBER = r"^\d+$"
+LETTERS_SPACES = r"^[a-zA-Z\s]+$"
 
 class SectionForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
@@ -44,6 +49,12 @@ class SubjectForm(forms.ModelForm):
 
 
 class TeacherForm(forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.fields["first_name"].widget.attrs.update({
+      "placeholder": "Ej: Juan",
+    })
+
   class Meta:
     model = Teacher
     fields = [
@@ -61,3 +72,22 @@ class TeacherForm(forms.ModelForm):
       "status",
       "address",
     ]
+    widgets = {
+      'birthday_date': widgets.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+      'start_date': widgets.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+    }
+
+  def clean_identity_card(self):
+    identity_card = self.cleaned_data.get("identity_card")
+    if not re.match(NUMBER, identity_card):
+      raise forms.ValidationError("El numero de cedula solo puede contener digitos")
+
+    return identity_card
+
+  def clean_first_name(self):
+    first_name = self.cleaned_data.get("first_name")
+    if not re.match(LETTERS_SPACES, first_name):
+      raise forms.ValidationError("Solo puede contener letras y espacios")
+    first_name = first_name.upper()
+
+    return first_name

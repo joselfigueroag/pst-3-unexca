@@ -30,7 +30,7 @@ class Teacher(TimeStamp):
         max_length=50, verbose_name="segundo apellido", null=True, blank=True
     )
     birthday_date = models.DateField(verbose_name="fecha de nacimiento", null=True)
-    identity_card = models.CharField(max_length=10, verbose_name="cedula de identidad")
+    identity_card = models.CharField(max_length=10, verbose_name="cedula de identidad", unique=True)
     gender = models.ForeignKey(Gender, models.PROTECT, verbose_name="genero", related_name="teachers", null=True)
     email = models.EmailField(verbose_name="correo electronico", null=True, blank=True)
     phone_number = models.CharField(

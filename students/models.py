@@ -13,7 +13,7 @@ class Student(TimeStamp):
         max_length=50, verbose_name="segundo apellido", null=True, blank=True
     )
     birthday_date = models.DateField(verbose_name="fecha de nacimiento")
-    gender = models.ForeignKey(Gender, models.PROTECT, related_name="students")
+    gender = models.ForeignKey(Gender, models.PROTECT, related_name="students", verbose_name="genero")
     identity_card = models.CharField(
         max_length=10, verbose_name="cedula de identidad", null=True, blank=True
     )

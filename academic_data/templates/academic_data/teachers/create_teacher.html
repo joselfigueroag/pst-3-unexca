@@ -1,18 +1,26 @@
 {% extends "common/base.html" %}
+{% load bootstrap_icons %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-  <form class="p-3 border border-primary rounded" action="/academic-data/teachers/create/" method="POST" id="form">
+  <form class="p-3 border border-primary rounded needs-validation" action="/academic-data/teachers/create/" method="POST" id="form" novalidate>
     {% csrf_token %}
     <div>
       <div class="form-group">
-        {{ form.as_p }} <br />
+        {{ form | crispy }}
+      </div>
+      <div>
+        <label for="id_country" class="form-label">Pais</label>
+        <select name="country" id="" class="select form-select" id="id_country">
+          <option value="">Seleccionar</option>
+        </select>
       </div>
     </div>
 
-    <hr size="10" class="mt-0">
+    <hr size="10" class="mt-5">
 
     <div class="d-flex justify-content-end">
-        <button class="btn btn-primary mr-auto" type="submit" id="button_edit">Guardar</button>
+        <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
     </div>
   </form>
 {% endblock content %}
