@@ -26,9 +26,7 @@ class SectionView(View):
       )
 
   def post(self, request):
-    data = dict(request.POST)
-    data["group"] = data["group"][0].upper()
-    section_form = self.form(data)
+    section_form = self.form(request.POST)
     if section_form.is_valid():
       try:
         section_form.save()
@@ -41,10 +39,8 @@ class SectionView(View):
     return redirect('sections')
   
   def put(self, request, section_id):
-    data = dict(request.PUT)
-    data["group"] = data["group"][0].upper()
     instance = self.sections.get(pk=section_id)
-    section_form = self.form(data, instance=instance)
+    section_form = self.form(request.PUT, instance=instance)
     if section_form.is_valid():
       try:
         section_form.save()

@@ -22,6 +22,12 @@ class SectionForm(forms.ModelForm):
   class Meta:
     model = Section
     fields = ["group"]
+  
+  def clean_group(self):
+    group = self.cleaned_data.get("group")
+    group = group.upper()
+
+    return group
 
 
 class GradeForm(forms.ModelForm):
