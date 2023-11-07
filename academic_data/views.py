@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from django.urls import reverse
 
 from .models import Section, Grade, Subject, Teacher
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm
@@ -157,9 +158,14 @@ class TeacherListView(ListView):
 
 
 class TeacherCreateView(CreateView):
-  template_name = "academic_data/teachers/create_teacher.html"
+  template_name = "academic_data/teachers/form_teacher.html"
   model = Teacher
   form_class = TeacherForm
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context["form_action"] = reverse('create-teacher')
+    return context
 
   def post(self, request, *args, **kwargs):
     teacher_form = self.form_class(request.POST)
@@ -173,7 +179,7 @@ class TeacherCreateView(CreateView):
 
 
 class TeacherUpdateView(UpdateView):
-  template_name = "academic_data/teachers/update_teacher.html"
+  template_name = "academic_data/teachers/form_teacher.html"
   model = Teacher
   form_class = TeacherForm
 
@@ -183,7 +189,7 @@ class TeacherUpdateView(UpdateView):
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     teacher = self.get_object()
-    context["teacher_id"] = teacher.id
+    context["form_action"] = reverse('update-teacher', kwargs={'teacher_id': teacher.id})
     return context
 
   def post(self, request, *args, **kwargs):
@@ -195,12 +201,10 @@ class TeacherUpdateView(UpdateView):
       return redirect("teachers-list")
     else:
       messages.error(request, "No se pudo actualizar la informacion del docente")
-      return render(request, self.template_name, {'form': teacher_form, "teacher_id": teacher.id})
-
-
-    return redirect("teachers-list")
+      return render(request, self.template_name, {'form': teacher_form})
 
 
 def delete_teacher(request, teacher_id):
-    Teacher.objects.get(pk=teacher_id).delete()
+    if Teacher.objects.get(pk=teacher_id).delete():
+      messages.info(request, "Registro de docente eliminado")
     return redirect("teachers-list")
