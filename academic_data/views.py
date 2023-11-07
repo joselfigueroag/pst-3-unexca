@@ -29,8 +29,11 @@ class SectionView(View):
     data = request.POST
     section_form = self.form(data)
     if section_form.is_valid():
-      section_form.save()
-      messages.success(request, message="Seccion creada con exito")
+      try:
+        section_form.save()
+        messages.success(request, message="Seccion creada con exito")
+      except:
+        messages.error(request, message="Error la base de datos")
     else:
       errors = [error for error in section_form.errors.values()]
       messages.error(request, message=f"{errors[0][0]}")
