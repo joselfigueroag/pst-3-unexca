@@ -129,3 +129,17 @@ body::after {
 .text-light-dark {
   color: #4a4a4aab !important;
 }
+
+.bg-modal {
+  background-color: #ffffffde;
+  /*background: radial-gradient(circle, rgba(253, 253, 253, 0.132) 20%, rgba(204, 204, 204, 0.446) 86%);*/
+  color: #4a4a4aab !important;
+}
+
+.alert {
+  height: 100px !important;
+  width: 300px !important;
+  position: absolute;
+  bottom: 10%;
+  right: 0;
+}
