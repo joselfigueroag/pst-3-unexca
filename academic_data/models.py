@@ -51,7 +51,7 @@ class Teacher(TimeStamp):
 
 
 class Section(TimeStamp):
-    group = models.CharField(max_length=2, verbose_name="grupo", unique=True)
+    group = models.CharField(max_length=1, verbose_name="grupo", unique=True)
 
     class Meta:
         verbose_name = "seccion"
@@ -63,7 +63,7 @@ class Section(TimeStamp):
 
 
 class Grade(TimeStamp):
-    year = models.CharField(max_length=3, verbose_name="año")
+    year = models.CharField(max_length=3, verbose_name="año", unique=True)
 
     class Meta:
         verbose_name = "grado"
@@ -71,8 +71,7 @@ class Grade(TimeStamp):
         ordering = ["year"]
     
     def __str__(self):
-        sections = [section for section in self.sections.values_list("group", flat=True)]
-        return f"{self.year} - {sections}"
+        return self.year
 
 
 class SectionGradeShift(models.Model):

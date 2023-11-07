@@ -5,54 +5,56 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<div class="mt-3">
-  <a
-    type="button"
-    class="btn btn-outline-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#sectionModal"
-    name="new"
-    onclick="handleForm(this)"
-  >
-    + Nueva sección
-  </a>
+<div class="container">
+  <div>
+    <a
+      type="button"
+      class="btn btn-outline-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#sectionModal"
+      name="new"
+      onclick="handleForm(this)"
+    >
+      + Nueva sección
+    </a>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Grupo</th>
+        <th>*</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for section in sections %}
+      <tr>
+        <td>{{ section.group }}</td>
+        <td>
+          <a
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#sectionModal"
+            name="edit"
+            data-id="{{ section.id }}"
+            data-section="{{ section }}"
+            onclick="handleForm(this)"
+          >
+            {% bs_icon 'pencil-square' %}
+          </a>
+          <a
+            type="button"
+            class="btn btn-danger"
+            href="{% url 'section' section_id=section.id %}"
+          >
+            {% bs_icon 'trash' %}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Grupo</th>
-      <th>*</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for section in sections %}
-    <tr>
-      <td>{{ section.group }}</td>
-      <td>
-        <a
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#sectionModal"
-          name="edit"
-          data-id="{{ section.id }}"
-          data-section="{{ section }}"
-          onclick="handleForm(this)"
-        >
-          {% bs_icon 'pencil-square' %}
-        </a>
-        <a
-          type="button"
-          class="btn btn-danger"
-          href="{% url 'section' section_id=section.id %}"
-        >
-          {% bs_icon 'trash' %}
-        </a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
 
 <!-- Modal -->
 <div

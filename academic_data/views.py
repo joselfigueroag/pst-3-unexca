@@ -59,14 +59,11 @@ class GradeView(View):
     data = dict(request.POST)
     if "year" in data:
       grade = Grade.objects.create(year=data["year"][0])
-      grade.sections.set(data["sections"])
     return redirect('grades')
   
   def put(self, request, grade_id):
     data = request.PUT
-    sections = data.pop("sections")
     grade, created = Grade.objects.update_or_create(pk=self.kwargs["grade_id"], defaults=data)
-    grade.sections.set(sections)
     return redirect('grades')
 
   def delete(self, request, grade_id):

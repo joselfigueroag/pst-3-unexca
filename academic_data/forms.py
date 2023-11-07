@@ -20,6 +20,12 @@ class SectionForm(forms.ModelForm):
 
 
 class GradeForm(forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.fields["year"].widget.attrs.update({
+      "placeholder": "Ej: 1er",
+    })
+
   class Meta:
     model = Grade
     fields = ["year"]
