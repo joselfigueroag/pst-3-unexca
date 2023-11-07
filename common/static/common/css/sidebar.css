@@ -75,3 +75,8 @@ html, body {
   height: 100px !important;
   width: 100px !important;
 }
+
+.img-login {
+  height: 150px !important;
+  width: 150px !important;
+}
