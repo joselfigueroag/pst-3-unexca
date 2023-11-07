@@ -18,6 +18,9 @@
         {% block content %}{% endblock content %}
       </div>
     <script src="{% static 'common/js/functions.js' %}"></script>
-    {% bootstrap_messages %}
+    <div class="alert">
+      {% bootstrap_messages %}
+    </div>
+   
   </body>
 </html>
