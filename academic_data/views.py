@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 from .models import Section, Grade, Subject, Teacher
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm
@@ -10,7 +11,7 @@ from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm
 
 class SectionView(View):
   def __init__(self, *args, **kwargs):
-    self.form = SectionForm()
+    self.form = SectionForm
     self.sections = Section.objects.all()
 
   def get(self, request, *args, **kwargs):
@@ -26,17 +27,35 @@ class SectionView(View):
 
   def post(self, request):
     data = request.POST
-    if "group" in data:
-      Section.objects.create(group=data["group"])
+    section_form = self.form(data)
+    if section_form.is_valid():
+      section_form.save()
+      messages.success(request, message="Seccion creada con exito")
+    else:
+      errors = [error for error in section_form.errors.values()]
+      messages.error(request, message=f"{errors[0][0]}")
     return redirect('sections')
   
   def put(self, request, section_id):
     data = request.PUT
-    Section.objects.update_or_create(pk=self.kwargs["section_id"], defaults=data)
+    instance = self.sections.get(pk=section_id)
+    section_form = self.form(data, instance=instance)
+    if section_form.is_valid():
+      section_form.save()
+      messages.success(request, message="Seccion actualizada con exito")
+    else:
+      errors = [error for error in section_form.errors.values()]
+      messages.error(request, message=f"{errors[0][0]}")
     return redirect('sections')
 
   def delete(self, request, section_id):
+    messages.info(request, message="Seccion eliminada")
     self.sections.get(pk=section_id).delete()
+  
+
+# def delete_section(request, section_id):
+
+#   self.sections.get(pk=section_id).delete()
 
 
 class GradeView(View):
