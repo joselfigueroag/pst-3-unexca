@@ -10,7 +10,7 @@ class SectionForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.fields["group"].widget.attrs.update({
-      "pattern": "[A-Z]",
+      "pattern": "[A-Za-z]",
       "placeholder": "Ej: A",
     })
 
@@ -32,6 +32,12 @@ class GradeForm(forms.ModelForm):
 
 
 class SubjectForm(forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.fields["name"].widget.attrs.update({
+      "placeholder": "Ej: Matematica",
+    })
+
   class Meta:
     model = Subject
     fields = ["name"]

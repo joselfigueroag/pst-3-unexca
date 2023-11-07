@@ -7,7 +7,6 @@ from django.contrib import messages
 from .models import Section, Grade, Subject, Teacher
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm
 
-# Create your views here.
 
 class SectionView(View):
   def __init__(self, *args, **kwargs):
@@ -16,7 +15,8 @@ class SectionView(View):
 
   def get(self, request, *args, **kwargs):
     if "section_id" in kwargs:
-      self.delete(request, kwargs["section_id"])
+      self.sections.get(pk=kwargs["section_id"]).delete()
+      messages.info(request, message="Seccion eliminada")
       return redirect('sections')
     else:
       return render(
@@ -26,7 +26,8 @@ class SectionView(View):
       )
 
   def post(self, request):
-    data = request.POST
+    data = dict(request.POST)
+    data["group"] = data["group"][0].upper()
     section_form = self.form(data)
     if section_form.is_valid():
       try:
@@ -40,35 +41,31 @@ class SectionView(View):
     return redirect('sections')
   
   def put(self, request, section_id):
-    data = request.PUT
+    data = dict(request.PUT)
+    data["group"] = data["group"][0].upper()
     instance = self.sections.get(pk=section_id)
     section_form = self.form(data, instance=instance)
     if section_form.is_valid():
-      section_form.save()
-      messages.success(request, message="Seccion actualizada con exito")
+      try:
+        section_form.save()
+        messages.success(request, message="Seccion actualizada con exito")
+      except:
+        messages.error(request, message="Error la base de datos")
     else:
       errors = [error for error in section_form.errors.values()]
       messages.error(request, message=f"{errors[0][0]}")
     return redirect('sections')
 
-  def delete(self, request, section_id):
-    messages.info(request, message="Seccion eliminada")
-    self.sections.get(pk=section_id).delete()
-  
-
-# def delete_section(request, section_id):
-
-#   self.sections.get(pk=section_id).delete()
-
 
 class GradeView(View):
   def __init__(self, *args, **kwargs):
-    self.form = GradeForm()
+    self.form = GradeForm
     self.grades = Grade.objects.all()
 
   def get(self, request, *args, **kwargs):
     if "grade_id" in kwargs:
-      self.delete(request, kwargs["grade_id"])
+      self.grades.get(pk=kwargs["grade_id"]).delete()
+      messages.info(request, message="Grado eliminado")
       return redirect('grades')
     else:
       return render(
@@ -78,28 +75,46 @@ class GradeView(View):
       )
 
   def post(self, request):
-    data = dict(request.POST)
-    if "year" in data:
-      grade = Grade.objects.create(year=data["year"][0])
+    data = request.POST
+    grade_form = self.form(data)
+    if grade_form.is_valid():
+      try:
+        grade_form.save()
+        messages.success(request, message="Grado creado con exito")
+      except:
+        messages.error(request, message="Error la base de datos")
+    else:
+      errors = [error for error in grade_form.errors.values()]
+      messages.error(request, message=f"{errors[0][0]}")
     return redirect('grades')
   
   def put(self, request, grade_id):
     data = request.PUT
-    grade, created = Grade.objects.update_or_create(pk=self.kwargs["grade_id"], defaults=data)
+    instance = self.grades.get(pk=grade_id)
+    grade_form = self.form(data, instance=instance)
+    if grade_form.is_valid():
+      try:
+        grade_form.save()
+        messages.success(request, message="Grado actualizado con exito")
+      except:
+        messages.error(request, message="Error la base de datos")
+    else:
+      errors = [error for error in grade_form.errors.values()]
+      messages.error(request, message=f"{errors[0][0]}")
     return redirect('grades')
-
-  def delete(self, request, grade_id):
-    self.grades.get(pk=grade_id).delete()
 
 
 class SubjectView(View):
   def __init__(self, *args, **kwargs):
-    self.form = SubjectForm()
+    self.form = SubjectForm
     self.subjects = Subject.objects.all()
 
   def get(self, request, *args, **kwargs):
     if "subject_id" in kwargs:
-      self.delete(request, kwargs["subject_id"])
+      if self.subjects.get(pk=kwargs["subject_id"]).delete():
+        messages.info(request, message="Materia eliminada")
+      else:
+        messages.error(request, message="No se pudo eliminar la materia")
       return redirect('subjects')
     else:
       return render(
@@ -109,18 +124,35 @@ class SubjectView(View):
       )
 
   def post(self, request):
-    data = request.POST
-    if "name" in data:
-      Subject.objects.create(name=data["name"])
+    data = dict(request.POST)
+    data["name"] = data["name"][0].title() 
+    subject_form = self.form(data)
+    if subject_form.is_valid():
+      try:
+        subject_form.save()
+        messages.success(request, "Materia creada")
+      except:
+        messages.error(request, "Error la base de datos")
+    else:
+      errors = [error for error in grade_form.errors.values()]
+      messages.error(request, message=f"{errors[0][0]}")
     return redirect('subjects')
   
   def put(self, request, subject_id):
-    data = request.PUT
-    Subject.objects.update_or_create(pk=self.kwargs["subject_id"], defaults=data)
+    data = dict(request.PUT)
+    data["name"] = data["name"][0].title()
+    instance = self.subjects.get(pk=subject_id)
+    subject_form = self.form(data, instance=instance)
+    if subject_form.is_valid():
+      try:
+        subject_form.save()
+        messages.success(request, message="Materia actualizada con exito")
+      except:
+        messages.error(request, message="Error la base de datos")
+    else:
+      errors = [error for error in subject_form.errors.values()]
+      messages.error(request, message=f"{errors[0][0]}")
     return redirect('subjects')
-
-  def delete(self, request, subject_id):
-    self.subjects.get(pk=subject_id).delete()
 
 
 class TeacherListView(ListView):
