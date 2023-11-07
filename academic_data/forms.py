@@ -83,17 +83,30 @@ class TeacherForm(forms.ModelForm):
       'start_date': widgets.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
     }
 
-  def clean_identity_card(self):
-    identity_card = self.cleaned_data.get("identity_card")
-    if not re.match(NUMBER, identity_card):
-      raise forms.ValidationError("El numero de cedula solo puede contener digitos")
+  def common_validation(self, field_name):
+    value = self.cleaned_data.get(field_name)
+    if value:
+      if field_name == "identity_card":
+        if not re.match(NUMBER, value):
+          raise forms.ValidationError("El numero de cedula solo puede contener digitos")
+      else:
+        if not re.match(LETTERS_SPACES, value):
+          raise forms.ValidationError("Solo puede contener letras y espacios")
+        value = value.upper()
+    
+    return value
 
-    return identity_card
+  def clean_identity_card(self):
+    return self.common_validation("identity_card")
 
   def clean_first_name(self):
-    first_name = self.cleaned_data.get("first_name")
-    if not re.match(LETTERS_SPACES, first_name):
-      raise forms.ValidationError("Solo puede contener letras y espacios")
-    first_name = first_name.upper()
+    return self.common_validation("first_name")
 
-    return first_name
+  def clean_second_name(self):
+    return self.common_validation("second_name")
+  
+  def clean_first_surname(self):
+    return self.common_validation("first_surname")
+
+  def clean_second_surname(self):
+    return self.common_validation("second_surname")

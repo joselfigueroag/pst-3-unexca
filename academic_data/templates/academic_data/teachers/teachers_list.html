@@ -26,9 +26,9 @@
       {% for teacher in object_list %}
       <tr>
         <td>{{ teacher.first_name }}</td>
-        <td>{{ teacher.second_name }}</td>
+        <td>{{ teacher.second_name|default:"" }}</td>
         <td>{{ teacher.first_surname }}</td>
-        <td>{{ teacher.second_surname }}</td>
+        <td>{{ teacher.second_surname|default:"" }}</td>
         <td>{{ teacher.gender }}</td>
         <td>
           <a
@@ -36,14 +36,14 @@
             class="btn btn-sm btn-info text-light-dark"
             href="{% url 'update-teacher' teacher_id=teacher.id %}"
           >
-            Editar
+            {% bs_icon 'pencil-square' %}
           </a>
           <a
             type="button"
             class="btn btn-sm btn-danger text-light-dark"
             href="{% url 'delete-teacher' teacher_id=teacher.id %}"
           >
-            Eliminar
+            {% bs_icon 'trash' %}
           </a>
         </td>
       </tr>
