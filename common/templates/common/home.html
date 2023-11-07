@@ -3,11 +3,11 @@
 {% load bootstrap_icons %}
 
 {% block content %}
-<div class="ml-4 flex justify-content-center md:ml-6 text-center row">
-  <h1 class="col-sm-11 text-light bg-gradient-gray border-radius-xl bar-home">S.I.G.E.D.U</h1>
+<div class=" flex justify-content-center md:ml-6 text-center row">
+  
   <div class="ml-3 relative">
     <div class="row mt-5 ">
-      <div class="col-sm-3 mt-2">
+      <div class="col-sm-2 mt-2">
         <a
           type="button" 
           class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
@@ -21,7 +21,7 @@
           </div>
         </a>
       </div>
-      <div class="col-sm-3 mt-2">
+      <div class="col-sm-2 mt-2">
         <a
           type="button" 
           class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
@@ -35,7 +35,7 @@
           </div>
         </a>
       </div>
-      <div class="col-sm-3 text-center mt-2">
+      <div class="col-sm-2 text-center mt-2">
         <a
           type="button" 
           class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
@@ -49,7 +49,35 @@
           </div>
         </a>
       </div>
-      <div class="col-sm-3 text-center mt-2">
+      <div class="col-sm-2 text-center mt-2">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'grades' %}"
+        >
+          <div class="row row-box">
+            <div class="col-sm-12">
+              <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
+              Grados
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-2 text-center mt-2">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          href="{% url 'sections' %}"
+        >
+          <div class="row row-box">
+            <div class="col-sm-12">
+              <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
+              Secciones
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-2 text-center mt-2">
         <a
           type="button" 
           class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
@@ -65,7 +93,7 @@
       </div>
     </div>
     <div class="row mt-5 ">
-      <div class="col-sm-3 text-center mt-2">
+      <div class="col-sm-2 text-center mt-2">
         <a
           type="button" 
           class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
@@ -79,35 +107,8 @@
           </div>
         </a>
       </div>
-      <div class="col-sm-3 text-center mt-2">
-        <a
-          type="button" 
-          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
-          href="{% url 'grades' %}"
-        >
-          <div class="row row-box">
-            <div class="col-sm-12">
-              <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
-              Grados
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-3 text-center mt-2">
-        <a
-          type="button" 
-          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
-          href="{% url 'sections' %}"
-        >
-          <div class="row row-box">
-            <div class="col-sm-12">
-              <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
-              Secciones
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-3 text-center mt-2">
+
+      <div class="col-sm-2 text-center mt-2">
         <a
           type="button" 
           class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
