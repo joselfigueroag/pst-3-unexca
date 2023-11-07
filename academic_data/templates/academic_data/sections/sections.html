@@ -5,33 +5,23 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<div class="container">
-  <div class="d-flex justify-content-between">
-    <a
-      type="button"
-      class="btn btn-outline-primary d-flex align-items-center"
-      name="new"
-      data-bs-toggle="modal"
-      data-bs-target="#sectionModal"
-      onclick="handleForm(this)"
-    >
-      {% bs_icon 'plus-circle-fill' extra_classes="me-2" %}
-      Nueva sección
-    </a>
-    <a
-      type="button"
-      href="{% url 'home' %}"
-      class="me-2 btn btn-outline-primary d-flex align-items-center"
-    >
-      {% bs_icon 'house-fill' extra_classes="me-2" %}
-      Inicio
-    </a>
-  </div>
-  <table class="table">
-    <thead>
+<div class="shadow-div mt-3">
+  <table class="table table-sm table-striped shadow-div">
+    <thead class="bg-nav">
       <tr>
         <th>Grupo</th>
-        <th>*</th>
+        <th>
+          <a
+          type="button"
+          class="text-light-dark btn btn-sm btn-info"
+          name="new"
+          data-bs-toggle="modal"
+          data-bs-target="#sectionModal"
+          onclick="handleForm(this)"
+          >
+          {% bs_icon 'plus-circle' %} Nuevo
+        </a>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -41,7 +31,7 @@
         <td>
           <a
             type="button"
-            class="btn btn-primary"
+            class="btn btn-sm btn-info text-light-dark"
             data-bs-toggle="modal"
             data-bs-target="#sectionModal"
             name="edit"
@@ -53,7 +43,7 @@
           </a>
           <a
             type="button"
-            class="btn btn-danger"
+            class="btn btn-sm btn-danger text-light-dark"
             href="{% url 'section' section_id=section.id %}"
           >
             {% bs_icon 'trash' %}

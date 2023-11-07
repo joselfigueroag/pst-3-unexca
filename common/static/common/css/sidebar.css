@@ -19,6 +19,8 @@ body::after {
   background: url('/static/common/img/ingsignea-ec.png');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
+  background-attachment: fixed;
   opacity: 0.1;
   top: 0;
   left: 0;
@@ -30,7 +32,7 @@ body::after {
 
 
 .border-radius-xl {
-    border-radius: 0.75rem;
+    border-radius: 0.75rem !important;
   }
 
 
@@ -117,5 +119,13 @@ body::after {
 .bg-nav {
   background-color: #ffffff61;
   /*background: radial-gradient(circle, rgba(253, 253, 253, 0.132) 20%, rgba(204, 204, 204, 0.446) 86%);*/
+  color: #4a4a4aab !important;
+}
+
+.shadow-div {
+  box-shadow: 10px 5px rgba(0, 0, 0, 0.065);
+}
+
+.text-light-dark {
   color: #4a4a4aab !important;
 }

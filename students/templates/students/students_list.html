@@ -2,52 +2,53 @@
 {% load bootstrap_icons %}
 
 {% block content %}
-<div class="mt-3">
-  <a
-    href="{% url 'create-student' %}"
-    type="button"
-    class="btn btn-outline-primary"
-  >
-    + Nuevo estudiante
-  </a>
+<div class="shadow-div mt-3">
+  <table class="table table-sm table-striped shadow-div">
+    <thead class="bg-nav">
+      <tr>
+        <th>Primer Nombre</th>
+        <th>Segundo Nombre</th>
+        <th>Primer Apellido</th>
+        <th>Segundo Apellido</th>
+        <th>Genero</th>
+        <th>  
+          <a
+            href="{% url 'create-student' %}"
+            type="button"
+            class="text-light-dark btn btn-sm btn-info"
+          >
+          {% bs_icon 'person-plus' %} Nuevo
+        </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in object_list %}
+      <tr>
+        <td>{{ student.first_name }}</td>
+        <td>{{ student.second_name }}</td>
+        <td>{{ student.first_surname }}</td>
+        <td>{{ student.second_surname }}</td>
+        <td>{{ student.gender }}</td>
+        <td>
+          <a
+            type="button"
+            class="btn btn-sm btn-info text-light-dark"
+            href="{% url 'update-student' student_id=student.id %}"
+          >
+            {% bs_icon 'pencil-square' %}
+          </a>
+          <a
+            type="button"
+            class="btn btn-sm btn-danger text-light-dark"
+            href="{% url 'delete-student' student_id=student.id %}"
+          >
+            {% bs_icon 'trash' %}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Primer Nombre</th>
-      <th>Segundo Nombre</th>
-      <th>Primer Apellido</th>
-      <th>Segundo Apellido</th>
-      <th>Genero</th>
-      <th>*</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for student in object_list %}
-    <tr>
-      <td>{{ student.first_name }}</td>
-      <td>{{ student.second_name }}</td>
-      <td>{{ student.first_surname }}</td>
-      <td>{{ student.second_surname }}</td>
-      <td>{{ student.gender }}</td>
-      <td>
-        <a
-          type="button"
-          class="btn btn-primary"
-          href="{% url 'update-student' student_id=student.id %}"
-        >
-          {% bs_icon 'pencil-square' %}
-        </a>
-        <a
-          type="button"
-          class="btn btn-danger"
-          href="{% url 'delete-student' student_id=student.id %}"
-        >
-          {% bs_icon 'trash' %}
-        </a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
 {% endblock content %}

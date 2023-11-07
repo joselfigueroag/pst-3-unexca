@@ -4,55 +4,55 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="mt-3">
-  <a
-    type="button"
-    class="btn btn-outline-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#subjectModal"
-    name="new"
-    onclick="handleForm(this)"
-  >
-    + Nueva materia
-  </a>
+<div class="shadow-div mt-3">
+  <table class="table table-sm table-striped shadow-div">
+    <thead class="bg-nav">
+      <tr>
+        <th>Nombre</th>
+        <th>
+          <a
+            type="button"
+            class="text-light-dark btn btn-sm btn-info"
+            data-bs-toggle="modal"
+            data-bs-target="#subjectModal"
+            name="new"
+            onclick="handleForm(this)"
+          >
+            {% bs_icon 'plus-circle' %} Nuevo
+        </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subject in subjects %}
+      <tr>
+        <td>{{ subject.name }}</td>
+        <td>
+          <a
+            type="button"
+            class="btn btn-sm btn-info text-light-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#subjectModal"
+            name="edit"
+            data-id="{{ subject.id }}"
+            data-subject="{{ subject }}"
+            onclick="handleForm(this)"
+          >
+            {% bs_icon 'pencil-square' %}
+          </a>
+          <a
+            type="button"
+            class="btn btn-sm btn-danger text-light-dark"
+            href="{% url 'subject' subject_id=subject.id %}"
+          >
+            {% bs_icon 'trash' %}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>*</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for subject in subjects %}
-    <tr>
-      <td>{{ subject.name }}</td>
-      <td>
-        <a
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#subjectModal"
-          name="edit"
-          data-id="{{ subject.id }}"
-          data-subject="{{ subject }}"
-          onclick="handleForm(this)"
-        >
-          {% bs_icon 'pencil-square' %}
-        </a>
-        <a
-          type="button"
-          class="btn btn-danger"
-          href="{% url 'subject' subject_id=subject.id %}"
-        >
-          {% bs_icon 'trash' %}
-        </a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
 <!-- Modal -->
 <div
   class="modal fade"
