@@ -1,24 +1,20 @@
 {% extends "common/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-
-<a href="{% url 'user-list' %}" class="fw-bold"><<< Volver</a>
 <div class="mt-3">
   <h2>Actualizar usuario</h2>
 </div>
-<form method="post" action="{% url 'update-user' id=user_id %}">
+<form method="post" action="{% url 'update-user' id=user_id %}" class="needs-validation" novalidate>
   {% csrf_token %}
   <div>
-    {{ form.email.label_tag }} <br />
-    {{ form.email }}
+    {{ form.email | as_crispy_field }}
   </div>
   <div class="mt-3">
-    {{ form.group.label_tag }} <br />
-    {{ form.group }}
+    {{ form.group | as_crispy_field }}
   </div>
-  <div class="mt-3">
-    <button>Guardar</button>
+  <div class="d-flex justify-content-end mt-3">
+    <button class="btn btn-sm btn-success mr-auto" type="submit" id="button_edit">Guardar</button>
   </div>
 </form>
-
 {% endblock content %}
