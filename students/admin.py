@@ -4,18 +4,18 @@ from django import forms
 from .models import Student, Representative, AdditionalStudentData
 
 #revisar
-class RepresentativeInlineFormSet(forms.models.BaseInlineFormSet):
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    # Puedes personalizar la apariencia de los campos aquí, por ejemplo:
-    for form in self.forms:
-        form.fields['first_name'].widget.attrs['style'] = 'display:block;'
-        form.fields['second_name'].widget.attrs['style'] = 'display:block;'
-        form.fields['first_surname'].widget.attrs['style'] = 'display:block;'
-        form.fields['second_surname'].widget.attrs['style'] = 'display:block;'
-        form.fields['identity_card'].widget.attrs['style'] = 'display:block;'
-        form.fields['email'].widget.attrs['style'] = 'display:block;'
-        form.fields['phone_number'].widget.attrs['style'] = 'display:block;'
+# class RepresentativeInlineFormSet(forms.models.BaseInlineFormSet):
+#   def __init__(self, *args, **kwargs):
+#     super().__init__(*args, **kwargs)
+#     # Puedes personalizar la apariencia de los campos aquí, por ejemplo:
+#     for form in self.forms:
+#         form.fields['first_name'].widget.attrs['style'] = 'display:block;'
+#         form.fields['second_name'].widget.attrs['style'] = 'display:block;'
+#         form.fields['first_surname'].widget.attrs['style'] = 'display:block;'
+#         form.fields['second_surname'].widget.attrs['style'] = 'display:block;'
+#         form.fields['identity_card'].widget.attrs['style'] = 'display:block;'
+#         form.fields['email'].widget.attrs['style'] = 'display:block;'
+#         form.fields['phone_number'].widget.attrs['style'] = 'display:block;'
 
 
 class AdditionalStudentDataInline(admin.TabularInline):
@@ -31,4 +31,4 @@ class RepresentativeInline(admin.TabularInline):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-  inlines = [AdditionalStudentDataInline, RepresentativeInline]
+  inlines = [AdditionalStudentDataInline]

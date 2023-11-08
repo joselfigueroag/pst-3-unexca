@@ -15,7 +15,9 @@ class StudentForm(forms.ModelForm):
       "gender",
       "identity_card",
     ]
-    widgets = {'birthday_date': widgets.DateInput(attrs={'type': 'date'}),}
+    widgets = {
+      'birthday_date': widgets.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+    }
 
   def __init__(self, *args, **kwargs):
     super(StudentForm, self).__init__(*args, **kwargs)
@@ -35,7 +37,6 @@ class AdditionalStudentDataForm(forms.ModelForm):
       "email",
       "phone_number",
     ]
-    
 
 
 class RepresentativeForm(forms.ModelForm):

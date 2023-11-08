@@ -189,7 +189,7 @@ class TeacherUpdateView(UpdateView):
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     teacher = self.get_object()
-    context["form_action"] = reverse('update-teacher', kwargs={'teacher_id': teacher.id})
+    context["form_action"] = reverse('update-teacher', kwargs={"teacher_id": teacher.id})
     return context
 
   def post(self, request, *args, **kwargs):

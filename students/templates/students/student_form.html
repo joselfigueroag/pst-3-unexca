@@ -1,10 +1,12 @@
 {% extends "common/base.html" %}
 {% load crispy_forms_tags %} 
 {% load crispy_forms_filters %}
+
 {% block content %}
-  <form class="p-3 border border-primary rounded needs-validation" action="/students/create/" method="POST" id="form" novalidate>
+  <form class="p-3 border border-primary rounded needs-validation" action="{{ form_action }}" method="POST" id="form" novalidate>
     {% csrf_token %}
     <div>
+      <h2>Datos Filiatorios</h2>
       <div class="form-group">
         {{ form | crispy }} <br />
       </div>
@@ -13,6 +15,7 @@
     <hr size="10" class="mt-0">
 
     <div>
+      <h2>Datos Adicionales</h2>
       <div class="form-group">
         {{ additional_info_form | crispy }} <br />
       </div>
@@ -20,16 +23,8 @@
 
     <hr size="10" class="mt-0">
 
-    <div>
-      <div class="form-group">
-        {{ representative_form | crispy }} <br />
-      </div>
-    </div>
-
-    <hr size="10" class="mt-0">
-
     <div class="d-flex justify-content-end">
-        <button class="btn btn-primary mr-auto" type="submit" id="button_edit">Guardar</button>
+        <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
     </div>
   </form>
 {% endblock content %}

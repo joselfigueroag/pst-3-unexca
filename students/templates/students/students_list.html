@@ -26,9 +26,9 @@
       {% for student in object_list %}
       <tr>
         <td>{{ student.first_name }}</td>
-        <td>{{ student.second_name }}</td>
+        <td>{{ student.second_name|default:"" }}</td>
         <td>{{ student.first_surname }}</td>
-        <td>{{ student.second_surname }}</td>
+        <td>{{ student.second_surname|default:"" }}</td>
         <td>{{ student.gender }}</td>
         <td>
           <a
