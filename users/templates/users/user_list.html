@@ -12,9 +12,9 @@
           <a
             href="{% url 'new-user' %}"
             type="button"
-            class="text-light-dark btn btn-sm btn-info"
+            class="text-dark btn btn-sm btn-success"
           >
-            {% bs_icon 'person-plus' %}
+            + Nuevo
           </a>
         </th>
       </tr>
@@ -27,10 +27,10 @@
         <td>
           <a
           type="button"
-          class="btn btn-sm btn-info text-light-dark"
+          class="btn btn-sm btn-info text-dark"
           href="{% url 'edit-user' id=user.id %}"
           >
-          {% bs_icon 'pencil-square' %}
+          Editar
           </a>
         </td>
       </tr>

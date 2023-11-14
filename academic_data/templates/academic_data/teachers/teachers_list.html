@@ -15,9 +15,9 @@
           <a
             href="{% url 'create-teacher' %}"
             type="button"
-            class="text-light-dark btn btn-sm btn-info"
+            class="text-dark btn btn-sm btn-success"
             >
-            {% bs_icon 'person-plus' %} Nuevo
+            + Nuevo
           </a>
         </th>
       </tr>
@@ -33,17 +33,17 @@
         <td>
           <a
             type="button"
-            class="btn btn-sm btn-info text-light-dark"
+            class="btn btn-sm btn-info text-dark"
             href="{% url 'update-teacher' teacher_id=teacher.id %}"
           >
-            {% bs_icon 'pencil-square' %}
+            Editar
           </a>
           <a
             type="button"
-            class="btn btn-sm btn-danger text-light-dark"
+            class="btn btn-sm btn-danger text-dark"
             href="{% url 'delete-teacher' teacher_id=teacher.id %}"
           >
-            {% bs_icon 'trash' %}
+            Eliminar
           </a>
         </td>
       </tr>

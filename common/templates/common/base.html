@@ -12,6 +12,7 @@
       href="{% static 'common/css/sidebar.css' %}"
       rel="stylesheet"
     />
+    {{ form.media.css }}
   </head>
   <body>
     <nav class="navbar bg-nav">
@@ -29,6 +30,9 @@
       {% block content %}{% endblock content %}
     </div>
     <script src="{% static 'common/js/functions.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    {{ form.media.js }}
     <div class="alert">
       {% bootstrap_messages %}
     </div>

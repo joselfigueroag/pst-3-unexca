@@ -12,13 +12,13 @@
         <th>
           <a
             type="button"
-            class="text-light-dark btn btn-sm btn-info"
+            class="text-dark btn btn-sm btn-info"
             data-bs-toggle="modal"
             data-bs-target="#subjectModal"
             name="new"
             onclick="handleForm(this)"
           >
-            {% bs_icon 'plus-circle' %} Nuevo
+            + Nuevo
         </a>
         </th>
       </tr>
@@ -30,7 +30,7 @@
         <td>
           <a
             type="button"
-            class="btn btn-sm btn-info text-light-dark"
+            class="btn btn-sm btn-info text-dark"
             data-bs-toggle="modal"
             data-bs-target="#subjectModal"
             name="edit"
@@ -38,14 +38,14 @@
             data-subject="{{ subject }}"
             onclick="handleForm(this)"
           >
-            {% bs_icon 'pencil-square' %}
+            Editar
           </a>
           <a
             type="button"
-            class="btn btn-sm btn-danger text-light-dark"
+            class="btn btn-sm btn-danger text-dark"
             href="{% url 'subject' subject_id=subject.id %}"
           >
-            {% bs_icon 'trash' %}
+            Eliminar
           </a>
         </td>
       </tr>

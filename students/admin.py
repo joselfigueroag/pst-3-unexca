@@ -32,3 +32,8 @@ class RepresentativeInline(admin.TabularInline):
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
   inlines = [AdditionalStudentDataInline]
+
+
+@admin.register(Representative)
+class RepresentativeAdmin(admin.ModelAdmin):
+  pass
