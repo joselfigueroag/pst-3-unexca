@@ -1,0 +1,52 @@
+{% extends "common/base.html" %}
+{% load bootstrap_icons %}
+
+{% block content %}
+<div class="shadow-div mt-3">
+  <table class="table table-sm table-striped shadow-div">
+    <thead class="bg-nav">
+      <tr>
+        <th>Primer Nombre</th>
+        <th>Segundo Nombre</th>
+        <th>Primer Apellido</th>
+        <th>Segundo Apellido</th>
+        <th>  
+          <a
+            href="{% url 'create-representative' %}"
+            type="button"
+            class="text-dark btn btn-sm btn-info"
+          >
+          + Nuevo
+          </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for representative in object_list %}
+      <tr>
+        <td>{{ representative.first_name }}</td>
+        <td>{{ representative.second_name|default:"" }}</td>
+        <td>{{ representative.first_surname }}</td>
+        <td>{{ representative.second_surname|default:"" }}</td>
+        <td>
+          <a
+            type="button"
+            class="btn btn-sm btn-info text-dark"
+            href="{% url 'update-representative' representative_id=representative.id %}"
+          >
+            Editar
+          </a>
+          <a
+            type="button"
+            class="btn btn-sm btn-danger text-dark"
+            href="{% url 'delete-representative' representative_id=representative.id %}"
+          >
+            Eliminar
+          </a>
+        </td> 
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

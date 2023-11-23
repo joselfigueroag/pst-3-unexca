@@ -32,12 +32,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "pst3.solutecvzla.com",
-    "localhost"
+    "localhost",
+    "127.0.0.1",
 ]
 
-
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -113,7 +112,7 @@ DATABASES = {
         "NAME": os.environ.get("DATABASE_NAME", "sigedu"),
         "USER": os.environ.get("DATABASE_USER", "postgres"),
         "PASSWORD": os.environ.get("DATABASE_PASSWORD", "postgres"),
-        "HOST": "127.0.0.1",
+        "HOST": "localhost",
         "PORT": "5432",
     },
 }
@@ -167,6 +166,8 @@ SHELL_PLUS = "ipython"
 AUTH_USER_MODEL = "users.User"
 
 LOGIN_REDIRECT_URL = "home"
+
+LOGIN_URL = "/"
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.fallback.FallbackStorage"
 

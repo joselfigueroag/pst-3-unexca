@@ -10,6 +10,7 @@ from .models import Section, Grade, Subject, Teacher
 
 NUMBER = r"^\d+$"
 LETTERS_SPACES = r"^[a-zA-Z\s]+$"
+LETTERS = r"^[a-zA-Z]+$"
 
 class SectionForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
@@ -25,9 +26,10 @@ class SectionForm(forms.ModelForm):
   
   def clean_group(self):
     group = self.cleaned_data.get("group")
-    group = group.upper()
+    if not re.match(LETTERS, group):
+      raise forms.ValidationError("Solo se permiten letras.")
 
-    return group
+    return group.upper()
 
 
 class GradeForm(forms.ModelForm):

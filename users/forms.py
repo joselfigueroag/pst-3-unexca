@@ -7,19 +7,18 @@ from .models import User
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
-    # def __init__(self, *args, **kwargs):
-    #   super().__init__(*args, **kwargs)
-    #   if 'instance' in kwargs:
-    #     self.fields['password'].required = False
-
     class Meta:
       model = User
       fields = ["email", "group", "password"]
     
+    def clean_email(self):
+      email = self.cleaned_data["email"]
+      email = email.lower()
+      return email
+
     def save(self, commit=True):
       user = super().save(commit=False)
       user.set_password(self.cleaned_data["password"])
       if commit:
         user.save()
-    
       return user

@@ -1,14 +1,17 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib import messages
-from django.urls import reverse
 
 from .models import Section, Grade, Subject, Teacher
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm
 
 
+#SECCIONES
+@method_decorator(login_required, name="dispatch")
 class SectionView(View):
   def __init__(self, *args, **kwargs):
     self.form = SectionForm
@@ -54,6 +57,8 @@ class SectionView(View):
     return redirect('sections')
 
 
+#GRADOS
+@method_decorator(login_required, name="dispatch")
 class GradeView(View):
   def __init__(self, *args, **kwargs):
     self.form = GradeForm
@@ -101,6 +106,8 @@ class GradeView(View):
     return redirect('grades')
 
 
+#MATERIAS
+@method_decorator(login_required, name="dispatch")
 class SubjectView(View):
   def __init__(self, *args, **kwargs):
     self.form = SubjectForm
@@ -152,15 +159,18 @@ class SubjectView(View):
     return redirect('subjects')
 
 
+#DOCENTES
+@method_decorator(login_required, name="dispatch")
 class TeacherListView(ListView):
   template_name = "academic_data/teachers/teachers_list.html"
   queryset = Teacher.objects.select_related("parish", "gender").prefetch_related("subjects")
 
 
+@method_decorator(login_required, name="dispatch")
 class TeacherCreateView(CreateView):
-  template_name = "academic_data/teachers/form_teacher.html"
   model = Teacher
   form_class = TeacherForm
+  template_name = "academic_data/teachers/form_teacher.html"
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -174,10 +184,11 @@ class TeacherCreateView(CreateView):
       messages.success(request, "Registro de docente exitoso")
       return redirect("teachers-list")
     else:
-      messages.error(request, "No se puedo registrar al docente")
+      messages.error(request, "No se pudo registrar al docente")
       return render(request, self.template_name, {'form': teacher_form})
 
 
+@method_decorator(login_required, name="dispatch")
 class TeacherUpdateView(UpdateView):
   template_name = "academic_data/teachers/form_teacher.html"
   model = Teacher
@@ -204,6 +215,7 @@ class TeacherUpdateView(UpdateView):
       return render(request, self.template_name, {'form': teacher_form})
 
 
+@login_required
 def delete_teacher(request, teacher_id):
     if Teacher.objects.get(pk=teacher_id).delete():
       messages.info(request, "Registro de docente eliminado")

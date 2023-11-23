@@ -8,6 +8,7 @@ from .forms import StudentForm, AdditionalStudentDataForm, RepresentativeForm
 from .models import Student, AdditionalStudentData, Representative
 
 
+# ESTUDIANTES
 class StudentListView(ListView):
   template_name = "students/students_list.html"
   queryset = Student.objects.select_related("additionalstudentdata", "gender")
@@ -84,3 +85,73 @@ def delete_student(request, student_id):
   if Student.objects.get(pk=student_id).delete():
     messages.info(request, "Registro de estudiante eliminado")
   return redirect("students-list")
+
+
+#REPRESENTANTES
+class RepresentativeListView(ListView):
+  template_name = "representatives/representatives_list.html"
+  queryset = Representative.objects.prefetch_related("students")
+
+
+class RepresentativeCreateView(CreateView):
+  template_name = "representatives/representative_form.html"
+  model = Representative
+  form_class = RepresentativeForm
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context["form_action"] = reverse("create-representative")
+    return context
+
+  @transaction.atomic
+  def post(self, request, *args, **kwargs):
+    representative_form = self.form_class(request.POST)
+    if representative_form.is_valid():
+        representative_form.save()
+        messages.success(request, "Registro de representante exitoso")
+        return redirect("representatives-list")
+    else:
+        messages.error(request, "No se pudo registrar al representante")
+        return render(
+          request,
+          self.template_name,
+          { "form": representative_form }
+        )
+
+
+class RepresentativeUpdateView(UpdateView):
+  template_name = "representatives/representative_form.html"
+  model = Representative
+  form_class = RepresentativeForm
+
+  def get_object(self, queryset=None):
+    return Representative.objects.get(pk=self.kwargs.get("representative_id"))
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    representative = self.get_object()
+    context["form_action"] = reverse("update-representative", kwargs={"representative_id": representative.id})
+    return context
+
+  def post(self, request, *args, **kwargs):
+    representative = self.get_object()
+    representative_form = self.form_class(request.POST, instance=representative)
+    if representative_form.is_valid():
+      representative_form.save()
+      messages.success(request, "Registro de representante actualizado")
+      return redirect("representatives-list")
+    else:
+      messages.error(request, "No se pudo actualizar registro del representante")
+      return render(
+        request,
+        self.template_name,
+        { "form": representative_form }
+      )
+
+
+def delete_representative(request, representative_id):
+  if Representative.objects.get(pk=representative_id).delete():
+    messages.info(request, "Registro de representante eliminado")
+  return redirect("representatives-list")
+
+  
