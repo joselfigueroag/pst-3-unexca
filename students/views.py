@@ -3,17 +3,21 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .forms import StudentForm, AdditionalStudentDataForm, RepresentativeForm
 from .models import Student, AdditionalStudentData, Representative
 
 
 # ESTUDIANTES
+@method_decorator(login_required, name="dispatch")
 class StudentListView(ListView):
   template_name = "students/students_list.html"
   queryset = Student.objects.select_related("additionalstudentdata", "gender")
 
 
+@method_decorator(login_required, name="dispatch")
 class StudentCreateView(CreateView):
   template_name = "students/student_form.html"
   model = Student
@@ -23,6 +27,7 @@ class StudentCreateView(CreateView):
     context = super().get_context_data(**kwargs)
     context["additional_info_form"] = AdditionalStudentDataForm
     context["form_action"] = reverse("create-student")
+    context["action"] = "REGISTRAR"
     return context
 
   @transaction.atomic
@@ -45,6 +50,7 @@ class StudentCreateView(CreateView):
         )
 
 
+@method_decorator(login_required, name="dispatch")
 class StudentUpdateView(UpdateView):
   template_name = "students/student_form.html"
   model = Student
@@ -58,6 +64,7 @@ class StudentUpdateView(UpdateView):
     student = self.get_object()
     context["form_action"] = reverse("update-student", kwargs={"student_id": student.id})
     context["additional_info_form"] = AdditionalStudentDataForm(instance=student.additionalstudentdata)
+    context["action"] = "ACTUALIZAR"
     return context
 
   @transaction.atomic
@@ -81,6 +88,7 @@ class StudentUpdateView(UpdateView):
       )
 
 
+@login_required
 def delete_student(request, student_id):
   if Student.objects.get(pk=student_id).delete():
     messages.info(request, "Registro de estudiante eliminado")
@@ -88,11 +96,13 @@ def delete_student(request, student_id):
 
 
 #REPRESENTANTES
+@method_decorator(login_required, name="dispatch")
 class RepresentativeListView(ListView):
   template_name = "representatives/representatives_list.html"
   queryset = Representative.objects.prefetch_related("students")
 
 
+@method_decorator(login_required, name="dispatch")
 class RepresentativeCreateView(CreateView):
   template_name = "representatives/representative_form.html"
   model = Representative
@@ -101,6 +111,7 @@ class RepresentativeCreateView(CreateView):
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context["form_action"] = reverse("create-representative")
+    context["action"] = "REGISTRAR"
     return context
 
   @transaction.atomic
@@ -119,6 +130,7 @@ class RepresentativeCreateView(CreateView):
         )
 
 
+@method_decorator(login_required, name="dispatch")
 class RepresentativeUpdateView(UpdateView):
   template_name = "representatives/representative_form.html"
   model = Representative
@@ -131,6 +143,7 @@ class RepresentativeUpdateView(UpdateView):
     context = super().get_context_data(**kwargs)
     representative = self.get_object()
     context["form_action"] = reverse("update-representative", kwargs={"representative_id": representative.id})
+    context["action"] = "ACTUALIZAR"
     return context
 
   def post(self, request, *args, **kwargs):
@@ -149,9 +162,8 @@ class RepresentativeUpdateView(UpdateView):
       )
 
 
+@login_required
 def delete_representative(request, representative_id):
   if Representative.objects.get(pk=representative_id).delete():
     messages.info(request, "Registro de representante eliminado")
   return redirect("representatives-list")
-
-  

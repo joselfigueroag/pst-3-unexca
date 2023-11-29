@@ -12,7 +12,6 @@ from .views import (
 )
 
 urlpatterns = [
-  path("select2/", include("django_select2.urls")),
   path("students/", StudentListView.as_view(), name="students-list"),
   path("students/create/", StudentCreateView.as_view(), name="create-student"),
   path("students/update/<int:student_id>/", StudentUpdateView.as_view(), name="update-student"),

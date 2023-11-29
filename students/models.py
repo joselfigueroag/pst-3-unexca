@@ -54,7 +54,7 @@ class Student(TimeStamp):
         verbose_name_plural = "estudiantes"
 
     def __str__(self):
-        return f"{self.first_name} {self.first_surname}"
+        return f"{self.first_name} {self.first_surname} - {self.identity_card if self.identity_card else ''}"
 
 
 class AdditionalStudentData(TimeStamp):

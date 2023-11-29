@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from common.models import TimeStamp, Parish, Gender, Shift
+from students.models import Student
 
 
 class Subject(TimeStamp):
@@ -74,10 +75,29 @@ class Grade(TimeStamp):
         return self.year
 
 
-class SectionGradeShift(models.Model):
-    section = models.ForeignKey(Section, models.CASCADE)
-    grade = models.ForeignKey(Grade, models.CASCADE)
-    shift = models.ForeignKey(Shift, models.CASCADE)
+class AcademicPeriod(TimeStamp):
+    period = models.CharField(max_length=9, verbose_name="periodo", unique=True)
 
     class Meta:
-        ordering = ["grade", "section"]
+        verbose_name = "periodo academico"
+        verbose_name_plural = "periodos academicos"
+    
+    def __str__(self):
+        return self.period
+
+
+class Tuition(TimeStamp):
+    academic_period = models.ForeignKey(AcademicPeriod, models.CASCADE, verbose_name="periodo academico")
+    grade = models.ForeignKey(Grade, models.CASCADE, verbose_name="grado")
+    section = models.ForeignKey(Section, models.CASCADE, verbose_name="seccion")
+    shift = models.ForeignKey(Shift, models.CASCADE, verbose_name="turno")
+    students = models.ManyToManyField(Student, verbose_name="estudiantes", blank=True)
+
+    class Meta:
+        verbose_name = "matricula"
+        verbose_name_plural = "matriculas"
+        default_related_name = "tuitions"
+        unique_together = ["academic_period", "grade", "section"]
+
+    def __str__(self):
+        return f"{self.academic_period} - {self.grade} {self.section}"

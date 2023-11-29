@@ -4,8 +4,10 @@ from django.forms import widgets
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Button
+from django_select2 import forms as s2forms
 
-from .models import Section, Grade, Subject, Teacher
+from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition
+from students.models import Student
 
 
 NUMBER = r"^\d+$"
@@ -112,3 +114,26 @@ class TeacherForm(forms.ModelForm):
 
   def clean_second_surname(self):
     return self.common_validation("second_surname")
+
+
+class AcademicPeriodForm(forms.ModelForm):
+  class Meta:
+    model = AcademicPeriod
+    fields = ["period"]
+
+
+class StudentMultipleWidget(s2forms.ModelSelect2MultipleWidget):
+  search_fields = [
+    "first_name__icontains",
+    "first_surname__icontains",
+    "identity_card__icontains",
+  ]
+
+
+class TuitionForm(forms.ModelForm):
+  class Meta:
+    model = Tuition
+    fields = ["academic_period", "grade", "section", "shift", "students"]
+    widgets = {
+      "students": StudentMultipleWidget,
+    }

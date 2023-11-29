@@ -45,7 +45,7 @@ def run():
             Gender.objects.create(name=gender)
         print("Generos creados")
 
-    if not "admin@admin.com" in User.objects.all():
+    if not "admin@admin.com" in User.objects.values_list("email", flat=True):
         group = Group.objects.get(name="admin")
         user = User.objects.create(email="admin@admin.com", group=group)
         user.set_password("12345678.")

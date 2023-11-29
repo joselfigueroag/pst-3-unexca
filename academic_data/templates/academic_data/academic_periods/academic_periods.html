@@ -5,19 +5,22 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<h2 class="text-center mt-3 mb-3">GRADOS</h2>
+<h2 class="text-center mt-3 mb-3">PERIODOS ACADEMICOS</h2>
 <div class="container">
+  <div>
+ 
+  </div>
   <div class="shadow-div mt-3">
     <table class="table table-sm table-striped shadow-div">
       <thead class="bg-nav">
         <tr>
-          <th>Año</th>
+          <th>Periodo</th>
           <th>
             <a
               type="button"
               class="text-dark btn btn-sm btn-success"
               data-bs-toggle="modal"
-              data-bs-target="#gradeModal"
+              data-bs-target="#academicPeriodModal"
               name="new"
               onclick="handleForm(this)"
               >
@@ -27,17 +30,17 @@
         </tr>
       </thead>
       <tbody>
-        {% for grade in grades %}
+        {% for academic_period in academic_periods %}
         <tr>
-          <td name="year">{{ grade.year }}</td>
+          <td name="period">{{ academic_period.period }}</td>
           <td>
             <a
               type="button"
               class="btn btn-sm btn-info text-dark"
               data-bs-toggle="modal"
-              data-bs-target="#gradeModal"
+              data-bs-target="#academicPeriodModal"
               name="edit"
-              data-id="{{ grade.id }}"
+              data-id="{{ academic_period.id }}"
               onclick="handleForm(this)"
             >
               Editar
@@ -45,7 +48,7 @@
             <a
               type="button"
               class="btn btn-sm btn-danger text-dark"
-              href="{% url 'grade' grade_id=grade.id %}"
+              href="{% url 'academic-period' academic_period_id=academic_period.id %}"
             >
               Eliminar
             </a>
@@ -60,9 +63,9 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="gradeModal"
+  id="academicPeriodModal"
   tabindex="-1"
-  aria-labelledby="gradeModalLabel"
+  aria-labelledby="academicPeriodModalLabel"
   aria-hidden="true"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
@@ -70,7 +73,7 @@
   <div class="modal-dialog">
     <div class="modal-content bg-modal">
       <div class="modal-header">
-        <h5 class="modal-title" id="gradeModalLabel"></h5>
+        <h5 class="modal-title" id="academicPeriodModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form class="p-3 rounded needs-validation" action="" method="POST" id="form" novalidate>
@@ -92,30 +95,30 @@
 
 <script>
   let form = document.getElementById("form")
-  let uri = "/academic-data/grades/"
+  let uri = "/academic-data/academic-periods/"
   
   function handleForm(obj) {
     let buttonAction = obj.getAttribute("name")
-    let modal = document.getElementById("gradeModal")
+    let modal = document.getElementById("academicPeriodModal")
     let title = modal.querySelector("h5")
     
     if (buttonAction === "new") {
       form.reset()
       form.querySelector("input[name='_method']").value = "POST"
       form.action = uri
-      title.innerHTML = "Nuevo Grado"
+      title.innerHTML = "Nuevo Periodo Academico"
     } else if (buttonAction === "edit") {
       form.reset()
-      let gradeId = obj.getAttribute("data-id")
-      let year = obj.parentNode.parentNode.querySelector('td[name="year"]').textContent
-      loadData(year)
-      form.action = `${uri}${gradeId}/`
-      title.innerHTML = "Editar Grado"
+      let academicPeriodId = obj.getAttribute("data-id")
+      let period = obj.parentNode.parentNode.querySelector('td[name="period"]').textContent
+      loadData(period)
+      form.action = `${uri}${academicPeriodId}/`
+      title.innerHTML = "Editar Periodo Academico"
     }
   }
   
   function loadData(data) {
-    form.querySelector("input[name='year']").value = data
+    form.querySelector("input[name='period']").value = data
   }
 </script>
 

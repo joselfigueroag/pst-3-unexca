@@ -3,19 +3,13 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+  <h2 class="text-center mt-3 mb-3">{{ action }} MATRICULA</h2>
   <form class="p-3 border border-primary rounded needs-validation" action="{{ form_action }}" method="POST" id="form" novalidate>
     {% csrf_token %}
     <div>
       <div class="form-group">
         {{ form | crispy }}
       </div>
-      <div>
-        <label for="id_country" class="form-label">Pais</label>
-        <select name="country" id="" class="select form-select" id="id_country">
-          <option value="">Seleccionar</option>
-        </select>
-      </div>
-    </div>
 
     <hr size="10" class="mt-5">
 

@@ -140,6 +140,6 @@ body::after {
   height: 100px !important;
   width: 300px !important;
   position: absolute;
-  bottom: 10%;
-  right: 0;
+  bottom: 5%;
+  left: 0;
 }
