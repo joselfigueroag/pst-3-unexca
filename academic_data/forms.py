@@ -129,6 +129,12 @@ class StudentMultipleWidget(s2forms.ModelSelect2MultipleWidget):
     "identity_card__icontains",
   ]
 
+  def build_attrs(self, base_attrs, extra_attrs=None):
+    # Remove the "Delete All" button from the widget
+    attrs = super().build_attrs(base_attrs, extra_attrs)
+    attrs['data-allow-clear'] = 'false'
+    return attrs
+
 
 class TuitionForm(forms.ModelForm):
   class Meta:
