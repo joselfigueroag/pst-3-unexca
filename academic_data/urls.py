@@ -10,9 +10,12 @@ from .views import (
   TeacherUpdateView,
   delete_teacher,
   TuitionListView,
+  TuitionDetailView,
   TuitionCreateView,
   TuitionUpdateView,
   delete_tuition,
+  upload_qualification_by_student,
+  upload_qualification_by_tuition,
 )
 
 urlpatterns = [
@@ -29,8 +32,10 @@ urlpatterns = [
   path("teacher/update/<int:teacher_id>/", TeacherUpdateView.as_view(), name="update-teacher"),
   path("teacher/delete/<int:teacher_id>/", delete_teacher, name="delete-teacher"),
   path("tuitions/", TuitionListView.as_view(), name="tuitions-list"),
+  path("tuitions/<int:tuition_id>/", TuitionDetailView.as_view(), name="detail-tuition"),
   path("tuitions/create/", TuitionCreateView.as_view(), name="create-tuition"),
   path("tuition/update/<int:tuition_id>/", TuitionUpdateView.as_view(), name="update-tuition"),
   path("tuition/delete/<int:tuition_id>/", delete_tuition, name="delete-tuition"),
-
+  path("qualification/upload_qualification_by_student/", upload_qualification_by_student, name="upload_qualification_by_student"),
+  path("qualification/upload_qualification_by_tuition/", upload_qualification_by_tuition, name="upload_qualification_by_tuition"),
 ]

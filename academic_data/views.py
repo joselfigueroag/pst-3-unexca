@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
@@ -278,6 +278,16 @@ class TuitionListView(ListView):
   queryset = Tuition.objects.select_related("academic_period", "grade", "section", "shift").prefetch_related("students")
 
 
+class TuitionDetailView(DetailView):
+  model = Tuition
+  template_name = "academic_data/tuitions/tuition_detail.html"
+
+  def get_object(self, queryset=None):
+    tuition = Tuition.objects.get(pk=self.kwargs.get("tuition_id"))
+    print(tuition)
+    return tuition
+
+
 @method_decorator(login_required, name="dispatch")
 class TuitionCreateView(CreateView):
   model = Tuition
@@ -334,3 +344,13 @@ def delete_tuition(request, tuition_id):
     if Tuition.objects.get(pk=tuition_id).delete():
       messages.info(request, "Registro de matricula eliminado")
     return redirect("tuitions-list")
+
+
+#NOTAS
+def upload_qualification_by_student(request):
+  return render(request, "academic_data/qualifications/upload_by_student.html")
+
+
+def upload_qualification_by_tuition(request):
+  tuitions = Tuition.objects.all()
+  return render(request, "academic_data/qualifications/upload_by_tuition.html", {"tuitions": tuitions})

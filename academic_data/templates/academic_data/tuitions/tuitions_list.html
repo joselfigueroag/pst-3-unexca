@@ -25,7 +25,11 @@
     <tbody>
       {% for tuition in object_list %}
       <tr>
-        <td>{{ tuition.academic_period }}</td>
+        <td>
+          <a href="{% url 'detail-tuition' tuition_id=tuition.id %}">
+            {{ tuition.academic_period }}
+          </a>
+        </td>
         <td>{{ tuition.grade }}</td>
         <td>{{ tuition.section }}</td>
         <td>{{ tuition.shift }}</td>

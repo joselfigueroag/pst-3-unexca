@@ -56,6 +56,10 @@ class Student(TimeStamp):
     def __str__(self):
         return f"{self.first_name} {self.first_surname} - {self.identity_card if self.identity_card else ''}"
 
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.second_name if self.second_name else ''} {self.first_surname} {self.second_surname if self.second_surname else ''}" 
+
 
 class AdditionalStudentData(TimeStamp):
     student = models.OneToOneField(

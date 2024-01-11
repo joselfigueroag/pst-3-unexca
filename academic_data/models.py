@@ -101,3 +101,18 @@ class Tuition(TimeStamp):
 
     def __str__(self):
         return f"{self.academic_period} - {self.grade} {self.section}"
+
+
+class Qualification(TimeStamp):
+    student = models.ForeignKey(Student, models.CASCADE, verbose_name="estudiante")
+    tuition = models.ForeignKey(Tuition, models.CASCADE, verbose_name="matricula")
+    subject = models.ForeignKey(Subject, models.CASCADE, verbose_name="materia")
+    note = models.DecimalField(verbose_name="nota", max_digits=3, decimal_places=1)
+
+    class Meta:
+        verbose_name = "calificacion"
+        verbose_name_plural = "calificaciones"
+        default_related_name = "qualifications"
+
+    def __str__(self):
+        return f"{self.student.full_name} - {self.subject.name} - {self.note}"

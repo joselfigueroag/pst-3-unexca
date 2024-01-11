@@ -138,6 +138,22 @@
         <a
           type="button" 
           class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
+          data-bs-toggle="modal"
+          data-bs-target="#noteModal"
+          href="#"
+        >
+          <div class="row row-box">
+            <div class="col-sm-12">
+              <img class="img-button-box" src="{% static 'common/img/crash.png' %}" alt="...">
+              Carga de Notas
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-2 text-center mt-2">
+        <a
+          type="button" 
+          class="btn-link btn btn-secondary border-0 btn-box border-radius-xl"
           href="{% url 'logout' %}"
         >
           <div class="row row-box">
@@ -146,6 +162,41 @@
               Salir
             </div>
           </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="noteModal"
+  tabindex="-1"
+  aria-labelledby="noteModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content bg-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="noteModalLabel">Tipo de Carga</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="p-3">
+        <a
+          type="button"
+          class="btn btn-sm btn-success d-block"
+          href="{% url 'upload_qualification_by_tuition' %}"
+        >
+          Carga por matricula
+        </a>
+        <a
+          type="button"
+          class="btn btn-sm btn-success d-block mt-2"
+          href="{% url 'upload_qualification_by_student' %}"
+        >
+          Carga por estudiante
         </a>
       </div>
     </div>

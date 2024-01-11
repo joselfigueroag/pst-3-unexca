@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.db import transaction
@@ -15,6 +15,14 @@ from .models import Student, AdditionalStudentData, Representative
 class StudentListView(ListView):
   template_name = "students/students_list.html"
   queryset = Student.objects.select_related("additionalstudentdata", "gender")
+
+
+class StudentDetailView(DetailView):
+  model = Student
+  template_name = "students/student_detail.html"
+
+  def get_object(self):
+    return Student.objects.get(pk=self.kwargs.get("student_id"))
 
 
 @method_decorator(login_required, name="dispatch")

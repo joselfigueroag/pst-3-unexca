@@ -1,0 +1,33 @@
+{% extends "common/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <h1>Detalle de Matricula</h1>
+</div>
+<div>
+  <p><b>Perido:</b> {{ object.academic_period.period }}</p>
+  <p><b>Grado:</b> {{ object.grade.year }} año</p>
+  <p><b>Seccion:</b> {{ object.section.group }}</p>
+  <p><b>Turno:</b> {{ object.shift.turn }}</p>
+</div>
+  
+<div>
+  <table class="table table-sm table-striped shadow-div">
+    <thead>
+      <tr>
+        <th>Alumnos</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in object.students.all %}
+      <tr>
+        <td>
+          <!-- ENVIAR A DETALLE DE ESTUDIANTE -->
+          <a href="{% url 'detail-student' student_id=student.id %}">{{ student.full_name }}</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}
