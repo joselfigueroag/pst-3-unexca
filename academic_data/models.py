@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from bulk_update_or_create import BulkUpdateOrCreateQuerySet
+
 from common.models import TimeStamp, Parish, Gender, Shift
 from students.models import Student
 
@@ -104,6 +106,8 @@ class Tuition(TimeStamp):
 
 
 class Qualification(TimeStamp):
+    objects = BulkUpdateOrCreateQuerySet.as_manager()
+
     student = models.ForeignKey(Student, models.CASCADE, verbose_name="estudiante")
     tuition = models.ForeignKey(Tuition, models.CASCADE, verbose_name="matricula")
     subject = models.ForeignKey(Subject, models.CASCADE, verbose_name="materia")

@@ -5,9 +5,15 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
-from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition
+
+from students.models import Student
+from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Qualification
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
+from .serializers import TuitionSerializer
 
 
 #SECCIONES
@@ -353,4 +359,36 @@ def upload_qualification_by_student(request):
 
 def upload_qualification_by_tuition(request):
   tuitions = Tuition.objects.all()
-  return render(request, "academic_data/qualifications/upload_by_tuition.html", {"tuitions": tuitions})
+  subjects = Subject.objects.all()
+  
+  if request.method == "GET":
+    return render(request, "academic_data/qualifications/upload_by_tuition.html", {"tuitions": tuitions, "subjects": subjects})
+  elif request.method == "POST":
+    tuition_id = request.POST.get("tuition")
+    subject_id = request.POST.get("subject")
+
+    note_keys = [key for key in request.POST.keys() if key.startswith("note_")]
+    import ipdb ; ipdb.set_trace()
+
+    bulk_list = []
+    for note_key in note_keys:
+      student_id = note_key.split("_")[1]
+      note = request.POST[note_key]
+
+      bulk_list.append(Qualification(
+        student_id=student_id, tuition_id=tuition_id, subject_id=subject_id, note=note 
+      ))
+    Qualification.objects.bulk_update_or_create(bulk_list, ["note"], match_field=["student", "subject"])
+
+    return redirect(reverse("detail-tuition", kwargs={"tuition_id": tuition_id}))
+    
+
+#APIS#
+@api_view(["GET"])
+def tuition_detail_api(request, id):
+  try:
+    tuition = Tuition.objects.get(pk=id)
+    serializer = TuitionSerializer(tuition)
+    return Response(serializer.data)
+  except Tuition.DoesNotExist as e:
+    return Response({"msg": str(e)}, status=status.HTTP_404_NOT_FOUND)

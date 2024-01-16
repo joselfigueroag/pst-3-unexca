@@ -16,6 +16,7 @@ from .views import (
   delete_tuition,
   upload_qualification_by_student,
   upload_qualification_by_tuition,
+  tuition_detail_api,
 )
 
 urlpatterns = [
@@ -36,6 +37,7 @@ urlpatterns = [
   path("tuitions/create/", TuitionCreateView.as_view(), name="create-tuition"),
   path("tuition/update/<int:tuition_id>/", TuitionUpdateView.as_view(), name="update-tuition"),
   path("tuition/delete/<int:tuition_id>/", delete_tuition, name="delete-tuition"),
-  path("qualification/upload_qualification_by_student/", upload_qualification_by_student, name="upload_qualification_by_student"),
-  path("qualification/upload_qualification_by_tuition/", upload_qualification_by_tuition, name="upload_qualification_by_tuition"),
+  path("qualification/upload-qualification-by-student/", upload_qualification_by_student, name="upload-qualification-by-student"),
+  path("qualification/upload-qualification-by-tuition/", upload_qualification_by_tuition, name="upload-qualification-by-tuition"),
+  path("api/tuition_detail_api/<int:id>/",  tuition_detail_api, name="tuition_detail_api"),
 ]

@@ -5,6 +5,77 @@
   <h2>Carga de notas por matricula</h2>
 </div>
 <div>
-  {{tuitions}}
+  <form action="/academic-data/qualification/upload-qualification-by-tuition/" method="POST" id="qualifications_form">
+    {% csrf_token %}
+    <select class="form-select" name="tuition" id="selectTuition" onchange="handleChangeSelectTuition(event)">
+      <option value="0" disabled selected>Seleccionar matricula</option>
+      {% for tuition in tuitions %}
+        <option value="{{tuition.id}}">{{tuition}}</option>
+      {% endfor %}
+    </select>
+    <select class="form-select mt-3" name="subject" id="selectSubject">
+      <option value="0" disabled selected>Seleccionar materia</option>
+      {% for subject in subjects %}
+        <option value="{{subject.id}}">{{subject}}</option>
+      {% endfor %}
+    </select>
+    <table class="table table-sm table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Estudiante</th>
+          <th>Calificacion</th>
+        </tr>
+      </thead>
+      <tbody id="body_table">
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
+    </div>
+  </form>
 </div>
+
+<script>
+  function handleChangeSelectTuition(event) {
+    let tuition_id = event.target.value
+    let endpoint = `http://localhost:8000/academic-data/api/tuition_detail_api/${tuition_id}/`
+
+    fetch(endpoint)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Error en la solicitud: ' + response.statusText);
+          }
+          return response.json();
+      })
+      .then(data => {
+          // Manejar los datos recibidos
+          generateData(data)
+          console.log(data)
+      })
+      .catch(error => {
+          // Manejar errores
+          console.error(error);
+      });
+  }
+
+  function generateData(data) {
+    let body_table = document.getElementById("body_table");
+
+    body_table.innerHTML = "";
+
+    for (let student of data.students){
+      console.log(student)
+      let row = body_table.insertRow()
+
+      let cellName = row.insertCell(0)
+      cellName.textContent = student.full_name
+      let cellNote = row.insertCell(1)
+      let inputNote = document.createElement("input");
+      inputNote.type = "number"
+      inputNote.name = `note_${student.id}`;
+      inputNote.classList.add("form-control");
+      cellNote.appendChild(inputNote);
+    }
+  }
+</script>
 {% endblock content %}

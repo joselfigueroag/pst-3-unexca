@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "method_override",
     "django_select2",
+    "rest_framework",
 
     "users",
     "common",
