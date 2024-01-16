@@ -368,7 +368,6 @@ def upload_qualification_by_tuition(request):
     subject_id = request.POST.get("subject")
 
     note_keys = [key for key in request.POST.keys() if key.startswith("note_")]
-    import ipdb ; ipdb.set_trace()
 
     bulk_list = []
     for note_key in note_keys:
