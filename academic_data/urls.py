@@ -39,5 +39,5 @@ urlpatterns = [
   path("tuition/delete/<int:tuition_id>/", delete_tuition, name="delete-tuition"),
   path("qualification/upload-qualification-by-student/", upload_qualification_by_student, name="upload-qualification-by-student"),
   path("qualification/upload-qualification-by-tuition/", upload_qualification_by_tuition, name="upload-qualification-by-tuition"),
-  path("api/tuition_detail_api/<int:id>/",  tuition_detail_api, name="tuition_detail_api"),
+  path("api/tuition_detail_api/<int:tuition_id>/<int:subject_id>",  tuition_detail_api, name="tuition_detail_api"),
 ]

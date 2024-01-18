@@ -13,7 +13,7 @@
         <option value="{{tuition.id}}">{{tuition}}</option>
       {% endfor %}
     </select>
-    <select class="form-select mt-3" name="subject" id="selectSubject">
+    <select class="form-select mt-3" name="subject" id="selectSubject" onchange="handleChangeSelectSubject(event)">
       <option value="0" disabled selected>Seleccionar materia</option>
       {% for subject in subjects %}
         <option value="{{subject.id}}">{{subject}}</option>
@@ -36,9 +36,26 @@
 </div>
 
 <script>
+  document.add
+  let selectedTuition = "";
+  let selectedSubject = "";
+
   function handleChangeSelectTuition(event) {
-    let tuition_id = event.target.value
-    let endpoint = `/academic-data/api/tuition_detail_api/${tuition_id}/`
+    selectedTuition = event.target.value;
+    console.log("tuition", selectedTuition)
+  }
+
+  function handleChangeSelectSubject(event) {
+    selectedSubject = event.target.value;
+    console.log("subject", selectedSubject)
+  }
+
+  if (selectedTuition && selectedSubject) {
+    console.log("CAMBIADOS AMBOS PARAMETROS")
+  }
+
+  if (selectedTuition && selectedSubject) {
+    let endpoint = `/academic-data/api/tuition_detail_api/${selectedTuition}/${selectedSubject}`
 
     fetch(endpoint)
       .then(response => {

@@ -5,11 +5,13 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.db.models import Prefetch
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-
+from common.models import Country
 from students.models import Student
 from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Qualification
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
@@ -229,12 +231,15 @@ class TeacherCreateView(CreateView):
     context = super().get_context_data(**kwargs)
     context["form_action"] = reverse('create-teacher')
     context["action"] = "REGISTRAR"
+    context["countries"] = Country.objects.all()
     return context
 
   def post(self, request, *args, **kwargs):
     teacher_form = self.form_class(request.POST)
     if teacher_form.is_valid():
-      teacher_form.save()
+      teacher = teacher_form.save()
+      teacher.parish_id = request.POST.get("parish")
+      teacher.save()
       messages.success(request, "Registro de docente exitoso")
       return redirect("teachers-list")
     else:
@@ -256,6 +261,7 @@ class TeacherUpdateView(UpdateView):
     teacher = self.get_object()
     context["form_action"] = reverse('update-teacher', kwargs={"teacher_id": teacher.id})
     context["action"] = "ACTUALIZAR"
+    context["countries"] = Country.objects.all()
     return context
 
   def post(self, request, *args, **kwargs):
@@ -289,8 +295,11 @@ class TuitionDetailView(DetailView):
   template_name = "academic_data/tuitions/tuition_detail.html"
 
   def get_object(self, queryset=None):
-    tuition = Tuition.objects.get(pk=self.kwargs.get("tuition_id"))
-    print(tuition)
+    tuition = Tuition.objects.filter(pk=self.kwargs.get("tuition_id")).prefetch_related(
+      Prefetch(
+        "students", queryset=Student.objects.order_by("first_name")
+      )
+    )[0]
     return tuition
 
 
@@ -358,7 +367,11 @@ def upload_qualification_by_student(request):
 
 
 def upload_qualification_by_tuition(request):
-  tuitions = Tuition.objects.all()
+  tuitions = Tuition.objects.prefetch_related(
+    Prefetch(
+        "students", queryset=Student.objects.order_by("first_name", "second_name", "first_surname", "second_surname")
+      )
+  )
   subjects = Subject.objects.all()
   
   if request.method == "GET":
@@ -377,16 +390,16 @@ def upload_qualification_by_tuition(request):
       bulk_list.append(Qualification(
         student_id=student_id, tuition_id=tuition_id, subject_id=subject_id, note=note 
       ))
-    Qualification.objects.bulk_update_or_create(bulk_list, ["note"], match_field=["student", "subject"])
+    Qualification.objects.bulk_update_or_create(bulk_list, ["note"], match_field=["student", "subject", "tuition"])
 
     return redirect(reverse("detail-tuition", kwargs={"tuition_id": tuition_id}))
     
 
 #APIS#
 @api_view(["GET"])
-def tuition_detail_api(request, id):
+def tuition_detail_api(request, tuiton_id, subject_id):
   try:
-    tuition = Tuition.objects.get(pk=id)
+    tuition = Tuition.objects.get(pk=tuiton_id)
     serializer = TuitionSerializer(tuition)
     return Response(serializer.data)
   except Tuition.DoesNotExist as e:

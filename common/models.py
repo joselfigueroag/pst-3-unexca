@@ -90,3 +90,14 @@ class Shift(models.Model):
     
     def __str__(self):
         return f"{self.turn}"
+
+
+class Moment(models.Model):
+    number = models.CharField(max_length=3, verbose_name="numero de momento")
+
+    class Meta:
+        verbose_name = "momento"
+        verbose_name_plural = "momentos"
+    
+    def __str__(self):
+        return f"{self.number} momento"

@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from bulk_update_or_create import BulkUpdateOrCreateQuerySet
 
-from common.models import TimeStamp, Parish, Gender, Shift
+from common.models import TimeStamp, Parish, Gender, Shift, Moment
 from students.models import Student
 
 
@@ -41,7 +41,7 @@ class Teacher(TimeStamp):
     )
     address = models.CharField(max_length=200, verbose_name="direccion")
     parish = models.ForeignKey(Parish, models.SET_NULL, null=True, verbose_name="parroquia")
-    subjects = models.ManyToManyField(Subject, verbose_name="materias")
+    subjects = models.ManyToManyField(Subject, verbose_name="materias", null=True)
     start_date = models.DateField(verbose_name="fecha de inicio", null=True)
     status = models.CharField(max_length=10, verbose_name="estatus", choices=Status.choices, default=Status.ACTIVE)
 
@@ -111,6 +111,7 @@ class Qualification(TimeStamp):
     student = models.ForeignKey(Student, models.CASCADE, verbose_name="estudiante")
     tuition = models.ForeignKey(Tuition, models.CASCADE, verbose_name="matricula")
     subject = models.ForeignKey(Subject, models.CASCADE, verbose_name="materia")
+    moment = models.ForeignKey(Moment, models.CASCADE, verbose_name="momento", default=None)
     note = models.DecimalField(verbose_name="nota", max_digits=3, decimal_places=1)
 
     class Meta:

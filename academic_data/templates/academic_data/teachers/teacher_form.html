@@ -10,10 +10,37 @@
       <div class="form-group">
         {{ form | crispy }}
       </div>
-      <div>
+      <div class="mb-3">
         <label for="id_country" class="form-label">Pais</label>
-        <select name="country" id="" class="select form-select" id="id_country">
-          <option value="">Seleccionar</option>
+        <select name="country" class="select form-select" id="id_country" onchange="handleChangeCountry(event)">
+          <option value="" selected>Seleccionar</option>
+          {% for country in countries %}
+            <option value="{{ country.id }}">{{ country.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="id_state" class="form-label">Estado</label>
+        <select name="state" class="select form-select" id="id_state" onChange="handleChangeState(event)" disabled>
+          <option value="" selected>Seleccionar</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="id_capital" class="form-label">Capital</label>
+        <select name="capital" class="select form-select" id="id_capital" disabled>
+          <option value=""  selected>Seleccionar</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="id_municipality" class="form-label">Municipio</label>
+        <select name="municipality" class="select form-select" id="id_municipality" onChange="handleChangeMunicipality(event)" disabled>
+          <option value="" selected>Seleccionar</option>
+        </select>
+      </div>
+      <div>
+        <label for="id_parish" class="form-label">Parroquia</label>
+        <select name="parish" class="select form-select" id="id_parish" disabled>
+          <option value="" selected>Seleccionar</option>
         </select>
       </div>
     </div>
@@ -24,4 +51,114 @@
         <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
     </div>
   </form>
+
+  <script>
+    function handleChangeCountry(event) {
+      let country_id = event.target.value
+      let endpoint = `/api/countries/${country_id}/`
+      
+      fetch(endpoint)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error en la solicitud: ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+          let selectState = document.getElementById("id_state");
+          selectState.disabled = false;
+          selectState.innerHTML = "";
+
+          let newOption = document.createElement("option");
+          newOption.value = "";
+          newOption.text = "Seleccionar";
+          selectState.add(newOption);
+          
+          data.states.forEach(state => {
+            let newOption = document.createElement("option");
+            newOption.value = state.id;
+            newOption.text = state.name;
+            selectState.add(newOption);
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+
+    function handleChangeState(event) {
+      let state_id = event.target.value
+      let endpoint = `/api/states/${state_id}/`
+      
+      fetch(endpoint)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error en la solicitud: ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+          let selectCapital = document.getElementById("id_capital");
+          selectCapital.disabled = false;
+          selectCapital.innerHTML = "";
+          
+          let newOptionCapital = document.createElement("option")
+          newOptionCapital.value = "";
+          newOptionCapital.text = data.capital;
+          selectCapital.add(newOptionCapital);
+          
+          let selectMunicipality = document.getElementById("id_municipality");
+          selectMunicipality.disabled = false;
+          selectMunicipality.innerHTML = "";
+          
+          let newOptionMunicipality = document.createElement("option");
+          newOptionMunicipality.value = "";
+          newOptionMunicipality.text = "Seleccionar";
+          selectMunicipality.add(newOptionMunicipality);
+          
+          data.municipalities.forEach(municipality => {
+            let newOptionMunicipality = document.createElement("option")
+            newOptionMunicipality.value = municipality.id;
+            newOptionMunicipality.text = municipality.name;
+            selectMunicipality.add(newOptionMunicipality);
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+
+    function handleChangeMunicipality(event) {
+      let municipality_id = event.target.value;
+      let endpoint = `/api/municipalities/${municipality_id}/`
+
+      fetch(endpoint)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error en la solicitud: ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+          let selectParish = document.getElementById("id_parish");
+          selectParish.disabled = false;
+          selectParish.innerHTML = "";
+          
+          let newOptionParish = document.createElement("option");
+          newOptionParish.value = "";
+          newOptionParish.text = "Seleccionar";
+          selectParish.add(newOptionParish);
+          
+          data.parishes.forEach(parish => {
+            let newOptionParish = document.createElement("option")
+            newOptionParish.value = parish.id;
+            newOptionParish.text = parish.name;
+            selectParish.add(newOptionParish);
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  </script>
 {% endblock content %}
