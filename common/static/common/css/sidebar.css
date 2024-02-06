@@ -97,12 +97,12 @@ body::after {
 }
 
 .row-box {
-  padding: 8px;
+  padding: 1px;
 }
 
 .img-button-box {
-  height: 80px !important;
-  width: 80px !important;
+  height: 85px !important;
+  width: 85px !important;
 }
 
 .img-login {
