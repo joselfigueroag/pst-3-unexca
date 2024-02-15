@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group
-from common.models import Country, State, Parish, Municipality, Gender, Shift
+from common.models import Country, State, Parish, Municipality, Gender, Shift, Moment
 from users.models import User
 import json
 import os
@@ -57,3 +57,10 @@ def run():
         for turn in turns:
             Shift.objects.create(turn=turn)
         print("Turnos creados")
+
+    if not Moment.objects.all():
+        moments = ["1er", "2do", "3er"]
+
+        for moment in moments:
+            Moment.objects.create(number=moment)
+        print("Momentos creados")

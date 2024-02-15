@@ -8,8 +8,9 @@ class StudentSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Student
-    fields = ("id", "full_name")
+    fields = ("id", "full_name", "qualifications")
     ordering = ("first_name",)
+    depth = 1
 
   def get_full_name(self, student):
     return student.full_name

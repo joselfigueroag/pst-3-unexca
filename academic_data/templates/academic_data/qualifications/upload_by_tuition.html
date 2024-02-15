@@ -19,6 +19,15 @@
         <option value="{{subject.id}}">{{subject}}</option>
       {% endfor %}
     </select>
+    <select class="form-select mt-3" name="moment" id="selectMoment" onchange="handleChangeSelectMoment(event)">
+      <option value="0" disabled selected>Seleccionar momento</option>
+      {% for moment in moments %}
+        <option value="{{moment.id}}">{{moment}}</option>
+      {% endfor %}
+    </select>
+    <div class="d-flex justify-content-end mt-3">
+      <a class="btn btn-secondary mr-auto" onclick="getData(event)">Consultar</a>
+    </div>
     <table class="table table-sm table-striped mt-3">
       <thead>
         <tr>
@@ -39,6 +48,7 @@
   document.add
   let selectedTuition = "";
   let selectedSubject = "";
+  let selectedMoment = "";
 
   function handleChangeSelectTuition(event) {
     selectedTuition = event.target.value;
@@ -50,29 +60,34 @@
     console.log("subject", selectedSubject)
   }
 
-  if (selectedTuition && selectedSubject) {
-    console.log("CAMBIADOS AMBOS PARAMETROS")
+  function handleChangeSelectMoment(event) {
+    selectedMoment = event.target.value;
+    console.log("moment", selectedMoment)
   }
 
-  if (selectedTuition && selectedSubject) {
-    let endpoint = `/academic-data/api/tuition_detail_api/${selectedTuition}/${selectedSubject}`
-
-    fetch(endpoint)
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Error en la solicitud: ' + response.statusText);
-          }
-          return response.json();
-      })
-      .then(data => {
-          // Manejar los datos recibidos
-          generateData(data)
-          console.log(data)
-      })
-      .catch(error => {
-          // Manejar errores
-          console.error(error);
-      });
+  function getData(event) {
+    event.preventDefault();
+    if (selectedTuition && selectedSubject && selectedMoment){
+      let endpoint = `/academic-data/api/tuition_detail_api/${selectedTuition}/${selectedSubject}/${selectedMoment}`
+        fetch(endpoint)
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Error en la solicitud: ' + response.statusText);
+              }
+              return response.json();
+          })
+          .then(data => {
+              // Manejar los datos recibidos
+              generateData(data)
+              console.log(data)
+          })
+          .catch(error => {
+              // Manejar errores
+              console.error(error);
+          });
+    } else {
+      console.log("Faltan los parametros de consulta")
+    } 
   }
 
   function generateData(data) {
@@ -80,19 +95,26 @@
 
     body_table.innerHTML = "";
 
-    for (let student of data.students){
-      console.log(student)
-      let row = body_table.insertRow()
-
-      let cellName = row.insertCell(0)
-      cellName.textContent = student.full_name
-      let cellNote = row.insertCell(1)
-      let inputNote = document.createElement("input");
-      inputNote.type = "number"
-      inputNote.name = `note_${student.id}`;
-      inputNote.classList.add("form-control");
-      cellNote.appendChild(inputNote);
+    if (data.students) {
+      for (let student of data.students){
+        let row = body_table.insertRow()
+        let cellName = row.insertCell(0)
+        cellName.textContent = student.full_name
+        let cellNote = row.insertCell(1)
+        let inputNote = document.createElement("input");
+        inputNote.type = "number"
+        inputNote.name = `note_${student.id}`;
+        inputNote.value = student.qualifications[0] ? student.qualifications[0].note : 0.0; 
+        inputNote.classList.add("form-control");
+        cellNote.appendChild(inputNote);
+      }
+    } else {
+      let row = body_table.insertRow();
+      let cell = row.insertCell();
+      cell.colSpan = 2; // Para que ocupe ambas columnas
+      cell.textContent = "No hay estudiantes registrados en la matricula";
     }
+
   }
 </script>
 {% endblock content %}

@@ -143,3 +143,18 @@ class TuitionForm(forms.ModelForm):
     widgets = {
       "students": StudentMultipleWidget,
     }
+
+  def clean(self):
+    academic_period = self.cleaned_data.get("academic_period")
+    last_string = academic_period.period[-2:]
+    students = self.cleaned_data.get("students")
+
+    students_ids = []
+    tuitions = Tuition.objects.filter(academic_period__period__endswith=last_string).exclude(pk=self.instance.id)
+    for tuition in tuitions:
+      for student in tuition.students.all():
+        students_ids.append(student.id)
+
+    for student in students:
+      if student.id in students_ids:
+        raise forms.ValidationError(f"El almuno {student.full_name} se encuentra en otra matricula")

@@ -12,9 +12,10 @@ class QualificationSerializer(serializers.ModelSerializer):
 
 class TuitionSerializer(serializers.ModelSerializer):
   students = StudentSerializer(many=True, read_only=True)
-  qualifications = QualificationSerializer(many=True)
+  # qualifications = QualificationSerializer(many=True)
 
   class Meta:
     model = Tuition
-    depth = 1
-    fields = "__all__"
+    # depth = 1
+    fields = ("id", "students")
+    # fields = "__all__"

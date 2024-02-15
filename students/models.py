@@ -58,7 +58,7 @@ class Student(TimeStamp):
 
     @property
     def full_name(self):
-        return f"{self.first_name} {self.second_name if self.second_name else ''} {self.first_surname} {self.second_surname if self.second_surname else ''}" 
+        return f"{self.first_name} {self.second_name if self.second_name else ''} {self.first_surname} {self.second_surname if self.second_surname else ''}"
 
 
 class AdditionalStudentData(TimeStamp):

@@ -41,7 +41,7 @@ class Teacher(TimeStamp):
     )
     address = models.CharField(max_length=200, verbose_name="direccion")
     parish = models.ForeignKey(Parish, models.SET_NULL, null=True, verbose_name="parroquia")
-    subjects = models.ManyToManyField(Subject, verbose_name="materias", null=True)
+    subjects = models.ManyToManyField(Subject, verbose_name="materias")
     start_date = models.DateField(verbose_name="fecha de inicio", null=True)
     status = models.CharField(max_length=10, verbose_name="estatus", choices=Status.choices, default=Status.ACTIVE)
 
@@ -112,7 +112,7 @@ class Qualification(TimeStamp):
     tuition = models.ForeignKey(Tuition, models.CASCADE, verbose_name="matricula")
     subject = models.ForeignKey(Subject, models.CASCADE, verbose_name="materia")
     moment = models.ForeignKey(Moment, models.CASCADE, verbose_name="momento", default=None)
-    note = models.DecimalField(verbose_name="nota", max_digits=3, decimal_places=1)
+    note = models.DecimalField(verbose_name="nota", max_digits=3, decimal_places=1, default=0.0)
 
     class Meta:
         verbose_name = "calificacion"

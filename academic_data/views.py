@@ -6,12 +6,13 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.db.models import Prefetch
+from decimal import Decimal
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from common.models import Country
+from common.models import Country, Moment
 from students.models import Student
 from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Qualification
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
@@ -295,12 +296,64 @@ class TuitionDetailView(DetailView):
   template_name = "academic_data/tuitions/tuition_detail.html"
 
   def get_object(self, queryset=None):
-    tuition = Tuition.objects.filter(pk=self.kwargs.get("tuition_id")).prefetch_related(
+    tuition_id = self.kwargs.get("tuition_id")
+    self.tuition = Tuition.objects.filter(pk=tuition_id).prefetch_related(
       Prefetch(
-        "students", queryset=Student.objects.order_by("first_name")
-      )
+        "students",
+        queryset=Student.objects.order_by("first_name").prefetch_related(
+          Prefetch(
+            "qualifications",
+            queryset=Qualification.objects.filter(tuition_id=tuition_id).order_by("subject__name"),
+            to_attr="all_qualifications"
+          )
+        ),
+        to_attr="all_students",
+      ),
     )[0]
-    return tuition
+
+    for student in self.tuition.all_students:
+      student.moment_1 = [Decimal(0.0)]
+      student.moment_2 = [Decimal(0.0)]
+      student.moment_3 = [Decimal(0.0)]
+
+      # Iterar sobre las calificaciones de cada estudiante
+      for qualification in student.all_qualifications:
+          # Asignar la nota a su momento correspondiente si no se ha asignado antes
+          if qualification.moment_id == 1 and len(student.moment_1) == 1:
+              student.moment_1[0] = qualification.note
+          elif qualification.moment_id == 2 and len(student.moment_2) == 1:
+              student.moment_2[0] = qualification.note
+          elif qualification.moment_id == 3 and len(student.moment_3) == 1:
+              student.moment_3[0] = qualification.note
+        # student.moment_1 = []
+        # student.moment_2 = []
+        # student.moment_3 = []
+      
+      # for qualification in student.all_qualifications:
+      #   moment1 = Decimal(0.0)
+      #   moment2 = Decimal(0.0)
+      #   moment3 = Decimal(0.0)
+
+      #   if qualification.moment_id == 1:
+      #     moment1 = qualification.note
+      #   elif qualification.moment_id == 2:
+      #     moment2 = qualification.note
+      #   elif qualification.moment_id == 3:
+      #     moment3 = qualification.note
+
+      #   student.moment_1.append(moment1)
+      #   student.moment_2.append(moment2)
+      #   student.moment_3.append(moment3)
+    
+    self.subjects = Subject.objects.filter(qualifications__tuition_id=tuition_id).distinct()
+    return self.tuition
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['subjects'] = self.subjects
+    context['tuition'] = self.tuition
+    context['students'] = self.tuition.all_students
+    return context
 
 
 @method_decorator(login_required, name="dispatch")
@@ -373,12 +426,20 @@ def upload_qualification_by_tuition(request):
       )
   )
   subjects = Subject.objects.all()
-  
+  moments = Moment.objects.all()
+
+  context_data = {
+    "tuitions": tuitions,
+    "subjects": subjects,
+    "moments": moments,
+  }
+
   if request.method == "GET":
-    return render(request, "academic_data/qualifications/upload_by_tuition.html", {"tuitions": tuitions, "subjects": subjects})
+    return render(request, "academic_data/qualifications/upload_by_tuition.html", context_data)
   elif request.method == "POST":
     tuition_id = request.POST.get("tuition")
     subject_id = request.POST.get("subject")
+    moment_id = request.POST.get("moment")
 
     note_keys = [key for key in request.POST.keys() if key.startswith("note_")]
 
@@ -388,18 +449,26 @@ def upload_qualification_by_tuition(request):
       note = request.POST[note_key]
 
       bulk_list.append(Qualification(
-        student_id=student_id, tuition_id=tuition_id, subject_id=subject_id, note=note 
+        student_id=student_id, tuition_id=tuition_id, subject_id=subject_id, moment_id=moment_id, note=note 
       ))
-    Qualification.objects.bulk_update_or_create(bulk_list, ["note"], match_field=["student", "subject", "tuition"])
+    Qualification.objects.bulk_update_or_create(bulk_list, ["note"], match_field=["student", "subject", "tuition", "moment"])
 
     return redirect(reverse("detail-tuition", kwargs={"tuition_id": tuition_id}))
     
 
 #APIS#
 @api_view(["GET"])
-def tuition_detail_api(request, tuiton_id, subject_id):
+def tuition_detail_api(request, tuition_id, subject_id, moment_id):
   try:
-    tuition = Tuition.objects.get(pk=tuiton_id)
+    tuition = Tuition.objects.filter(pk=tuition_id).prefetch_related(
+      Prefetch(
+        "students", queryset=Student.objects.order_by("first_name").prefetch_related(
+          Prefetch(
+            "qualifications", queryset=Qualification.objects.filter(subject_id=subject_id, moment_id=moment_id, tuition_id=tuition_id)
+          )
+        )
+      )
+    )[0]
     serializer = TuitionSerializer(tuition)
     return Response(serializer.data)
   except Tuition.DoesNotExist as e:
