@@ -542,7 +542,7 @@ def export_pdf(request,tuition_id):
   context['subjects'] = subjects
   context['tuition'] = tuition
   context['students'] = tuition.all_students
-  
+  #########
   html = render_to_string("academic_data/tuitions/report-pdf.html", context)
   response = HttpResponse(content_type="application/pdf")
   response["Content-Disposition"] = "inline: report.pdf"
