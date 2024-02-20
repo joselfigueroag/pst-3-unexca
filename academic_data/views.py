@@ -18,6 +18,12 @@ from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Q
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
 from .serializers import TuitionSerializer
 
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
+
 
 #SECCIONES
 @method_decorator(login_required, name="dispatch")
@@ -473,3 +479,76 @@ def tuition_detail_api(request, tuition_id, subject_id, moment_id):
     return Response(serializer.data)
   except Tuition.DoesNotExist as e:
     return Response({"msg": str(e)}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+#Reporte #1
+
+def export_pdf(request,tuition_id):
+  model = Tuition
+  context = {}
+  
+
+  tuition = Tuition.objects.filter(pk=tuition_id).prefetch_related(
+    Prefetch(
+      "students",
+      queryset=Student.objects.order_by("first_name").prefetch_related(
+        Prefetch(
+          "qualifications",
+          queryset=Qualification.objects.filter(tuition_id=tuition_id).order_by("subject__name"),
+          to_attr="all_qualifications"
+        )
+      ),
+      to_attr="all_students",
+    ),
+  )[0]
+  for student in tuition.all_students:
+      student.moment_1 = [Decimal(0.0)]
+      student.moment_2 = [Decimal(0.0)]
+      student.moment_3 = [Decimal(0.0)]
+
+      # Iterar sobre las calificaciones de cada estudiante
+      for qualification in student.all_qualifications:
+          # Asignar la nota a su momento correspondiente si no se ha asignado antes
+          if qualification.moment_id == 1 and len(student.moment_1) == 1:
+              student.moment_1[0] = qualification.note
+          elif qualification.moment_id == 2 and len(student.moment_2) == 1:
+              student.moment_2[0] = qualification.note
+          elif qualification.moment_id == 3 and len(student.moment_3) == 1:
+              student.moment_3[0] = qualification.note
+        # student.moment_1 = []
+        # student.moment_2 = []
+        # student.moment_3 = []
+      
+      # for qualification in student.all_qualifications:
+      #   moment1 = Decimal(0.0)
+      #   moment2 = Decimal(0.0)
+      #   moment3 = Decimal(0.0)
+
+      #   if qualification.moment_id == 1:
+      #     moment1 = qualification.note
+      #   elif qualification.moment_id == 2:
+      #     moment2 = qualification.note
+      #   elif qualification.moment_id == 3:
+      #     moment3 = qualification.note
+
+      #   student.moment_1.append(moment1)
+      #   student.moment_2.append(moment2)
+      #   student.moment_3.append(moment3)
+    
+  subjects = Subject.objects.filter(qualifications__tuition_id=tuition_id).distinct()
+
+  #context = super().get_context_data(tuition_id)
+  context['subjects'] = subjects
+  context['tuition'] = tuition
+  context['students'] = tuition.all_students
+  
+  html = render_to_string("academic_data/tuitions/report-pdf.html", context)
+  response = HttpResponse(content_type="application/pdf")
+  response["Content-Disposition"] = "inline: report.pdf"
+  font_config = FontConfiguration()
+  HTML(string=html).write_pdf(response,font_config=font_config)
+
+  print(context)
+
+  return response

@@ -1,0 +1,51 @@
+
+{% extends "common/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <h1>Detalle de Matricula</h1>
+  </div>
+  <div>
+    <p><b>Perido:</b> {{ tuition }}</p>
+    <p><b>Grado:</b> {{ year }} año</p>
+    <p><b>Seccion:</b> {{ section.group }}</p>
+    <p><b>Turno:</b> {{ shift.turn }}</p>
+  </div>
+  <div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#moment1" onclick="changeTab(event, 'moment1')">Momento 1</a>
+      </li>
+    </ul>
+  
+    <div class="tab-content">
+      <div id="moment1" class="container tab-pane active">
+        <table class="table table-sm table-striped shadow-div">
+          <thead>
+            <tr>
+              <th>Alumnos</th>
+              {% for subject in subjects %}
+                <th>{{ subject.name }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              <tr>
+                <td>
+                  <a href="{% url 'detail-student' student_id=student.id %}">{{ student.full_name }}</a>
+                </td>
+                {% for qualification in student.all_qualifications %}
+                  {% if qualification.moment_id == 1 %}
+                    <td>{{ qualification.note }}</td>
+                  {% endif %}
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+{% endblock content %}
