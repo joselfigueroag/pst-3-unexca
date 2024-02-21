@@ -17,16 +17,16 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-          <div class="card border-0 shadow rounded-3 my-5">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto ">
+          <div class="card border-0 shadow rounded-3 my-5 div-glass">
             <div class="card-title text-end bg-gradient-gray border-radius-xl">
               <div class="row ">
-                <div class="col-sm-8 d-flex align-items-center text-center "><h2 class="mx-auto">SISTEMA INTEGRAL EDOARDO CREMA</h2></div>
+                <div class="col-sm-8 d-flex align-items-center text-center "><h2 class="mx-auto text-box">SISTEMA INTEGRAL EDOARDO CREMA</h2></div>
                 <div class="col-sm-4"><img class="img-fluid rounded img-login" src="{% static 'common/img/ingsignea-ec.png' %}" alt=""></div>
               </div>
             </div>
             <div class="card-body p-4 p-sm-5">
-              <form action="" method="post" class="form-control">
+              <form action="" method="post" class="form-control form-glass text-box">
                 {% csrf_token %}
                 <div class="d-grid">
                   <label for="{{ form.username.id_for_label }}" class="fw-bold">
@@ -37,7 +37,8 @@
                     type="text"
                     name="{{ form.username.html_name }}"
                     placeholder="example@exa.com"
-                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    class="appearance-none block w-full px-3 py-2 border border-glass rounded-md shadow-sm placeholder-gray-400 sm:text-sm"
+                    id="login"
                   />
                 </div>
                 {{ form.username.errors }}
@@ -48,12 +49,13 @@
                     type="password"
                     name="{{ form.password.html_name }}"
                     placeholder="********"
-                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    class="appearance-none block w-full px-3 py-2 border  border-glass rounded-md shadow-sm placeholder-gray-400 sm:text-sm"
+                    id="login"
                   />
                 </div>
                 {{ form.password.errors }}
-                <div class="d-grid mt-3">
-                  <button class="btn btn-login text-uppercase text-light fw-bold bg-gradient-gray"  type="submit">INICIAR</button>
+                <div class="d-grid mt-3 ">
+                  <button class="btn text-uppercase text-box fw-bold form-glass" type="submit">INICIAR</button>
                 </div>
               </form>
             </div>

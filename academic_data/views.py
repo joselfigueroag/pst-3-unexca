@@ -548,7 +548,7 @@ def export_pdf(request,tuition_id):
   response["Content-Disposition"] = "inline: report.pdf"
   font_config = FontConfiguration()
   HTML(string=html).write_pdf(response,font_config=font_config)
-
-  print(context)
+  
+  print(tuition.academic_period)
 
   return response

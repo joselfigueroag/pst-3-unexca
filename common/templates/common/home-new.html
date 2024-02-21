@@ -1,0 +1,17 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block content %}
+
+<div class="col-sm-2 text-center mt-2">
+    <a type="button" class="card btn-box card btn border-0  border-radius-xl" href="{% url 'user-list' %}">
+      <div class="row row-box">
+        <div class="col-sm-12">
+          Usuarios
+        </div>
+      </div>
+    </a>
+</div>
+
+{% endblock content %}

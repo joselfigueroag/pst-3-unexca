@@ -6,10 +6,10 @@
     <h1>Detalle de Matricula</h1>
   </div>
   <div>
-    <p><b>Perido:</b> {{ tuition }}</p>
-    <p><b>Grado:</b> {{ year }} año</p>
-    <p><b>Seccion:</b> {{ section.group }}</p>
-    <p><b>Turno:</b> {{ shift.turn }}</p>
+    <p><b>Perido:</b> {{ tuition.academic_period }}</p>
+    <p><b>Grado:</b> {{ tuition.grade.year }} año</p>
+    <p><b>Seccion:</b> {{ tuition.section.group }}</p>
+    <p><b>Turno:</b> {{ tuition.shift.turn }}</p>
   </div>
   <div>
     <ul class="nav nav-tabs">
