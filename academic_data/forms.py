@@ -43,7 +43,7 @@ class GradeForm(forms.ModelForm):
 
   class Meta:
     model = Grade
-    fields = ["year"]
+    fields = ["year", "subjects"]
 
 
 class SubjectForm(forms.ModelForm):

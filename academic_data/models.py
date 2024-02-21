@@ -67,6 +67,7 @@ class Section(TimeStamp):
 
 class Grade(TimeStamp):
     year = models.CharField(max_length=3, verbose_name="año", unique=True)
+    subjects = models.ManyToManyField(Subject, verbose_name="materias")
 
     class Meta:
         verbose_name = "grado"
