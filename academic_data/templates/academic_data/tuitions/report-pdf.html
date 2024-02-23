@@ -1,51 +1,91 @@
+<style>
+  @page
+  {
+    size: landscape;
+    margin-top: 20px;
+    margin-bottom: 0;
+    margin-left: 1;
+    margin-right: 1;
+  }
 
-{% extends "common/base.html" %}
+  .block-report-title{
+    display: flex;
+    align-items: center;
+  }
+  .head-logo-left,
+  .head-logo-right
+  {
+    margin-top: -60px;
+    flex: 0 0 auto; 
+  }
+  .head-title{
+    flex: 1;
+    margin-left: 100px;
+    line-height: 0.5;
 
-{% block content %}
-<div class="d-flex justify-content-center">
-    <h1>Detalle de Matricula</h1>
+  }
+  .img-head{
+    width: 100px;
+    height: 100px;
+  }
+  .info{
+    text-align: right;
+    line-height: 0.5;
+  }
+  .table-content{
+    width: 100%;
+  }
+  .table-content.qualifications,
+  .tq{
+    margin-top: 20px;
+    border: 1px solid;
+    border-collapse: collapse;
+  }
+  .tq.subjects{
+    width: 31%;
+  }
+  .text-subtitle{
+    text-align: center;
+    line-height: 0.5;
+  }
+</style>
+
+{% load static %}
+<div class="block-report-title">
+  <div class="head-logo-left">
+    <img class="img-head" src="{% static 'common/img/logo-ministerio.jpg' %}" alt="">
   </div>
-  <div>
-    <p><b>Perido:</b> {{ tuition.academic_period }}</p>
-    <p><b>Grado:</b> {{ tuition.grade.year }} año</p>
-    <p><b>Seccion:</b> {{ tuition.section.group }}</p>
-    <p><b>Turno:</b> {{ tuition.shift.turn }}</p>
+  <div class="head-title">
+    <h4>REPUBLICA BOLIVARIANA DE VENEZUELA</h4>
+    <h4>MINISTERIO DEL PODER POPULAR PARA LA EDUCACION</h4>
+    <h4>U. E. N. EDOARDO CREMA</h4>
+    <h4>EL PARAISO - CARACAS</h4>
+    <h4>Departamento de Evaluacion</h4>
+    <h4 class="info">2DO. ANO SECCION "F" 2023-2024</h4>
+    <h4 class="info">Coordinadora PROFA: Emilin Alviarez</h4>
   </div>
-  <div>
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#moment1" onclick="changeTab(event, 'moment1')">Momento 1</a>
-      </li>
-    </ul>
-  
-    <div class="tab-content">
-      <div id="moment1" class="container tab-pane active">
-        <table class="table table-sm table-striped shadow-div">
-          <thead>
-            <tr>
-              <th>Alumnos</th>
-              {% for subject in subjects %}
-                <th>{{ subject.name }}</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            {% for student in students %}
-              <tr>
-                <td>
-                  <a href="{% url 'detail-student' student_id=student.id %}">{{ student.full_name }}</a>
-                </td>
-                {% for qualification in student.all_qualifications %}
-                  {% if qualification.moment_id == 1 %}
-                    <td>{{ qualification.note }}</td>
-                  {% endif %}
-                {% endfor %}
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    
+  <div class="head-logo-right">
+    <img class="img-head" src="{% static 'common/img/ingsignea-ec.png' %}" alt="">
   </div>
-{% endblock content %}
+</div>
+<h4 class="text-subtitle">BOLETIN INFORMATIVO</h4>
+<div class="block-report-content">
+  <table class="table-content">
+    <thead>
+      <th>Estudiante</th>
+      <th>Avila Breto</th>
+      <th>Cesar Enrique</th>
+      <th>N૰ Lista: 10</th>
+      <th>CI N૰ 12.345.678 </th>
+    </thead>
+  </table>
+  <div></div>
+  <table class="table-content qualifications">
+      <th class="tq subjects">AREA DE FORMACION</th>
+      <th class="tq">MOMENTO 1</th>
+      <th class="tq">MOMENTO 2</th>
+      <th class="tq">MOMENTO 3</th>
+      <th class="tq">DEFINITIVA</th>
+      <th class="tq">FIRMA DEL PROF.</th>
+  </table>
+</div>

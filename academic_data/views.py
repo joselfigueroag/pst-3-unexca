@@ -547,8 +547,13 @@ def export_pdf(request,tuition_id):
   response = HttpResponse(content_type="application/pdf")
   response["Content-Disposition"] = "inline: report.pdf"
   font_config = FontConfiguration()
-  HTML(string=html).write_pdf(response,font_config=font_config)
+  HTML(string=html, base_url=request.build_absolute_uri() ).write_pdf(response,font_config=font_config)
   
   print(tuition.academic_period)
 
   return response
+
+
+def report_html(request):
+    template_name = "academic_data/tuitions/report-pdf.html"
+    return render(request, template_name)
