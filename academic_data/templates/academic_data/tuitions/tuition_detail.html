@@ -5,10 +5,10 @@
   <h1>Detalle de Matricula</h1>
 </div>
 <div>
-  <p><b>Perido:</b> {{ object.academic_period.period }}</p>
-  <p><b>Grado:</b> {{ object.grade.year }} año</p>
-  <p><b>Seccion:</b> {{ object.section.group }}</p>
-  <p><b>Turno:</b> {{ object.shift.turn }}</p>
+  <p><b>Perido:</b> {{ info_tuition.period }}</p>
+  <p><b>Grado:</b> {{ info_tuition.grado }} año</p>
+  <p><b>Seccion:</b> {{ info_tuition.seccion }}</p>
+  <p><b>Turno:</b> {{ info_tuition.turno }}</p>
 </div>
 <div>
   <ul class="nav nav-tabs">
@@ -29,22 +29,22 @@
         <thead>
           <tr>
             <th>Alumnos</th>
-            {% for subject in subjects %}
+            <!-- {% for subject in subjects %}
               <th>{{ subject.name }}</th>
-            {% endfor %}
+            {% endfor %} -->
           </tr>
         </thead>
         <tbody>
-          {% for student in object.all_students %}
+          {% for student in students %}
             <tr>
               <td>
-                <a href="{% url 'detail-student' student_id=student.id %}">{{ student.full_name }}</a>
+                <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a>
               </td>
-              {% for qualification in student.all_qualifications %}
+              <!-- {% for qualification in student.all_qualifications %}
                 {% if qualification.moment_id == 1 %}
                   <td>{{ qualification.note }}</td>
                 {% endif %}
-              {% endfor %}
+              {% endfor %} -->
             </tr>
           {% endfor %}
         </tbody>
@@ -61,16 +61,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for student in object.all_students %}
+          {% for student in students %}
             <tr>
               <td>
-                <a href="{% url 'detail-student' student_id=student.id %}">{{ student.full_name }}</a>
+                <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a>
               </td>
-              {% for qualification in student.all_qualifications %}
-                {% if qualification.moment_id == 2 %}
+              <!-- {% for qualification in student.all_qualifications %}
+                {% if qualification.moment_id == 1 %}
                   <td>{{ qualification.note }}</td>
                 {% endif %}
-              {% endfor %}
+              {% endfor %} -->
             </tr>
           {% endfor %}
         </tbody>
@@ -87,16 +87,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for student in object.all_students %}
+          {% for student in students %}
             <tr>
               <td>
-                <a href="{% url 'detail-student' student_id=student.id %}">{{ student.full_name }}</a>
+                <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a>
               </td>
-              {% for qualification in student.all_qualifications %}
-                {% if qualification.moment_id == 3 %}
+              <!-- {% for qualification in student.all_qualifications %}
+                {% if qualification.moment_id == 1 %}
                   <td>{{ qualification.note }}</td>
                 {% endif %}
-              {% endfor %}
+              {% endfor %} -->
             </tr>
           {% endfor %}
         </tbody>

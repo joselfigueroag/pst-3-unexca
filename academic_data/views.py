@@ -14,7 +14,7 @@ from rest_framework import status
 
 from common.models import Country, Moment
 from students.models import Student
-from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Qualification
+from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Qualification, AllNotes
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
 from .serializers import TuitionSerializer
 
@@ -303,62 +303,75 @@ class TuitionDetailView(DetailView):
 
   def get_object(self, queryset=None):
     tuition_id = self.kwargs.get("tuition_id")
-    self.tuition = Tuition.objects.filter(pk=tuition_id).prefetch_related(
-      Prefetch(
-        "students",
-        queryset=Student.objects.order_by("first_name").prefetch_related(
-          Prefetch(
-            "qualifications",
-            queryset=Qualification.objects.filter(tuition_id=tuition_id).order_by("subject__name"),
-            to_attr="all_qualifications"
-          )
-        ),
-        to_attr="all_students",
-      ),
-    )[0]
+    data = AllNotes.objects.filter(matricula=tuition_id)
 
-    for student in self.tuition.all_students:
-      student.moment_1 = [Decimal(0.0)]
-      student.moment_2 = [Decimal(0.0)]
-      student.moment_3 = [Decimal(0.0)]
+    students = data.distinct("cedula")
+    self.students = list(students.values())
 
-      # Iterar sobre las calificaciones de cada estudiante
-      for qualification in student.all_qualifications:
-          # Asignar la nota a su momento correspondiente si no se ha asignado antes
-          if qualification.moment_id == 1 and len(student.moment_1) == 1:
-              student.moment_1[0] = qualification.note
-          elif qualification.moment_id == 2 and len(student.moment_2) == 1:
-              student.moment_2[0] = qualification.note
-          elif qualification.moment_id == 3 and len(student.moment_3) == 1:
-              student.moment_3[0] = qualification.note
-        # student.moment_1 = []
-        # student.moment_2 = []
-        # student.moment_3 = []
-      
-      # for qualification in student.all_qualifications:
-      #   moment1 = Decimal(0.0)
-      #   moment2 = Decimal(0.0)
-      #   moment3 = Decimal(0.0)
+    def full_name(student):
+      return f"{student['p_nombre']} {student['s_nombre'] if student['s_nombre'] else ''} {student['p_apellido']} {student['s_apellido'] if student['s_apellido'] else ''}"
 
-      #   if qualification.moment_id == 1:
-      #     moment1 = qualification.note
-      #   elif qualification.moment_id == 2:
-      #     moment2 = qualification.note
-      #   elif qualification.moment_id == 3:
-      #     moment3 = qualification.note
-
-      #   student.moment_1.append(moment1)
-      #   student.moment_2.append(moment2)
-      #   student.moment_3.append(moment3)
+    for student in self.students:
+      student["full_name"] = full_name(student)
     
-    self.subjects = Subject.objects.filter(qualifications__tuition_id=tuition_id).distinct()
-    return self.tuition
+    self.info_tuition = data.distinct("matricula").values()[0]
+
+    # self.tuition = Tuition.objects.filter(pk=tuition_id).prefetch_related(
+    #   Prefetch(
+    #     "students",
+    #     queryset=Student.objects.order_by("first_name").prefetch_related(
+    #       Prefetch(
+    #         "qualifications",
+    #         queryset=Qualification.objects.filter(tuition_id=tuition_id).order_by("subject__name"),
+    #         to_attr="all_qualifications"
+    #       )
+    #     ),
+    #     to_attr="all_students",
+    #   ),
+    # )[0]
+
+    # for student in self.tuition.all_students:
+    #   student.moment_1 = [Decimal(0.0)]
+    #   student.moment_2 = [Decimal(0.0)]
+    #   student.moment_3 = [Decimal(0.0)]
+
+    #   # Iterar sobre las calificaciones de cada estudiante
+    #   for qualification in student.all_qualifications:
+    #       # Asignar la nota a su momento correspondiente si no se ha asignado antes
+    #       if qualification.moment_id == 1 and len(student.moment_1) == 1:
+    #           student.moment_1[0] = qualification.note
+    #       elif qualification.moment_id == 2 and len(student.moment_2) == 1:
+    #           student.moment_2[0] = qualification.note
+    #       elif qualification.moment_id == 3 and len(student.moment_3) == 1:
+    #           student.moment_3[0] = qualification.note
+    #     # student.moment_1 = []
+    #     # student.moment_2 = []
+    #     # student.moment_3 = []
+      
+    #   # for qualification in student.all_qualifications:
+    #   #   moment1 = Decimal(0.0)
+    #   #   moment2 = Decimal(0.0)
+    #   #   moment3 = Decimal(0.0)
+
+    #   #   if qualification.moment_id == 1:
+    #   #     moment1 = qualification.note
+    #   #   elif qualification.moment_id == 2:
+    #   #     moment2 = qualification.note
+    #   #   elif qualification.moment_id == 3:
+    #   #     moment3 = qualification.note
+
+    #   #   student.moment_1.append(moment1)
+    #   #   student.moment_2.append(moment2)
+    #   #   student.moment_3.append(moment3)
+    
+    # self.subjects = Subject.objects.filter(qualifications__tuition_id=tuition_id).distinct()
+    return students, self.info_tuition
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    context['subjects'] = self.subjects
-    context['tuition'] = self.tuition
-    context['students'] = self.tuition.all_students
+    # context['subjects'] = self.subjects
+    context['info_tuition'] = self.info_tuition
+    context['students'] = self.students
     return context
 
 

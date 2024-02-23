@@ -122,3 +122,24 @@ class Qualification(TimeStamp):
 
     def __str__(self):
         return f"{self.student.full_name} - {self.subject.name} - {self.note}"
+
+
+class AllNotes(models.Model):
+    student_id = models.IntegerField(primary_key=True, verbose_name="estudiante")
+    matricula = models.IntegerField(verbose_name="matricula")
+    cedula = models.CharField(max_length=50, verbose_name="cedula")
+    p_nombre = models.CharField(max_length=50, verbose_name="p_nombre")
+    s_nombre = models.CharField(max_length=50, verbose_name="s_nombre")
+    p_apellido = models.CharField(max_length=50, verbose_name="p_apellido")
+    s_apellido = models.CharField(max_length=50, verbose_name="s_apellido")
+    grado = models.CharField(max_length=50, verbose_name="grado")
+    seccion = models.CharField(max_length=50, verbose_name="seccion")
+    turno = models.CharField(max_length=50, verbose_name="turno")
+    lapso = models.CharField(max_length=50, verbose_name="lapso")
+    asignacion = models.CharField(max_length=50, verbose_name="asignacion")
+    nota = models.CharField(max_length=50, verbose_name="nota")
+    period = models.CharField(max_length=50, verbose_name="period")
+
+    class Meta:
+        db_table = "academic_notes_all"
+        managed = False
