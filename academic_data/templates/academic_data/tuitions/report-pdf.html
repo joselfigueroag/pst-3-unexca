@@ -1,122 +1,85 @@
-<style>
-  @page
-  {
-    size: landscape;
-    margin-top: 20px;
-    margin-bottom: 0;
-    margin-left: 1;
-    margin-right: 1;
-  }
-
-  .block-report-title{
-    display: flex;
-    align-items: center;
-  }
-  .head-logo-left,
-  .head-logo-right
-  {
-    margin-top: -60px;
-    flex: 0 0 auto; 
-  }
-  .head-title{
-    flex: 1;
-    margin-left: 100px;
-    line-height: 0.5;
-
-  }
-  .img-head{
-    width: 100px;
-    height: 100px;
-  }
-  .info{
-    text-align: right;
-    line-height: 0.5;
-  }
-  .table-content{
-    width: 100%;
-  }
-  .table-content.qualifications,
-  .tq{
-    margin-top: 20px;
-    border: 1px solid;
-    border-collapse: collapse;
-  }
-  .tq.subjects{
-    width: 31%;
-  }
-  .text-subtitle{
-    text-align: center;
-    line-height: 0.5;
-  }
-  .text-upercase{
-    text-transform: uppercase;
-  }
-  .table-footer{
-    width: 100%;
-    margin-top: 80px;
-    border: 1px solid;
-    border-collapse: collapse;
-  }
-  .tfoot{
-    height: 70px;
-  }
-</style>
-
 {% load static %}
-<div class="block-report-title">
-  <div class="head-logo-left">
-    <img class="img-head" src="{% static 'common/img/logo-ministerio.jpg' %}" alt="">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boletin Informativo</title>
+  <link id="pagestyle" href="{% static 'common/css/reporte.css' %}" rel="stylesheet"/>
+</head>
+<body>
+  <div class="block-report-title">
+    <div class="head-logo-left">
+      <img class="img-head" src="{% static 'common/img/logo-ministerio.jpg' %}" alt="">
+    </div>
+    <div class="head-title">
+      <h4>REPUBLICA BOLIVARIANA DE VENEZUELA</h4>
+      <h4>MINISTERIO DEL PODER POPULAR PARA LA EDUCACION</h4>
+      <h4>U. E. N. EDOARDO CREMA</h4>
+      <h4>EL PARAISO - CARACAS</h4>
+      <h4>Departamento de Evaluacion</h4>
+      <h4 class="info">{{all.grado}}. AÑO SECCION "{{all.seccion}}" {{all.periodo}}</h4>
+      <h4 class="info">Coordinadora PROFA: Emilin Alviarez</h4>
+    </div>
+    <div class="head-logo-right">
+      <img class="img-head" src="{% static 'common/img/ingsignea-ec.png' %}" alt="">
+    </div>
   </div>
-  <div class="head-title">
-    <h4>REPUBLICA BOLIVARIANA DE VENEZUELA</h4>
-    <h4>MINISTERIO DEL PODER POPULAR PARA LA EDUCACION</h4>
-    <h4>U. E. N. EDOARDO CREMA</h4>
-    <h4>EL PARAISO - CARACAS</h4>
-    <h4>Departamento de Evaluacion</h4>
-    <h4 class="info">{{all.grado}}. AÑO SECCION "{{all.seccion}}" {{all.periodo}}</h4>
-    <h4 class="info">Coordinadora PROFA: Emilin Alviarez</h4>
+  <h4 class="text-subtitle">BOLETIN INFORMATIVO</h4>
+  <div class="block-report-content">
+    <table class="table-content">
+      <thead>
+        <th>Estudiante</th>
+        <th class="text-upercase">{{all.p_nombre}} {{all.s_nombre}} {{all.p_apellido}} {{all.s_apellido}} </th>
+        <th>N૰ Lista: {{id}}</th>
+        <th>CI Nº {{all.cedula}} </th>
+      </thead>
+    </table>
+    <table class="table-content qualifications">
+      <thead>
+        <th class="tq subjects">AREA DE FORMACION</th>
+        <th class="tq">MOMENTO 1</th>
+        <th class="tq">MOMENTO 2</th>
+        <th class="tq">MOMENTO 3</th>
+        <th class="tq">DEFINITIVA</th>
+        <th class="tq">FIRMA DEL PROF.</th>
+      </thead>
+      <tbody>
+          {% for asignacion in asignaciones %}
+            <tr>
+              <td class="tq">
+                  {{asignacion.asignacion}}
+              </td>
+              {% if asignacion.momento1 != None %}
+                <td class="tq">{{asignacion.momento1}}</td>
+              {% else%}
+                <td class="tq">N/C</td>
+              {% endif %}
+              {% if asignacion.momento2 != None %}
+                <td class="tq">{{asignacion.momento2}}</td>
+              {% else%}
+                <td class="tq">N/C</td>
+              {% endif %}
+              {% if asignacion.momento3 != None %}
+                <td class="tq">{{asignacion.momento3}}</td>
+              {% else%}
+                <td class="tq">N/C</td>
+              {% endif %}
+              <td class="tq">{{asignacion.definitiva}}</td>
+              <td class="tq"> </td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    <table class="table-footer qualifications ">
+      <tr>
+        <td class="tfoot">PROF xxxxxx xxxxx xxxxx</td>
+      </tr>
+    </table>
   </div>
-  <div class="head-logo-right">
-    <img class="img-head" src="{% static 'common/img/ingsignea-ec.png' %}" alt="">
-  </div>
-</div>
-<h4 class="text-subtitle">BOLETIN INFORMATIVO</h4>
-<div class="block-report-content">
-  <table class="table-content">
-    <thead>
-      <th>Estudiante</th>
-      <th class="text-upercase">{{all.p_nombre}} {{all.s_nombre}} {{all.p_apellido}} {{all.s_apellido}} </th>
-      <th>N૰ Lista: {{id}}</th>
-      <th>CI Nº {{all.cedula}} </th>
-    </thead>
-  </table>
-  <table class="table-content qualifications">
-    <thead>
-      <th class="tq subjects">AREA DE FORMACION</th>
-      <th class="tq">MOMENTO 1</th>
-      <th class="tq">MOMENTO 2</th>
-      <th class="tq">MOMENTO 3</th>
-      <th class="tq">DEFINITIVA</th>
-      <th class="tq">FIRMA DEL PROF.</th>
-    </thead>
-    <tbody>
-        {% for asignacion in asignaciones %}
-          <tr>
-            <td class="tq">
-                {{asignacion.asignacion}}
-            </td>
-            <td class="tq">{{asignacion.momento1}}</td>
-            <td class="tq">{{asignacion.momento2}}</td>
-            <td class="tq">{{asignacion.momento3}}</td>
-            <td class="tq">{{asignacion.definitiva}}</td>
-            <td class="tq"> </td>
-          </tr>
-        {% endfor %}
-    </tbody>
-  </table>
-  <table class="table-footer qualifications ">
-    <tr>
-      <td class="tfoot">PROF xxxxxx xxxxx xxxxx</td>
-    </tr>
-  </table>
-</div>
+</body>
+</html>
+
+
+

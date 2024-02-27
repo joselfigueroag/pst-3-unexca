@@ -517,7 +517,10 @@ def export_pdf(request,student_id):
 
 
 def report_html(request,student_id):
-    model = Tuition
-    data = AllNotes.objects.filter(matricula=student_id)
+    data = AllNotes.objects.filter(student_id=student_id)
+    context = {}
+    context['id'] = student_id 
+    context['all'] = data[0]
+    context['asignaciones'] = [item for item in data]
     template_name = "academic_data/tuitions/report-pdf.html"
-    return render(request, template_name)
+    return render(request, template_name,context)

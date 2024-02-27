@@ -1,0 +1,90 @@
+html, body {
+    min-height: 100%;
+    background-attachment: fixed;
+}
+body::before {
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: -1;   
+}
+body::after{
+    content: "";
+    background: url('/static/common/img/ingsignea-ec.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-attachment: fixed;
+    opacity: 0.1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: -2; 
+}
+@page
+{
+    size: landscape;
+    margin-top: 20px;
+    margin-bottom: 0;
+    margin-left: 1;
+    margin-right: 1;
+}
+.block-report-title{
+    display: flex;
+    align-items: center;
+}
+.head-logo-left,
+.head-logo-right
+{
+    margin-top: -60px;
+    flex: 0 0 auto; 
+}
+.head-title{
+    flex: 1;
+    margin-left: 100px;
+    line-height: 0.5;
+}
+.img-head{
+    width: 100px;
+    height: 100px;
+}
+.info{
+    text-align: right;
+    line-height: 0.5;
+}
+.table-content{
+    width: 100%;
+}
+.table-content.qualifications,
+.tq{
+    margin-top: 20px;
+    border: 1.5px solid;
+    border-collapse: collapse;
+}
+.tq.subjects{
+    width: 31%;
+}
+.text-subtitle{
+    text-align: center;
+    line-height: 0.5;
+}
+.text-upercase{
+    text-transform: uppercase;
+}
+.table-footer{
+    width: 98.5%;
+    border: 1.5px solid;
+    border-collapse: collapse;
+    position: absolute;
+    top:  670px;
+    left: 1;
+    right: 10;
+}
+.tfoot{
+    height: 50px;
+}
