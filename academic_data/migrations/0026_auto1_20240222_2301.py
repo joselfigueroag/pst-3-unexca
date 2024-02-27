@@ -15,14 +15,24 @@ CREATE_SQL = """
         gra.year AS grado,
         sec."group" AS seccion,
         tur.turn AS turno,
-        mon.number AS lapso,
-        per.period,
+        per.period AS periodo,
+        sub.id AS id_asignacion,
         sub.name AS asignacion,
             CASE
-                WHEN qua.note IS NOT NULL AND qua.student_id = stu.id THEN qua.note
+                WHEN qua1.note IS NOT NULL AND qua1.student_id = stu.id THEN qua1.note
                 ELSE NULL::numeric
-            END AS nota
-    FROM academic_data_tuition_students ate,
+            END AS momento1,
+            CASE
+                WHEN qua2.note IS NOT NULL AND qua2.student_id = stu.id THEN qua2.note
+                ELSE NULL::numeric
+            END AS momento2,
+            CASE
+                WHEN qua3.note IS NOT NULL AND qua3.student_id = stu.id THEN qua3.note
+                ELSE NULL::numeric
+            END AS momento3,
+        round((COALESCE(qua1.note, 0::numeric) + COALESCE(qua2.note, 0::numeric) + COALESCE(qua3.note, 0::numeric)) / 3.0, 1) AS definitiva
+    FROM common_moment mon,
+        academic_data_tuition_students ate,
         common_shift tur,
         academic_data_academicperiod per,
         academic_data_section sec,
@@ -30,12 +40,13 @@ CREATE_SQL = """
         academic_data_grade gra,
         students_student stu
         LEFT JOIN academic_data_subject sub ON 1 = 1
-        LEFT JOIN academic_data_qualification qua ON sub.id = qua.subject_id AND qua.student_id = stu.id
-        LEFT JOIN common_moment mon ON qua.moment_id = mon.id
+        LEFT JOIN academic_data_qualification qua1 ON sub.id = qua1.subject_id AND qua1.student_id = stu.id AND qua1.moment_id = 1
+        LEFT JOIN academic_data_qualification qua2 ON sub.id = qua2.subject_id AND qua2.student_id = stu.id AND qua2.moment_id = 2
+        LEFT JOIN academic_data_qualification qua3 ON sub.id = qua3.subject_id AND qua3.student_id = stu.id AND qua3.moment_id = 3
     WHERE aca.grade_id = gra.id AND sec.id = aca.section_id AND per.id = aca.academic_period_id AND tur.id = aca.shift_id AND ate.student_id = stu.id AND ate.tuition_id = aca.id;
 
     ALTER TABLE public.academic_notes_all
-        OWNER TO postgres;
+    OWNER TO postgres;
 """
 
 DROP_SQL = "public.academic_notes_all"
