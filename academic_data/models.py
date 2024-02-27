@@ -135,10 +135,13 @@ class AllNotes(models.Model):
     grado = models.CharField(max_length=50, verbose_name="grado")
     seccion = models.CharField(max_length=50, verbose_name="seccion")
     turno = models.CharField(max_length=50, verbose_name="turno")
-    lapso = models.CharField(max_length=50, verbose_name="lapso")
+    momento1 = models.CharField(max_length=50, verbose_name="momento1")
+    momento2 = models.CharField(max_length=50, verbose_name="momento2")
+    momento3 = models.CharField(max_length=50, verbose_name="momento3")
+    definitiva = models.CharField(max_length=50, verbose_name="definitiva")
     asignacion = models.CharField(max_length=50, verbose_name="asignacion")
-    nota = models.CharField(max_length=50, verbose_name="nota")
-    period = models.CharField(max_length=50, verbose_name="period")
+    #nota = models.CharField(max_length=50, verbose_name="nota")
+    periodo = models.CharField(max_length=50, verbose_name="period")
 
     class Meta:
         db_table = "academic_notes_all"

@@ -48,6 +48,18 @@
     text-align: center;
     line-height: 0.5;
   }
+  .text-upercase{
+    text-transform: uppercase;
+  }
+  .table-footer{
+    width: 100%;
+    margin-top: 80px;
+    border: 1px solid;
+    border-collapse: collapse;
+  }
+  .tfoot{
+    height: 70px;
+  }
 </style>
 
 {% load static %}
@@ -61,7 +73,7 @@
     <h4>U. E. N. EDOARDO CREMA</h4>
     <h4>EL PARAISO - CARACAS</h4>
     <h4>Departamento de Evaluacion</h4>
-    <h4 class="info">2DO. ANO SECCION "F" 2023-2024</h4>
+    <h4 class="info">{{all.grado}}. AÑO SECCION "{{all.seccion}}" {{all.periodo}}</h4>
     <h4 class="info">Coordinadora PROFA: Emilin Alviarez</h4>
   </div>
   <div class="head-logo-right">
@@ -73,19 +85,38 @@
   <table class="table-content">
     <thead>
       <th>Estudiante</th>
-      <th>Avila Breto</th>
-      <th>Cesar Enrique</th>
-      <th>N૰ Lista: 10</th>
-      <th>CI N૰ 12.345.678 </th>
+      <th class="text-upercase">{{all.p_nombre}} {{all.s_nombre}} {{all.p_apellido}} {{all.s_apellido}} </th>
+      <th>N૰ Lista: {{id}}</th>
+      <th>CI Nº {{all.cedula}} </th>
     </thead>
   </table>
-  <div></div>
   <table class="table-content qualifications">
+    <thead>
       <th class="tq subjects">AREA DE FORMACION</th>
       <th class="tq">MOMENTO 1</th>
       <th class="tq">MOMENTO 2</th>
       <th class="tq">MOMENTO 3</th>
       <th class="tq">DEFINITIVA</th>
       <th class="tq">FIRMA DEL PROF.</th>
+    </thead>
+    <tbody>
+        {% for asignacion in asignaciones %}
+          <tr>
+            <td class="tq">
+                {{asignacion.asignacion}}
+            </td>
+            <td class="tq">{{asignacion.momento1}}</td>
+            <td class="tq">{{asignacion.momento2}}</td>
+            <td class="tq">{{asignacion.momento3}}</td>
+            <td class="tq">{{asignacion.definitiva}}</td>
+            <td class="tq"> </td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <table class="table-footer qualifications ">
+    <tr>
+      <td class="tfoot">PROF xxxxxx xxxxx xxxxx</td>
+    </tr>
   </table>
 </div>
