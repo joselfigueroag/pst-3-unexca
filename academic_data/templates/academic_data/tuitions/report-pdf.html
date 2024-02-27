@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boletin Informativo</title>
-  <link id="pagestyle" href="{% static 'common/css/reporte.css' %}" rel="stylesheet"/>
+  <link id="pagestyle" href="{% static 'common/css/reporte-boletin.css' %}" rel="stylesheet"/>
 </head>
 <body>
   <div class="block-report-title">
@@ -31,9 +31,23 @@
     <table class="table-content">
       <thead>
         <th>Estudiante</th>
-        <th class="text-upercase">{{all.p_nombre}} {{all.s_nombre}} {{all.p_apellido}} {{all.s_apellido}} </th>
+        <th class="text-upercase">
+          {{all.p_nombre}}
+          {% if all.s_nombre != None%}
+            {{all.s_nombre}}
+          {% endif %}
+          {{all.p_apellido}}
+          {% if all.s_nombre != None%}
+            {{all.s_apellido}}
+          {% endif %}
+        </th>
         <th>N૰ Lista: {{id}}</th>
-        <th>CI Nº {{all.cedula}} </th>
+        <th>CI Nº 
+          {% if all.cedula != None%}
+            {{all.cedula}}
+          {% endif %} 
+        </th>
+
       </thead>
     </table>
     <table class="table-content qualifications">
@@ -74,7 +88,12 @@
     </table>
     <table class="table-footer qualifications ">
       <tr>
-        <td class="tfoot">PROF xxxxxx xxxxx xxxxx</td>
+        <td class="tfoot">PROFA: Yeiza Andreina Borges <br>
+        Coordinadora Departamento de Evaluacion 
+        </td>
+        <td class="tfoot">
+          SELLO
+        </td>
       </tr>
     </table>
   </div>

@@ -23,7 +23,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
-
+from datetime import datetime
 
 #SECCIONES
 @method_decorator(login_required, name="dispatch")
@@ -524,3 +524,123 @@ def report_html(request,student_id):
     context['asignaciones'] = [item for item in data]
     template_name = "academic_data/tuitions/report-pdf.html"
     return render(request, template_name,context)
+
+def report_constancia(request,student_id):
+  data = AllNotes.objects.filter(student_id=student_id)
+  context = {}
+  context['id'] = student_id 
+  context['all'] = data[0]
+
+  #Codigo para convertir las fecha numerica en letras, quizas se puede reducir mucho mas pero esto es lo que pude hacer
+  fecha = datetime.now()
+  dia = fecha.day
+  mes = fecha.month
+  ano = int(str(fecha.year)[-2:])
+
+  if dia == 1:
+      dia = 'un'
+  elif dia == 2:
+      dia = 'dos'
+  elif dia == 3:
+      dia = 'tres'
+  elif dia == 4:
+      dia = 'cuatro'
+  elif dia == 5:
+      dia = 'cinco'
+  elif dia == 6:
+      dia = 'seis'
+  elif dia == 7:
+      dia = 'siete'
+  elif dia == 8:
+      dia = 'ocho'
+  elif dia == 9:
+      dia = 'nueve'
+  elif dia == 10:
+      dia = 'diez'
+  elif dia == 11:
+      dia = 'once'
+  elif dia == 12:
+      dia = 'doce'
+  elif dia == 13:
+      dia = 'trece'
+  elif dia == 14:
+      dia = 'catorce'
+  elif dia == 15:
+      dia = 'quince'
+  elif dia == 16:
+      dia = 'diez y seis'
+  elif dia == 17:
+      dia = 'diez y siete'
+  elif dia == 18:
+      dia = 'diez y ocho'
+  elif dia == 19:
+      dia = 'diez y nueve'
+  elif dia == 20:
+      dia = 'veinte'
+  elif dia == 21:
+      dia = 'veinte y uno'
+  elif dia == 22:
+      dia = 'veinte y dos'
+  elif dia == 23:
+      dia = 'veinte y tres'
+  elif dia == 24:
+      dia = 'veinte y cuatro'
+  elif dia == 25:
+      dia = 'veinte y cinco'
+  elif dia == 26:
+      dia = 'veinte y seis'
+  elif dia == 27:
+      dia = 'veinte y siete'
+  elif dia == 28:
+      dia = 'veinte y ocho'
+  elif dia == 29:
+      dia = 'veinte y nueve'
+  elif dia == 30:
+      dia = 'treinta'
+  elif dia == 31:
+      dia = 'treinta y uno'
+
+  meses = {
+    1: 'enero',
+    2: 'febrero',
+    3: 'marzo',
+    4: 'abril',
+    5: 'mayo',
+    6: 'junio',
+    7: 'julio',
+    8: 'agosto',
+    9: 'septiembre',
+    10: 'octubre',
+    11: 'noviembre',
+    12: 'diciembre'
+  }
+  mes = meses.get(mes, '')
+
+  anos = {
+    24: 'veinte y cuatro',
+    25: 'veinte y cinco',
+    26: 'veinte y seis',
+    27: 'veinte y siete',
+    28: 'veinte y ocho',
+    29: 'veinte y nueve',
+    30: 'treinta',
+    31: 'treinta y uno',
+    32: 'treinta y dos',
+    33: 'treinta y tres',
+    34: 'treinta y cuatro'
+  }
+  ano = anos.get(ano, '')
+
+  context['dia'] = dia
+  context['mes'] = mes
+  context['ano'] = ano
+  #print(f'{dia} de {mes} del ano dos mil {ano}')
+
+  html = render_to_string("academic_data/tuitions/proof-of-studies.html", context)
+  response = HttpResponse(content_type="application/pdf")
+  response["Content-Disposition"] = "inline: report.pdf"
+  font_config = FontConfiguration()
+  HTML(string=html, base_url=request.build_absolute_uri() ).write_pdf(response,font_config=font_config)
+  #template_name = "academic_data/tuitions/proof-of-studies.html"
+  #return render(request, template_name,context)
+  return response

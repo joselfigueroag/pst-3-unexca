@@ -5,7 +5,8 @@ from django.db import migrations
 CREATE_SQL = """ 
     CREATE OR REPLACE VIEW public.academic_notes_all
     AS
-    SELECT DISTINCT stu.id AS student_id,
+      SELECT DISTINCT 
+        stu.id AS student_id,
         aca.id AS matricula,
         stu.first_name AS p_nombre,
         stu.second_name AS s_nombre,
@@ -18,38 +19,36 @@ CREATE_SQL = """
         per.period AS periodo,
         sub.id AS id_asignacion,
         sub.name AS asignacion,
-            CASE
-                WHEN qua1.note IS NOT NULL AND qua1.student_id = stu.id THEN qua1.note
-                ELSE NULL::numeric
-            END AS momento1,
-            CASE
-                WHEN qua2.note IS NOT NULL AND qua2.student_id = stu.id THEN qua2.note
-                ELSE NULL::numeric
-            END AS momento2,
-            CASE
-                WHEN qua3.note IS NOT NULL AND qua3.student_id = stu.id THEN qua3.note
-                ELSE NULL::numeric
-            END AS momento3,
+        CASE
+            WHEN qua1.note IS NOT NULL AND qua1.student_id = stu.id THEN qua1.note
+            ELSE NULL::numeric
+        END AS momento1,
+        CASE
+            WHEN qua2.note IS NOT NULL AND qua2.student_id = stu.id THEN qua2.note
+            ELSE NULL::numeric
+        END AS momento2,
+        CASE
+            WHEN qua3.note IS NOT NULL AND qua3.student_id = stu.id THEN qua3.note
+            ELSE NULL::numeric
+        END AS momento3,
         round((COALESCE(qua1.note, 0::numeric) + COALESCE(qua2.note, 0::numeric) + COALESCE(qua3.note, 0::numeric)) / 3.0, 1) AS definitiva
-    FROM common_moment mon,
-        academic_data_tuition_students ate,
-        common_shift tur,
-        academic_data_academicperiod per,
-        academic_data_section sec,
-        academic_data_tuition aca,
-        academic_data_grade gra,
-        students_student stu
+    FROM students_student stu
+        INNER JOIN academic_data_tuition_students ate ON ate.student_id = stu.id
+        INNER JOIN academic_data_tuition aca ON ate.tuition_id = aca.id
+        INNER JOIN academic_data_grade gra ON aca.grade_id = gra.id
+        INNER JOIN academic_data_section sec ON sec.id = aca.section_id
+        INNER JOIN academic_data_academicperiod per ON per.id = aca.academic_period_id
+        INNER JOIN common_shift tur ON tur.id = aca.shift_id
         LEFT JOIN academic_data_subject sub ON 1 = 1
-        LEFT JOIN academic_data_qualification qua1 ON sub.id = qua1.subject_id AND qua1.student_id = stu.id AND qua1.moment_id = 1
-        LEFT JOIN academic_data_qualification qua2 ON sub.id = qua2.subject_id AND qua2.student_id = stu.id AND qua2.moment_id = 2
-        LEFT JOIN academic_data_qualification qua3 ON sub.id = qua3.subject_id AND qua3.student_id = stu.id AND qua3.moment_id = 3
-    WHERE aca.grade_id = gra.id AND sec.id = aca.section_id AND per.id = aca.academic_period_id AND tur.id = aca.shift_id AND ate.student_id = stu.id AND ate.tuition_id = aca.id;
+        LEFT JOIN academic_data_qualification qua1 ON qua1.subject_id = sub.id AND qua1.student_id = stu.id AND qua1.moment_id = 1
+        LEFT JOIN academic_data_qualification qua2 ON qua2.subject_id = sub.id AND qua2.student_id = stu.id AND qua2.moment_id = 2
+        LEFT JOIN academic_data_qualification qua3 ON qua3.subject_id = sub.id AND qua3.student_id = stu.id AND qua3.moment_id = 3;
 
     ALTER TABLE public.academic_notes_all
     OWNER TO postgres;
 """
 
-DROP_SQL = "public.academic_notes_all"
+DROP_SQL = "drop view if exists public.academic_notes_all"
 
 class Migration(migrations.Migration):
     dependencies = [

@@ -19,6 +19,7 @@ from .views import (
   tuition_detail_api,
   export_pdf,
   report_html,
+  report_constancia,
 )
 
 urlpatterns = [
@@ -43,5 +44,6 @@ urlpatterns = [
   path("qualification/upload-qualification-by-tuition/", upload_qualification_by_tuition, name="upload-qualification-by-tuition"),
   path("api/tuition_detail_api/<int:tuition_id>/<int:subject_id>/<int:moment_id>/", tuition_detail_api, name="tuition_detail_api"),
   path("tuitions/report/<int:student_id>/", export_pdf, name="detail-tuition-report"),
-  path("tuitions/reports/<int:student_id>/", report_html, name="detail-tuition-report-htyml"),
+  path("tuitions/report/html/<int:student_id>/", report_html, name="detail-tuition-report-htyml"),
+  path("tuitions/proof/<int:student_id>/", report_constancia, name="proof-studies"),
 ]

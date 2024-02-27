@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constancia de Estudios</title>
+    <link id="pagestyle" href="{% static 'common/css/reporte-constancia.css' %}" rel="stylesheet"/>
+</head>
+<body onload="full_date_now()">
+    <div class="content">
+        <div class="block-report-title">
+            <div class="head-logo-left">
+                <img class="img-head" src="{% static 'common/img/ingsignea-ec.png' %}" alt="">
+            </div>
+            <div class="head-title">
+            <h5 class="text-header">
+                republica bolivariana de venezuela<br>
+                ministerio del poder popular para la educacion<br>
+                unidad educativa nacional "Edoardo Crema"<br>
+                el paraiso caracas<br>
+                S1272D0103
+            </h5>
+            </div>
+        </div>
+        <div class="title-title">
+            <h5>Constancia de estudios</h5> 
+        </div>
+        <div class="redaccion">
+            <h4>
+                <p class="escrito" >
+                        Quien suscribe Cordinadora de Control de Estudio de la Unidad
+                    Educativa Nacional "EDOARDO CREMA", hace constar por medio de la
+                    presente que la estudiante: <span class="data">
+                        {{all.p_nombre}}
+                        {% if all.s_nombre != None %}
+                        {{all.s_nombre}}
+                        {% endif %}
+                        {{all.p_apellido}}
+                        {% if all.s_apellido != None %}
+                        {{all.s_apellido}}
+                        {% endif %}
+                    </span>
+                    titular de la C.I <span class="data">
+                        {% if all.cedula != None %}
+                        V-{{all.cedula}}
+                        {% endif %}
+                    </span> cursa en este plantel el <span class="data">
+                         {{ all.grado }} AÑO Seccion "{{ all.seccion }}"
+                    </span>
+                    de Educacion Media en el año escolar: <span class="data">
+                        {{ all.periodo }}
+                    </span>.
+                </p>
+            </h4>
+        </div>
+        <div class="redaccion">
+            <h4>
+                <p class="escrito">
+                    La presente constancia se expide a peticion de parte interesada en Caracas, a los <span id="dia">{{dia}}</span>
+                    dias del mes de <span id="mes">{{mes}}</span> del año  dos mil <span id="ano">{{ano}}</span>.
+                </p>
+            </h4>
+        </div>
+        <div class="firma">
+            <h4 class="seccion-firma">
+                ___________________
+            </h4>
+            <h4 class="seccion-firma">PROF. <span> Maria Yaritza López</span></h4>
+        </div>
+    </div>
+</body>
+<script>
+    function full_date_now(){
+       /* const fecha = new Date();
+        let dia, mes, ano;
+        dia = fecha.getDate();
+        mes = fecha.getMonth() + 1;
+        ano = fecha.getFullYear().toString().slice(-2);
+        console.log(mes)
+
+        switch (dia){
+            case 1:
+                dia = 'un';
+            break;
+            case 2:
+                dia = 'dos';
+            break;
+            case 3:
+                dia = 'tres';
+            break;
+            case 4:
+                dia = 'cuatro';
+            break;
+            case 5:
+                dia = 'cinco';
+            break;
+            case 6:
+                dia = 'seis';
+            break;
+            case 7:
+                dia = 'siete';
+            break;
+            case 8:
+                dia = 'ocho';
+            break;
+            case 9:
+                dia = 'nueve';
+            break;
+            case 10:
+                dia = 'diez';
+            break;
+            case 11:
+                dia = 'once';
+            break;
+            case 12:
+                dia = 'doce';
+            break;
+            case 13:
+                dia = 'trece';
+            break;
+            case 14:
+                dia = 'catorce';
+            break;
+            case 15:
+                dia = 'quince';
+            break;
+            case 16:
+                dia = 'diez y seis';
+            break;
+            case 17:
+                dia = 'diez y siete';
+            break;
+            case 18:
+                dia = 'diez y ocho';
+            break;
+            case 19:
+                dia = 'diez y nueve';
+            break;
+            case 20:
+                dia = 'veinte';
+            break;
+            case 21:
+                dia = 'veinte y uno';
+            break;
+            case 22:
+                dia = 'veinte y dos';
+            break;
+            case 23:
+                dia = 'veinte y tres';
+            break;
+            case 24:
+                dia = 'veinte y cuatro';
+            break;
+            case 25:
+                dia = 'veinte y cinco';
+            break;
+            case 26:
+                dia = 'veinte y seis';
+            break;
+            case 27:
+                dia = 'veinte y siete';
+            break;
+            case 28:
+                dia = 'veinte y ocho';
+            break;
+            case 29:
+                dia = 'veinte y nueve';
+            break;
+            case 30:
+                dia = 'treinta';
+            break;
+            case 31:
+                dia = 'treinta y uno';
+            break;
+
+        }
+
+        switch (mes){
+            case 1:
+                mes = 'enero';
+            break;
+            case 2:
+                mes = 'febrero';
+            break;
+            case 3:
+                mes = 'marzo';
+            break;
+            case 4:
+                mes = 'abril';
+            break;
+            case 5:
+                mes = 'mayo';
+            break;
+            case 6:
+                mes = 'junio';
+            break;
+            case 7:
+                mes = 'julio';
+            break;
+            case 8:
+                mes = 'agosto';
+            break;
+            case 9:
+                mes = 'septiembre';
+            break;
+            case 10:
+                mes = 'octubre';
+            break;
+            case 11:
+                mes = 'noviembre';
+            break;
+            case 12:
+                mes = 'diciembre';
+            break;
+        }
+
+        switch (Number(ano)){
+            case 24:
+                ano = 'veinte y cuatro';
+            break;
+            case 25:
+                ano = 'veinte y cinco';
+            break;
+            case 26:
+                ano = 'veinte y seis';
+            break;
+            case 27:
+                ano = 'veinte y siete';
+            break;
+            case 28:
+                ano = 'veinte y ocho';
+            break;
+            case 29:
+                ano = 'veinte y nueve';
+            break;
+            case 30:
+                ano = 'treinta';
+            break;
+            case 31:
+                ano = 'treinta y uno';
+            break;
+            case 32:
+                ano = 'treinta y dos';
+            break;
+            case 33:
+                ano = 'treinta y tres';
+            break;
+            case 34:
+                ano = 'treinta y cuatro';
+            break;
+        }
+
+
+        textDia = document.getElementById('dia')
+        textMes = document.getElementById('mes')
+        textAno = document.getElementById('ano')
+
+        textDia.innerHTML= dia;
+        textMes.innerHTML = mes;
+        textAno.innerHTML = ano;
+
+        console.log(textDia)*/
+    }
+</script>
+</html>

@@ -1,0 +1,83 @@
+html, body {
+    min-height: 100%;
+    background-attachment: fixed;
+}
+body::before {
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: -1;   
+}
+body::after{
+    content: "";
+    background: url('/static/common/img/ingsignea-ec.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-attachment: fixed;
+    opacity: 0.1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: -2; 
+}
+@page
+{
+    size: A4;
+    margin-top: 20px;
+    margin-bottom: 0;
+    margin-left: 45px;
+    margin-right: 45px;
+}
+.content{
+    font-size: 18px;
+}
+.block-report-title{
+    display: flex;
+    align-items: center;
+}
+.head-title{
+    flex: 1;
+    margin-left: 1px;
+    line-height: 1.5;
+}
+.img-head{
+    position: absolute;
+    margin-top: -45px;
+    margin-left: 10px;
+    width: 80px;
+    height: 80px;
+}
+
+.text-header{
+    text-align: center;
+    font-style: italic;
+    text-transform: uppercase;
+}
+.title-title{
+    margin-top: 100px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.redaccion{
+    margin-top: 50px;
+}
+.data{
+    font-weight: bold !important;
+    text-transform: uppercase;
+}
+.escrito{
+    font-weight: normal;
+    text-align: justify;
+    text-indent: 40px;
+    line-height: 1.5;
+}
+.firma{
+    margin-top: 50px;
+    text-align: center;
+}
