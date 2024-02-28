@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from .forms import StudentForm, AdditionalStudentDataForm, RepresentativeForm
-from .models import Student, AdditionalStudentData, Representative
+from .models import Student, AdditionalStudentData, Representative, StudentDetail
+from academic_data.models import AcademicPeriod
 
 
 # ESTUDIANTES
@@ -15,14 +16,32 @@ from .models import Student, AdditionalStudentData, Representative
 class StudentListView(ListView):
   template_name = "students/students_list.html"
   queryset = Student.objects.select_related("additionalstudentdata", "gender")
-
-
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    try:
+      latest_academic_period = AcademicPeriod.objects.latest('period')
+      context['period'] = latest_academic_period.period
+    except AcademicPeriod.DoesNotExist:
+      context['period'] = None
+    return context
+  
 class StudentDetailView(DetailView):
-  model = Student
-  template_name = "students/student_detail.html"
+    model = StudentDetail
+    template_name = "students/student_detail.html"
+    
+    def get_object(self):
+        # Obtener el objeto
+        try:
+          student = StudentDetail.objects.get(student_id=self.kwargs.get("student_id"),periodo=self.kwargs.get("periodo"))
+        except:
+          student = None
+        return student
 
-  def get_object(self):
-    return Student.objects.get(pk=self.kwargs.get("student_id"))
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Obtener el objeto y pasarlo al contexto
+        context['student'] = self.get_object()
+        return context
 
 
 @method_decorator(login_required, name="dispatch")

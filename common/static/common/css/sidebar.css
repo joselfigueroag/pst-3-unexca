@@ -200,3 +200,21 @@ body::after {
 .font-nav{
   font: optional;
 }
+
+.text-detail{
+  text-transform: uppercase !important;
+  font-weight: bold !important;
+}
+.table-detail{
+  width: 100%;
+}
+.table-head{
+  text-transform: uppercase !important;
+}
+.buton-left{
+  align-items: end !important;
+  text-align: right !important;
+}
+.info{
+  font-weight: normal !important;
+}

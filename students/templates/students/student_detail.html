@@ -2,6 +2,75 @@
 
 {% block content %}
 <div class="d-flex justify-content-center">
-  <h1>Detalle de Estudiante</h1>
+  <h1 class="text-box">Detalle de Estudiante</h1>
 </div> 
+<div class="card div-glass">
+  <div class="card-header div-glass text-center text-detail">
+    {{student.sp_nombre}} 
+    {% if student.ss_nombre != None%}
+    {{student.ss_nombre}}
+    {% endif %}
+    {{student.sp_apellido}} 
+    {% if student.ss_apellido != None%}
+    {{student.ss_apellido}}
+    {% endif %}
+  </div>
+  <div class="card-body">
+    <table class="table-sm table-detail text-center">
+      <thead class="table-sm table-striped table-head text-box">
+        <th>cedula de identidad</th>
+        <th>telefono</th>
+        <th>genero</th>
+        <th>talla</th>
+        <th>peso</th>
+        <th>año</th>
+        <th>seccion</th>
+        <th>periodo academico</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{student.s_cedula}}</td>
+          <td>{{student.tlf_stu}}</td>
+          <td>{{student.genero}}</td>
+          <td>{{student.talla}}</td>
+          <td>{{student.peso}}</td>
+          <td>{{student.ano}}</td>
+          <td>{{student.seccion}}</td>
+          <td>{{student.periodo}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="d-flex justify-content-center">
+  <h1 class="text-box mt-3">Detalle del Representante</h1>
+</div>
+<div class="card div-glass">
+  <div class="card-header div-glass text-center text-detail">
+    {{student.rp_nombre}} 
+    {% if student.rs_nombre != None%}
+    {{student.rs_nombre}}
+    {% endif %}
+    {{student.rp_apellido}} 
+    {% if student.rs_apellido != None%}
+    {{student.rs_apellido}}
+    {% endif %}
+  </div>
+  <div class="card-body">
+    <table class="table-sm table-detail text-center">
+      <thead class="table-sm table-striped table-head text-box">
+        <th>cedula de identidad</th>
+        <th>telefono</th>
+        <th>correo</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{student.r_cedula}}</td>
+          <td>{{student.tlf_rep}}</td>
+          <td>{{student.r_correo}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock content %}

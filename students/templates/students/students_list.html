@@ -35,6 +35,13 @@
           <a
             type="button"
             class="btn btn-sm btn-info text-dark"
+            href="{% url 'detail-student' student_id=student.id periodo=period  %}"
+          >
+          Detalles
+          </a>
+          <a
+            type="button"
+            class="btn btn-sm btn-info text-dark"
             href="{% url 'update-student' student_id=student.id %}"
           >
             Editar

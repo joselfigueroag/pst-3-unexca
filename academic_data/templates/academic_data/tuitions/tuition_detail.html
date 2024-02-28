@@ -2,122 +2,128 @@
 
 {% block content %}
 <div class="d-flex justify-content-center">
-  <h1>Detalle de Matricula</h1>
+  <h1 class="text-box">Detalle de Matricula</h1>
 </div>
-<div>
-  <p><b>Perido:</b> {{ info_tuition.periodo }}</p>
-  <p><b>Grado:</b> {{ info_tuition.grado }} año</p>
-  <p><b>Seccion:</b> {{ info_tuition.seccion }}</p>
-  <p><b>Turno:</b> {{ info_tuition.turno }}</p>
-</div>
-<div>
-  <!-- <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" data-toggle="tab" href="#moment1" onclick="changeTab(event, 'moment1')">Momento 1</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#moment2" onclick="changeTab(event, 'moment2')">Momento 2</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#moment3" onclick="changeTab(event, 'moment3')">Momento 3</a>
-    </li>
-  </ul> -->
+<div class="div-glass card">
+  <div class="card-header">
+    <table class="table-sm table-detail">
+      <thead class="table-head">
+        <th>Grado: <span class="info">{{ info_tuition.grado }} año</span></th>
+        <th>Seccion: <span class="info">{{ info_tuition.seccion }}</span></th>
+        <th>Turno: <span class="info">{{ info_tuition.turno }}</span></th>
+        <th>Perido: <span class="info">{{ info_tuition.periodo }}</span></th>
+      </thead>
+    </table>
+  </div>
+  <div class="div-glass card-body">
+    <div>
+      <!-- <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#moment1" onclick="changeTab(event, 'moment1')">Momento 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#moment2" onclick="changeTab(event, 'moment2')">Momento 2</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#moment3" onclick="changeTab(event, 'moment3')">Momento 3</a>
+        </li>
+      </ul> -->
 
-  <div class="tab-content">
-    <div id="moment1" class="container tab-pane active">
-      <table class="table table-sm table-striped shadow-div">
-        <thead>
-          <tr>
-            <th>Alumnos</th>
-            <!-- {% for subject in subjects %}
-              <th>{{ subject }}</th>
-            {% endfor %} -->
-          </tr>
-        </thead>
-        <tbody>
-          {% for student in unique_students %}
-            <tr>
-              <td>
-                <!-- <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a> -->
-                {{ student.full_name }}
-              </td>
-              <td>
-                <a href="{% url 'detail-tuition-report' tuition_id=info_tuition.matricula student_id=student.student_id %}" target="_blank" class="btn btn-success">Generar Boleta</a>
-              </td>
-              <td>
-                <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Generar Constacia de Estudio</a>
-              </td>
-              <!-- {% for student in students %}
-              <td>
-                {% if student.momento1 %}
-                  {{ student.moment1 }}
-                {% else %}
-                  N/C
-                {% endif %} 
-              </td> -->
-                <!-- {% if qualification.moment_id == 1 %}
-                  <td>{{ qualification.note }}</td>
-                {% endif %} -->
-              <!-- {% endfor %} -->
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <div id="moment2" class="container tab-pane fade">
-      <table class="table table-sm table-striped shadow-div">
-        <thead>
-          <tr>
-            <th>Alumnos</th>
-            {% for subject in subjects %}
-              <th>{{ subject.name }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for student in unique_students %}
-            <tr>
-              <td>
-                <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a>
-              </td>
-              <!-- {% for qualification in student.all_qualifications %}
-                {% if qualification.moment_id == 1 %}
-                  <td>{{ qualification.note }}</td>
-                {% endif %}
-              {% endfor %} -->
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <div id="moment3" class="container tab-pane fade">
-      <table class="table table-sm table-striped shadow-div">
-        <thead>
-          <tr>
-            <th>Alumnos</th>
-            {% for subject in unique_students %}
-              <th>{{ subject.name }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for student in students %}
-            <tr>
-              <td>
-                <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a>
-              </td>
-              <!-- {% for qualification in student.all_qualifications %}
-                {% if qualification.moment_id == 1 %}
-                  <td>{{ qualification.note }}</td>
-                {% endif %}
-              {% endfor %} -->
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="tab-content">
+        <div id="moment1" class="container tab-pane active div-glass">
+          <table class="table table-sm table-striped div-glass">
+            <thead>
+              <tr>
+                <th>Alumnos</th>
+                <!-- {% for subject in subjects %}
+                  <th>{{ subject }}</th>
+                {% endfor %} -->
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in unique_students %}
+                <tr>
+                  <td>
+                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">{{ student.full_name }}</a>
+                    
+                  </td>
+                  <td class="buton-left">
+                    <a href="{% url 'detail-tuition-report' tuition_id=info_tuition.matricula student_id=student.student_id %}" target="_blank" class="btn btn-success">Generar Boleta</a>
+                    <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Generar Constacia de Estudio</a>
+                  </td>
+                  <!-- {% for student in students %}
+                  <td>
+                    {% if student.momento1 %}
+                      {{ student.moment1 }}
+                    {% else %}
+                      N/C
+                    {% endif %} 
+                  </td> -->
+                    <!-- {% if qualification.moment_id == 1 %}
+                      <td>{{ qualification.note }}</td>
+                    {% endif %} -->
+                  <!-- {% endfor %} -->
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div id="moment2" class="container tab-pane fade">
+          <table class="table table-sm table-striped shadow-div">
+            <thead>
+              <tr>
+                <th>Alumnos</th>
+                {% for subject in subjects %}
+                  <th>{{ subject.name }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in unique_students %}
+                <tr>
+                  <td class="buton-left">
+                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo%}">{{ student.full_name }}</a>
+                  </td>
+                  <!-- {% for qualification in student.all_qualifications %}
+                    {% if qualification.moment_id == 1 %}
+                      <td>{{ qualification.note }}</td>
+                    {% endif %}
+                  {% endfor %} -->
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div id="moment3" class="container tab-pane fade">
+          <table class="table table-sm table-striped shadow-div">
+            <thead>
+              <tr>
+                <th>Alumnos</th>
+                {% for subject in unique_students %}
+                  <th>{{ subject.name }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in students %}
+                <tr>
+                  <td>
+                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">{{ student.full_name }}</a>
+                  </td>
+                  <!-- {% for qualification in student.all_qualifications %}
+                    {% if qualification.moment_id == 1 %}
+                      <td>{{ qualification.note }}</td>
+                    {% endif %}
+                  {% endfor %} -->
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
     </div>
   </div>
-  
 </div>
 
 <script>

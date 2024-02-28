@@ -79,6 +79,7 @@ class Grade(TimeStamp):
 
 
 class AcademicPeriod(TimeStamp):
+    id = models.IntegerField(primary_key=True, verbose_name="id")
     period = models.CharField(max_length=9, verbose_name="periodo", unique=True)
 
     class Meta:
