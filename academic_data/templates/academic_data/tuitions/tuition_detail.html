@@ -5,13 +5,13 @@
   <h1>Detalle de Matricula</h1>
 </div>
 <div>
-  <p><b>Perido:</b> {{ info_tuition.period }}</p>
+  <p><b>Perido:</b> {{ info_tuition.periodo }}</p>
   <p><b>Grado:</b> {{ info_tuition.grado }} año</p>
   <p><b>Seccion:</b> {{ info_tuition.seccion }}</p>
   <p><b>Turno:</b> {{ info_tuition.turno }}</p>
 </div>
 <div>
-  <ul class="nav nav-tabs">
+  <!-- <ul class="nav nav-tabs">
     <li class="nav-item">
       <a class="nav-link active" data-toggle="tab" href="#moment1" onclick="changeTab(event, 'moment1')">Momento 1</a>
     </li>
@@ -21,7 +21,7 @@
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#moment3" onclick="changeTab(event, 'moment3')">Momento 3</a>
     </li>
-  </ul>
+  </ul> -->
 
   <div class="tab-content">
     <div id="moment1" class="container tab-pane active">
@@ -30,21 +30,35 @@
           <tr>
             <th>Alumnos</th>
             <!-- {% for subject in subjects %}
-              <th>{{ subject.name }}</th>
+              <th>{{ subject }}</th>
             {% endfor %} -->
           </tr>
         </thead>
         <tbody>
-          {% for student in students %}
+          {% for student in unique_students %}
             <tr>
               <td>
-                <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a>
+                <!-- <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a> -->
+                {{ student.full_name }}
               </td>
-              <!-- {% for qualification in student.all_qualifications %}
-                {% if qualification.moment_id == 1 %}
+              <td>
+                <a href="{% url 'detail-tuition-report' student_id=student.student_id %}" target="_blank" class="btn btn-success">Generar Boleta</a>
+              </td>
+              <td>
+                <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Generar Constacia de Estudio</a>
+              </td>
+              <!-- {% for student in students %}
+              <td>
+                {% if student.momento1 %}
+                  {{ student.moment1 }}
+                {% else %}
+                  N/C
+                {% endif %} 
+              </td> -->
+                <!-- {% if qualification.moment_id == 1 %}
                   <td>{{ qualification.note }}</td>
-                {% endif %}
-              {% endfor %} -->
+                {% endif %} -->
+              <!-- {% endfor %} -->
             </tr>
           {% endfor %}
         </tbody>
@@ -61,7 +75,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for student in students %}
+          {% for student in unique_students %}
             <tr>
               <td>
                 <a href="{% url 'detail-student' student_id=student.student_id %}">{{ student.full_name }}</a>
@@ -81,7 +95,7 @@
         <thead>
           <tr>
             <th>Alumnos</th>
-            {% for subject in subjects %}
+            {% for subject in unique_students %}
               <th>{{ subject.name }}</th>
             {% endfor %}
           </tr>

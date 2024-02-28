@@ -305,73 +305,39 @@ class TuitionDetailView(DetailView):
     tuition_id = self.kwargs.get("tuition_id")
     data = AllNotes.objects.filter(matricula=tuition_id)
 
-    students = data.distinct("cedula")
-    self.students = list(students.values())
+    try:
+      self.info_tuition = data.distinct("matricula").values()[0]
+    except:
+      tuition = Tuition.objects.get(id=tuition_id)
+      self.info_tuition = {
+        "periodo": tuition.academic_period.period,
+        "grado": tuition.grade.year,
+        "seccion": tuition.section.group,
+        "turno": tuition.shift.turn,
+      }
+
+    self.subjects = data.distinct("asignacion").order_by("asignacion").values_list("asignacion", flat=True)
+
+    students = data.order_by("p_nombre", "s_nombre", "p_apellido", "s_apellido", "cedula", "asignacion")
+
+    self.all_students = students
 
     def full_name(student):
       return f"{student['p_nombre']} {student['s_nombre'] if student['s_nombre'] else ''} {student['p_apellido']} {student['s_apellido'] if student['s_apellido'] else ''}"
 
-    for student in self.students:
+    unique_students = students.distinct("cedula", "p_nombre", "s_nombre", "p_apellido", "s_apellido")
+    self.unique_students = list(unique_students.values())
+    for student in self.unique_students:
       student["full_name"] = full_name(student)
-    
-    self.info_tuition = data.distinct("matricula").values()[0]
 
-    # self.tuition = Tuition.objects.filter(pk=tuition_id).prefetch_related(
-    #   Prefetch(
-    #     "students",
-    #     queryset=Student.objects.order_by("first_name").prefetch_related(
-    #       Prefetch(
-    #         "qualifications",
-    #         queryset=Qualification.objects.filter(tuition_id=tuition_id).order_by("subject__name"),
-    #         to_attr="all_qualifications"
-    #       )
-    #     ),
-    #     to_attr="all_students",
-    #   ),
-    # )[0]
-
-    # for student in self.tuition.all_students:
-    #   student.moment_1 = [Decimal(0.0)]
-    #   student.moment_2 = [Decimal(0.0)]
-    #   student.moment_3 = [Decimal(0.0)]
-
-    #   # Iterar sobre las calificaciones de cada estudiante
-    #   for qualification in student.all_qualifications:
-    #       # Asignar la nota a su momento correspondiente si no se ha asignado antes
-    #       if qualification.moment_id == 1 and len(student.moment_1) == 1:
-    #           student.moment_1[0] = qualification.note
-    #       elif qualification.moment_id == 2 and len(student.moment_2) == 1:
-    #           student.moment_2[0] = qualification.note
-    #       elif qualification.moment_id == 3 and len(student.moment_3) == 1:
-    #           student.moment_3[0] = qualification.note
-    #     # student.moment_1 = []
-    #     # student.moment_2 = []
-    #     # student.moment_3 = []
-      
-    #   # for qualification in student.all_qualifications:
-    #   #   moment1 = Decimal(0.0)
-    #   #   moment2 = Decimal(0.0)
-    #   #   moment3 = Decimal(0.0)
-
-    #   #   if qualification.moment_id == 1:
-    #   #     moment1 = qualification.note
-    #   #   elif qualification.moment_id == 2:
-    #   #     moment2 = qualification.note
-    #   #   elif qualification.moment_id == 3:
-    #   #     moment3 = qualification.note
-
-    #   #   student.moment_1.append(moment1)
-    #   #   student.moment_2.append(moment2)
-    #   #   student.moment_3.append(moment3)
-    
-    # self.subjects = Subject.objects.filter(qualifications__tuition_id=tuition_id).distinct()
-    return students, self.info_tuition
+    return self.unique_students, self.info_tuition, self.subjects, self.all_students
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
-    # context['subjects'] = self.subjects
+    context['subjects'] = self.subjects
     context['info_tuition'] = self.info_tuition
-    context['students'] = self.students
+    context['unique_students'] = self.unique_students
+    context['students'] = self.all_students
     return context
 
 
