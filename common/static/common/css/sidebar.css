@@ -214,6 +214,7 @@ body::after {
 .buton-right{
   align-items: end !important;
   text-align: right !important;
+  text-transform: lowercase !important;
 }
 .info{
   font-weight: normal !important;
