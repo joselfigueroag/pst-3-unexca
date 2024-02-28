@@ -34,9 +34,21 @@
           <td>{{student.genero}}</td>
           <td>{{student.talla}}</td>
           <td>{{student.peso}}</td>
-          <td>{{student.ano}}</td>
-          <td>{{student.seccion}}</td>
-          <td>{{student.periodo}}</td>
+          <td>
+            {% if student.ano != None%}
+            {{student.ano}}
+            {% endif %}
+          </td>
+          <td>
+            {% if student.seccion != None%}
+            {{student.seccion}}
+            {% endif %}
+          </td>
+          <td>
+            {% if student.periodo != None%}
+            {{student.periodo}}
+            {% endif %}
+          </td>
         </tr>
       </tbody>
     </table>
