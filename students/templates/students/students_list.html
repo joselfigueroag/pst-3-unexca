@@ -11,6 +11,7 @@
         <th>Segundo Nombre</th>
         <th>Primer Apellido</th>
         <th>Segundo Apellido</th>
+        <th>Cedula</th>
         <th>Genero</th>
         <th class="buton-right">
           <a
@@ -35,6 +36,7 @@
         <td class="find" id="col-{{student.id}}">{{ student.second_name|default:"" }}</td>
         <td class="find" id="col-{{student.id}}">{{ student.first_surname }}</td>
         <td class="find" id="col-{{student.id}}">{{ student.second_surname|default:"" }}</td>
+        <td class="find" id="col-{{student.id}}">{{ student.identity_card}}</td>
         <td class="find" id="col-{{student.id}}">{{ student.gender }}</td>
         <td class="buton-right"> 
           <a
