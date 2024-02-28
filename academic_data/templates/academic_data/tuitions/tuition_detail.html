@@ -42,7 +42,7 @@
                 {{ student.full_name }}
               </td>
               <td>
-                <a href="{% url 'detail-tuition-report' student_id=student.student_id %}" target="_blank" class="btn btn-success">Generar Boleta</a>
+                <a href="{% url 'detail-tuition-report' tuition_id=info_tuition.matricula student_id=student.student_id %}" target="_blank" class="btn btn-success">Generar Boleta</a>
               </td>
               <td>
                 <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Generar Constacia de Estudio</a>

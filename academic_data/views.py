@@ -313,7 +313,8 @@ class TuitionDetailView(DetailView):
         "periodo": tuition.academic_period.period,
         "grado": tuition.grade.year,
         "seccion": tuition.section.group,
-        "turno": tuition.shift.turn,
+        "turno": tuitionshift.turn,
+        "matricula": tuition.id
       }
 
     self.subjects = data.distinct("asignacion").order_by("asignacion").values_list("asignacion", flat=True)
@@ -463,11 +464,11 @@ def tuition_detail_api(request, tuition_id, subject_id, moment_id):
 
 #Reporte #1
 
-def export_pdf(request,student_id):
+def export_pdf(request, tuition_id, student_id):
   from datetime import datetime
   #model = Tuition
   
-  data = AllNotes.objects.filter(student_id=student_id)
+  data = AllNotes.objects.filter(student_id=student_id, matricula=tuition_id)
   context = {}
   context['id'] = student_id 
   context['all'] = data[0]
