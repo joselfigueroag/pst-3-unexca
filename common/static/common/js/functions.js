@@ -29,4 +29,35 @@ function openMenu(opc){
           form.classList.add('was-validated')
         }, false)
       })
-  })()
+  })();
+
+  (function busqueda(){
+    console.log('active search')
+    const info = document.getElementById('info')
+    document.addEventListener('keyup', found =>{
+        if (found.target.matches('#search')){
+            document.querySelectorAll(".find").forEach(item =>{
+                if (item.textContent.toLowerCase().includes(found.target.value.toLowerCase())){
+                    document.getElementById("table_"+item.id).classList.remove('visually-hidden');
+                    item.classList.add('visible');
+                }else{
+                    document.getElementById("table_"+item.id).classList.add('visually-hidden');
+                    document.getElementById("table_"+item.id).classList.remove('fila');
+                    item.classList.remove('visible');
+                }
+             
+            })
+            document.querySelectorAll('.visible').forEach(fila =>{
+                document.getElementById("table_"+fila.id).classList.remove('visually-hidden')
+                document.getElementById("table_"+fila.id).classList.add('fila')
+            })
+            const coincidencias = document.querySelectorAll('.visible')
+            if (coincidencias.length == 0){
+                info.classList.remove('visually-hidden');
+            }else{
+                info.classList.add('visually-hidden')
+            }
+          
+        }
+    })
+})();

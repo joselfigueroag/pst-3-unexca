@@ -12,26 +12,31 @@
         <th>Primer Apellido</th>
         <th>Segundo Apellido</th>
         <th>Genero</th>
-        <th>  
+        <th class="buton-right">
           <a
-            href="{% url 'create-student' %}"
-            type="button"
-            class="text-dark btn btn-sm btn-info"
+          href="{% url 'create-student' %}"
+          type="button"
+          class="text-dark btn btn-sm btn-info"
           >
-          + Nuevo
-        </a>
+            + Nuevo
+          </a>
+        </th>
+        <th class="buton-right">  
+        <div class="input-group rounded buton-right">
+            <input type="search" class="form-control rounded search-box search" placeholder="Buscar Estudiante" aria-label="Search" aria-describedby="search-addon" id="search" />
+        </div>
         </th>
       </tr>
     </thead>
     <tbody>
       {% for student in object_list %}
-      <tr>
-        <td>{{ student.first_name }}</td>
-        <td>{{ student.second_name|default:"" }}</td>
-        <td>{{ student.first_surname }}</td>
-        <td>{{ student.second_surname|default:"" }}</td>
-        <td>{{ student.gender }}</td>
-        <td>
+      <tr class="fila" id="table_col-{{student.id}}">
+        <td class="find" id="col-{{student.id}}">{{ student.first_name }}</td>
+        <td class="find" id="col-{{student.id}}">{{ student.second_name|default:"" }}</td>
+        <td class="find" id="col-{{student.id}}">{{ student.first_surname }}</td>
+        <td class="find" id="col-{{student.id}}">{{ student.second_surname|default:"" }}</td>
+        <td class="find" id="col-{{student.id}}">{{ student.gender }}</td>
+        <td class="buton-right"> 
           <a
             type="button"
             class="btn btn-sm btn-info text-dark"
@@ -39,6 +44,8 @@
           >
           Detalles
           </a>
+          </td>
+          <td class="buton-right">
           <a
             type="button"
             class="btn btn-sm btn-info text-dark"
@@ -57,6 +64,14 @@
       </tr>
       {% endfor %}
     </tbody>
+    <tfoot id="info" class="visually-hidden">
+      <th colspan="12">
+          <div class="alert alert-info mt-3 "  role="alert">
+              No existen coincidencias con el parametro indicado!!
+          </div>
+      </th>
+  </tfoot>
   </table>
 </div>
+
 {% endblock content %}

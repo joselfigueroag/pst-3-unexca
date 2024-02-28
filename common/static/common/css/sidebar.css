@@ -211,10 +211,14 @@ body::after {
 .table-head{
   text-transform: uppercase !important;
 }
-.buton-left{
+.buton-right{
   align-items: end !important;
   text-align: right !important;
 }
 .info{
   font-weight: normal !important;
+}
+.search-box{
+  width: 150px !important;
+  height: 50% !important;
 }

@@ -34,7 +34,8 @@ class StudentDetailView(DetailView):
         try:
           student = StudentDetail.objects.get(student_id=self.kwargs.get("student_id"),periodo=self.kwargs.get("periodo"))
         except:
-          student = None
+          student = StudentDetail.objects.filter(student_id=self.kwargs.get("student_id")).order_by('-periodo_id').first()
+          print(student)
         return student
 
     def get_context_data(self, **kwargs):

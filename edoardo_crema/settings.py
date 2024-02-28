@@ -170,6 +170,18 @@ LOGIN_REDIRECT_URL = "home"
 
 LOGIN_URL = "/"
 
+# Configuración de la duración de la cookie de sesión (en segundos)
+SESSION_COOKIE_AGE = 3600
+
+# Configuración del tiempo de expiración de la sesión (en segundos)
+SESSION_EXPIRE_SECONDS = 3600
+
+# Configuración del tiempo de expiración de la sesión al cerrar el navegador (en segundos)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Configuración adicional para hacer que la cookie de sesión sea httponly
+SESSION_COOKIE_HTTPONLY = True
+
 MESSAGE_STORAGE = "django.contrib.messages.storage.fallback.FallbackStorage"
 
 DEBUG_TOOLBAR_PANELS = [

@@ -47,7 +47,7 @@
                     <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">{{ student.full_name }}</a>
                     
                   </td>
-                  <td class="buton-left">
+                  <td class="buton-right">
                     <a href="{% url 'detail-tuition-report' tuition_id=info_tuition.matricula student_id=student.student_id %}" target="_blank" class="btn btn-success">Generar Boleta</a>
                     <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Generar Constacia de Estudio</a>
                   </td>
@@ -81,7 +81,7 @@
             <tbody>
               {% for student in unique_students %}
                 <tr>
-                  <td class="buton-left">
+                  <td class="buton-right">
                     <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo%}">{{ student.full_name }}</a>
                   </td>
                   <!-- {% for qualification in student.all_qualifications %}
