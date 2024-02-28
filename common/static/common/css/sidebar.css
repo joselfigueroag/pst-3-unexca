@@ -222,3 +222,6 @@ body::after {
   width: 150px !important;
   height: 50% !important;
 }
+.table-body{
+  text-transform: uppercase !important;
+}
