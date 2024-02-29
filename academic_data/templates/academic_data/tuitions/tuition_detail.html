@@ -45,7 +45,12 @@
               {% for student in unique_students %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td>{{ student.full_name }}</td>
+                  <td>
+                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
+                      {{ student.full_name }}
+                    </a>
+                  </td>
+                  <!-- <td>{{ student.full_name }}</td> -->
                   {% for note in student.moment_1 %}
                     <td>
                       {{ note }}
@@ -75,7 +80,11 @@
               {% for student in unique_students %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td>{{ student.full_name }}</td>
+                  <td>
+                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
+                      {{ student.full_name }}
+                    </a>
+                  </td>
                   {% for note in student.moment_2 %}
                     <td>
                       {{ note }}
@@ -105,7 +114,11 @@
               {% for student in unique_students %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td>{{ student.full_name }}</td>
+                  <td>
+                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
+                      {{ student.full_name }}
+                    </a>
+                  </td>
                   {% for note in student.moment_3 %}
                     <td>
                       {{ note }}
