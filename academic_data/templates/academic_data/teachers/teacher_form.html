@@ -3,58 +3,101 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <h2 class="text-center mt-3 mb-3">{{ action }} DOCENTE</h2>
-  <form class="p-3 border border-primary rounded is-invalid" action="{{ form_action }}" method="POST" id="form" novalidate>
-    {% csrf_token %}
-    <div>
-      <div class="form-group">
-        {{ form | crispy }}
-      </div>
-      <div class="mb-3">
-        <label for="id_country" class="form-label">Pais</label>
-        <select name="country" class="select form-select" id="id_country" onchange="handleChangeCountry(event)">
-          <option value="" selected>Seleccionar</option>
-          {% for country in countries %}
-            <option value="{{ country.id }}">{{ country.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="id_state" class="form-label">Estado</label>
-        <select name="state" class="select form-select" id="id_state" onChange="handleChangeState(event)" disabled>
-          <option value="" selected>Seleccionar</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="id_capital" class="form-label">Capital</label>
-        <select name="capital" class="select form-select" id="id_capital" disabled>
-          <option value=""  selected>Seleccionar</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="id_municipality" class="form-label">Municipio</label>
-        <select name="municipality" class="select form-select" id="id_municipality" onChange="handleChangeMunicipality(event)" disabled>
-          <option value="" selected>Seleccionar</option>
-        </select>
-      </div>
-      <div>
-        <label for="id_parish" class="form-label">Parroquia</label>
-        <select name="parish" class="select form-select" id="id_parish" disabled>
-          <option value="" selected>Seleccionar</option>
-        </select>
-      </div>
+  <div class="card div-glass mt-3">
+    <div class="card-header div-glass-blue">
+      <h2 class="text-center text-box">{{ action }} DOCENTE</h2>
     </div>
-
-    <hr size="10" class="mt-5">
-
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
+    <div class="card-body">
+      <form class="p-3  is-invalid" action="{{ form_action }}" method="POST" id="form" novalidate>
+        {% csrf_token %}
+        <div>
+            <h3 class="text-box">Datos Filiatorios</h3>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-6">
+                  {{ form.first_name|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                  {{ form.second_name|as_crispy_field }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  {{ form.first_surname|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                  {{ form.second_surname|as_crispy_field }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  {{ form.identity_card|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                  {{ form.birthday_date|as_crispy_field }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-3">
+                  <label for="id_country" class="form-label">Pais</label>
+                  <select name="country" class="select form-select" id="id_country" onchange="handleChangeCountry(event)">
+                    <option value="" selected>Seleccionar</option>
+                    {% for country in countries %}
+                      <option value="{{ country.id }}">{{ country.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-2">
+                  <div class="mb-3">
+                    <label for="id_state" class="form-label">Estado</label>
+                    <select name="state" class="select form-select" id="id_state" onChange="handleChangeState(event)" disabled>
+                      <option value="" selected>Seleccionar</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="mb-3">
+                    <label for="id_capital" class="form-label">Capital</label>
+                    <select name="capital" class="select form-select" id="id_capital" disabled>
+                      <option value=""  selected>Seleccionar</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="mb-3">
+                    <label for="id_municipality" class="form-label">Municipio</label>
+                    <select name="municipality" class="select form-select" id="id_municipality" onChange="handleChangeMunicipality(event)" disabled>
+                      <option value="" selected>Seleccionar</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div>
+                    <label for="id_parish" class="form-label">Parroquia</label>
+                    <select name="parish" class="select form-select" id="id_parish" disabled>
+                      <option value="" selected>Seleccionar</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <hr size="10" class="mt-5">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-glass-blue text-box mr-auto" type="submit">Guardar</button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
+  
+
 
   <script>
     function handleChangeCountry(event) {
       let country_id = event.target.value
+      console.log(country_id)
       let endpoint = `/api/countries/${country_id}/`
       
       fetch(endpoint)

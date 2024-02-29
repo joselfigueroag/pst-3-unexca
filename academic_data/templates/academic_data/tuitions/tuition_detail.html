@@ -31,14 +31,15 @@
 
       <div class="tab-content">
         <div id="moment1" class="container tab-pane active div-glass">
-          <table class="table table-sm table-striped div-glass">
+          <table class="table table-sm table-striped div-glass table-scroll ">
             <thead>
               <tr>
                 <th>#</th>
-                <th>Alumnos</th>
+                <th >Alumnos</th>
                 {% for subject in subjects %}
-                  <th>{{ subject }}</th>
+                  <th class="table-border">{{ subject }}</th>
                 {% endfor %}
+                <th class="table-border">Reportes</th>
               </tr>
             </thead>
             <tbody>
@@ -46,17 +47,17 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                   <td>
-                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
+                    <a class="student-link" href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
                       {{ student.full_name }}
                     </a>
                   </td>
                   <!-- <td>{{ student.full_name }}</td> -->
                   {% for note in student.moment_1 %}
-                    <td>
+                    <td class="table-border">
                       {{ note }}
                     </td>
                   {% endfor %}
-                  <td>
+                  <td class="table-border">
                     <a href="{% url 'detail-tuition-report' tuition_id=info_tuition.matricula student_id=student.student_id %}" target="_blank" class="btn btn-success">Boleta</a>
                     <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Constancia</a>
                   </td>
@@ -66,14 +67,15 @@
           </table>
         </div>
         <div id="moment2" class="container tab-pane fade">
-          <table class="table table-sm table-striped div-glass">
+          <table class="table table-sm table-striped div-glass table-scroll">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Alumnos</th>
                 {% for subject in subjects %}
-                  <th>{{ subject }}</th>
+                  <th class="table-border">{{ subject }}</th>
                 {% endfor %}
+                <th class="table-border">Reportes</th>
               </tr>
             </thead>
             <tbody>
@@ -81,16 +83,16 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                   <td>
-                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
+                    <a class="student-link" href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
                       {{ student.full_name }}
                     </a>
                   </td>
                   {% for note in student.moment_2 %}
-                    <td>
+                    <td class="table-border">
                       {{ note }}
                     </td>
                   {% endfor %}
-                  <td>
+                  <td class="table-border">
                     <a href="{% url 'detail-tuition-report' tuition_id=info_tuition.matricula student_id=student.student_id %}" target="_blank" class="btn btn-success">Boleta</a>
                     <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Constancia</a>
                   </td>
@@ -100,14 +102,15 @@
           </table>
         </div>
         <div id="moment3" class="container tab-pane fade">
-          <table class="table table-sm table-striped div-glass">
+          <table class="table table-sm table-striped div-glass table-scroll">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Alumnos</th>
                 {% for subject in subjects %}
-                  <th>{{ subject }}</th>
+                  <th class="table-border">{{ subject }}</th>
                 {% endfor %}
+                <th class="table-border">Reportes</th>
               </tr>
             </thead>
             <tbody>
@@ -115,16 +118,16 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                   <td>
-                    <a href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
+                    <a class="student-link" href="{% url 'detail-student' student_id=student.student_id periodo=info_tuition.periodo %}">
                       {{ student.full_name }}
                     </a>
                   </td>
                   {% for note in student.moment_3 %}
-                    <td>
+                    <td class="table-border">
                       {{ note }}
                     </td>
                   {% endfor %}
-                  <td>
+                  <td class="table-border">
                     <a href="{% url 'detail-tuition-report' tuition_id=info_tuition.matricula student_id=student.student_id %}" target="_blank" class="btn btn-success">Boleta</a>
                     <a href="{% url 'proof-studies' student_id=student.student_id %}" target="_blank" class="btn btn-info">Constancia</a>
                   </td>

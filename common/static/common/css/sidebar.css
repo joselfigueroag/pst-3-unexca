@@ -125,10 +125,28 @@ body::after {
   background-color: rgba(6, 176, 255, 0);
   border-radius: 12px;
 }
+.div-glass-blue{
+  backdrop-filter: blur(2.4px) saturate(148%);
+  -webkit-backdrop-filter: blur(2.4px) saturate(148%);
+  background-color: rgba(6, 176, 255, 0.472);
+  border-radius: 12px;
+}
 .form-glass{
-    backdrop-filter: blur(2.4px) saturate(148%);
+  backdrop-filter: blur(2.4px) saturate(148%);
   -webkit-backdrop-filter: blur(2.4px) saturate(148%);
   background-color: rgba(6, 176, 255, 0.359);
+  border-radius: 12px;
+  outline-color: rgba(6, 176, 255, 0.359);
+}
+.btn-glass-blue:hover{
+  backdrop-filter: blur(2.4px) saturate(148%);
+  -webkit-backdrop-filter: blur(2.4px) saturate(148%);
+  background-color: rgba(6, 176, 255, 0.843);
+}
+.btn-glass-blue{
+  backdrop-filter: blur(2.4px) saturate(148%);
+  -webkit-backdrop-filter: blur(2.4px) saturate(148%);
+  background-color: rgba(6, 176, 255, 0.541);
   border-radius: 12px;
   outline-color: rgba(6, 176, 255, 0.359);
 }
@@ -206,6 +224,7 @@ body::after {
   font-weight: bold !important;
 }
 .table-detail{
+  overflow: auto;
   width: 100%;
 }
 .table-head{
@@ -225,4 +244,43 @@ body::after {
 }
 .table-body{
   text-transform: uppercase !important;
+}
+
+table.table-scroll {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+table::-webkit-scrollbar{
+  width: 2px;
+  height: 10px;
+}
+table::-webkit-scrollbar-track{
+  background-color: rgba(39, 38, 38, 0) !important;
+}
+table::-webkit-scrollbar-thumb{
+  background-color: rgba(39, 38, 38, 0.402) !important;
+  border-radius: 20px;
+}
+.table-border {
+  border: 1px solid;
+  border-color: rgba(39, 38, 38, 0.402) !important;
+  text-align: center;
+}
+.student-link{
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.select2,.selection,.select2-selection,.ui-datepicker-calendar,
+input,select
+{
+  background-color: transparent !important;
+  border-color: rgba(39, 38, 38, 0.402) !important;
+}
+
+.user-card{
+  margin: auto !important;
+  margin-top: 3 !important;
+  width: 40%;
 }

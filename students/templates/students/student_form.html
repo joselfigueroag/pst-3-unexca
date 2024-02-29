@@ -3,29 +3,80 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h2 class="text-center mt-3 mb-3">{{ action }} ESTUDIANTE</h2>
-  <form class="p-3 border border-primary rounded is-valid" action="{{ form_action }}" method="POST" id="form" novalidate>
-    {% csrf_token %}
-    <div>
-      <h2>Datos Filiatorios</h2>
-      <div class="form-group">
-        {{ form | crispy }} <br />
-      </div>
+  
+  <div class="card div-glass mt-3">
+    <div class="card-header div-glass-blue">
+      <h2 class="text-center text-box">{{ action }} ESTUDIANTE</h2>
     </div>
+    <div class="card-body">
+      <form class="p-3 rounded is-valid" action="{{ form_action }}" method="POST" id="form" novalidate>
+        {% csrf_token %}
+        <div>
+          <h3 class="text-box">Datos Filiatorios</h3>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-6">
+                {{ form.first_name|as_crispy_field }}
+              </div>
+              <div class="col-6">
+                {{ form.second_name|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                {{ form.first_surname|as_crispy_field }}
+              </div>
+              <div class="col-6">
+                {{ form.second_surname|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                {{ form.identity_card|as_crispy_field }}
+              </div>
+              <div class="col-6">
+                {{ form.birthday_date|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                {{ form.gender|as_crispy_field }}
+              </div>
+              <div class="col-6">
+                {{ form.representative|as_crispy_field }}
+              </div>
+            </div>
+            
+          </div>
+        </div>
 
-    <hr size="10" class="mt-0">
+        <hr size="10" class="mt-0">
 
-    <div>
-      <h2>Datos Adicionales</h2>
-      <div class="form-group">
-        {{ additional_info_form | crispy }} <br />
-      </div>
+        <div>
+          <h3 class="text-box">Datos Adicionales</h3>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-2">
+                {{ additional_info_form.size|as_crispy_field }}
+              </div>
+              <div class="col-2">
+                {{ additional_info_form.weight|as_crispy_field }}
+              </div>
+              <div class="col-4">
+                {{ additional_info_form.email|as_crispy_field }}
+              </div>
+              <div class="col-4">
+                {{ additional_info_form.phone_number|as_crispy_field }}
+              </div>
+          </div>
+        </div>
+
+        <hr size="10" class="mt-0">
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-glass-blue text-box mr-auto" type="submit">Guardar</button>
+        </div>
+      </form>
     </div>
-
-    <hr size="10" class="mt-0">
-
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
-    </div>
-  </form>
+  </div>
 {% endblock content %}
