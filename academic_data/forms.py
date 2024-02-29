@@ -146,7 +146,7 @@ class TuitionForm(forms.ModelForm):
 
   def clean(self):
     academic_period = self.cleaned_data.get("academic_period")
-    last_string = academic_period.period[-2:]
+    last_string = academic_period[-2]
     students = self.cleaned_data.get("students")
 
     students_ids = []

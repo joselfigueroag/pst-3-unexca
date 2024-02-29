@@ -4,7 +4,7 @@
 
 {% block content %}
   <h2 class="text-center mt-3 mb-3">{{ action }} ESTUDIANTE</h2>
-  <form class="p-3 border border-primary rounded needs-validation" action="{{ form_action }}" method="POST" id="form" novalidate>
+  <form class="p-3 border border-primary rounded is-valid" action="{{ form_action }}" method="POST" id="form" novalidate>
     {% csrf_token %}
     <div>
       <h2>Datos Filiatorios</h2>

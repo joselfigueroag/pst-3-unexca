@@ -153,7 +153,7 @@ class SubjectView(View):
       except:
         messages.error(request, "Error la base de datos")
     else:
-      errors = [error for error in grade_form.errors.values()]
+      errors = [error for error in subject_form.errors.values()]
       messages.error(request, message=f"{errors[0][0]}")
     return redirect('subjects')
   

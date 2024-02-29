@@ -73,7 +73,7 @@
         <h5 class="modal-title" id="gradeModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form class="p-3 rounded needs-validation" action="" method="POST" id="form" novalidate>
+      <form class="p-3 rounded is-invalid" action="" method="POST" id="form" novalidate>
         {% csrf_token %}
         {% method_override 'PUT' %}
         <div class="modal-body">
