@@ -14,6 +14,7 @@ from academic_data.models import AcademicPeriod
 # ESTUDIANTES
 @method_decorator(login_required, name="dispatch")
 class StudentListView(ListView):
+  print('student-list ######################################')
   template_name = "students/students_list.html"
   queryset = Student.objects.select_related("additionalstudentdata", "gender")
 
