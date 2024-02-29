@@ -34,7 +34,7 @@
           <table class="table table-sm table-striped div-glass">
             <thead>
               <tr>
-                <!-- <th>#</th> -->
+                <th>#</th>
                 <th>Alumnos</th>
                 {% for subject in subjects %}
                   <th>{{ subject }}</th>
@@ -44,6 +44,7 @@
             <tbody>
               {% for student in unique_students %}
                 <tr>
+                  <td>{{ forloop.counter }}</td>
                   <td>{{ student.full_name }}</td>
                   {% for note in student.moment_1 %}
                     <td>
@@ -63,7 +64,7 @@
           <table class="table table-sm table-striped div-glass">
             <thead>
               <tr>
-                <!-- <th>#</th> -->
+                <th>#</th>
                 <th>Alumnos</th>
                 {% for subject in subjects %}
                   <th>{{ subject }}</th>
@@ -73,6 +74,7 @@
             <tbody>
               {% for student in unique_students %}
                 <tr>
+                  <td>{{ forloop.counter }}</td>
                   <td>{{ student.full_name }}</td>
                   {% for note in student.moment_2 %}
                     <td>
@@ -92,7 +94,7 @@
           <table class="table table-sm table-striped div-glass">
             <thead>
               <tr>
-                <!-- <th>#</th> -->
+                <th>#</th>
                 <th>Alumnos</th>
                 {% for subject in subjects %}
                   <th>{{ subject }}</th>
@@ -102,6 +104,7 @@
             <tbody>
               {% for student in unique_students %}
                 <tr>
+                  <td>{{ forloop.counter }}</td>
                   <td>{{ student.full_name }}</td>
                   {% for note in student.moment_3 %}
                     <td>

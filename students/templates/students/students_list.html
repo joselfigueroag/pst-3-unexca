@@ -2,78 +2,82 @@
 {% load bootstrap_icons %}
 
 {% block content %}
-<h2 class="text-center mt-3 mb-3 text-box">ESTUDIANTES</h2>
-<div class="shadow-div mt-3">
-  <table class="table table-sm table-striped shadow-div">
-    <thead class="bg-nav">
-      <tr>
-        <th>Primer Nombre</th>
-        <th>Segundo Nombre</th>
-        <th>Primer Apellido</th>
-        <th>Segundo Apellido</th>
-        <th>Cedula</th>
-        <th>Genero</th>
-        <th class="buton-right">
-          <a
-          href="{% url 'create-student' %}"
-          type="button"
-          class="text-dark btn btn-sm btn-info"
-          >
-            + Nuevo
-          </a>
-        </th>
-        <th class="buton-right">  
-        <div class="input-group rounded buton-right">
-            <input type="search" class="form-control rounded search-box search" placeholder="Buscar Estudiante" aria-label="Search" aria-describedby="search-addon" id="search" />
-        </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody class="table-body">
-      {% for student in object_list %}
-      <tr class="fila" id="table_col-{{student.id}}">
-        <td class="find" id="col-{{student.id}}">{{ student.first_name }}</td>
-        <td class="find" id="col-{{student.id}}">{{ student.second_name|default:"" }}</td>
-        <td class="find" id="col-{{student.id}}">{{ student.first_surname }}</td>
-        <td class="find" id="col-{{student.id}}">{{ student.second_surname|default:"" }}</td>
-        <td class="find" id="col-{{student.id}}">{{ student.identity_card}}</td>
-        <td class="find" id="col-{{student.id}}">{{ student.gender }}</td>
-        <td class="buton-right"> 
-          <a
-            type="button"
-            class="btn btn-sm btn-info text-dark"
-            href="{% url 'detail-student' student_id=student.id periodo=period  %}"
-          >
-          Detalles
-          </a>
-          </td>
-          <td class="buton-right">
-          <a
-            type="button"
-            class="btn btn-sm btn-info text-dark"
-            href="{% url 'update-student' student_id=student.id %}"
-          >
-            Editar
-          </a>
-          <a
-            type="button"
-            class="btn btn-sm btn-danger text-dark"
-            href="{% url 'delete-student' student_id=student.id %}"
-          >
-            Eliminar
-          </a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    <tfoot id="info" class="visually-hidden">
-      <th colspan="12">
-          <div class="alert alert-info mt-3 "  role="alert">
-              No existen coincidencias con el parametro indicado!!
-          </div>
-      </th>
-  </tfoot>
-  </table>
-</div>
+  <h2 class="text-center mt-3 mb-3 text-box">ESTUDIANTES</h2>
 
+  <form class="input-group rounded buton-right d-flex" method="get">
+    {% comment %} <div class="d-flex">
+      <input type="search" class="form-control rounded search-box search " placeholder="Buscar por cedula" aria-label="Search" aria-describedby="search-addon" id="search" />
+      <button class="btn btn-sm btn-info ms-3">Buscar</button>
+    </div> {% endcomment %}
+    <div class="input-group mb-3 ms-auto" style="width: 30%;">
+      <input type="text" name="cedula" class="form-control" placeholder="Buscar por cedula" aria-label="Buscar por cedula" aria-describedby="button-addon2">
+      <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+    </div>
+  </form>
+  <div class="shadow-div mt-3">
+    <table class="table table-sm table-striped shadow-div">
+      <thead class="bg-nav">
+        <tr>
+          <th>Primer Nombre</th>
+          <th>Segundo Nombre</th>
+          <th>Primer Apellido</th>
+          <th>Segundo Apellido</th>
+          <th>Cedula</th>
+          <th>Genero</th>
+          <th>
+            <a
+            href="{% url 'create-student' %}"
+            type="button"
+            class="text-dark btn btn-sm btn-info"
+            >
+              + Nuevo
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        {% for student in object_list %}
+          <tr class="fila" id="table_col-{{student.id}}">
+            <td class="find" id="col-{{student.id}}">{{ student.first_name }}</td>
+            <td class="find" id="col-{{student.id}}">{{ student.second_name|default:"" }}</td>
+            <td class="find" id="col-{{student.id}}">{{ student.first_surname }}</td>
+            <td class="find" id="col-{{student.id}}">{{ student.second_surname|default:"" }}</td>
+            <td class="find" id="col-{{student.id}}">{{ student.identity_card}}</td>
+            <td class="find" id="col-{{student.id}}">{{ student.gender }}</td>
+            <td> 
+              <a
+                type="button"
+                class="btn btn-sm btn-info text-dark"
+                href="{% url 'detail-student' student_id=student.id periodo=period  %}"
+              >
+              Detalles
+              </a>
+              <a
+                type="button"
+                class="btn btn-sm btn-success text-dark"
+                href="{% url 'update-student' student_id=student.id %}"
+              >
+                Editar
+              </a>
+              <a
+                type="button"
+                class="btn btn-sm btn-danger text-dark"
+                href="{% url 'delete-student' student_id=student.id %}"
+              >
+                Eliminar
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot id="info" class="visually-hidden">
+        <th colspan="12">
+            <div class="alert alert-info mt-3 "  role="alert">
+                No existen coincidencias con el parametro indicado!!
+            </div>
+        </th>
+    </tfoot>
+    </table>
+  </div>
 {% endblock content %}
+

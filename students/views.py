@@ -16,13 +16,20 @@ from academic_data.models import AcademicPeriod
 class StudentListView(ListView):
   template_name = "students/students_list.html"
   queryset = Student.objects.select_related("additionalstudentdata", "gender")
+
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
+
+    cedula = self.request.GET.get("cedula", "")
+    if cedula:
+      self.queryset = self.queryset.filter(identity_card=cedula)
+
     try:
       latest_academic_period = AcademicPeriod.objects.latest('period')
       context['period'] = latest_academic_period.period
     except AcademicPeriod.DoesNotExist:
       context['period'] = None
+    context['object_list'] = self.queryset
     return context
   
 class StudentDetailView(DetailView):
