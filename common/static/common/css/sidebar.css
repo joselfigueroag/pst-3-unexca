@@ -284,3 +284,7 @@ input,select
   margin-top: 3 !important;
   width: 40%;
 }
+
+.text-cur{
+  font-style: italic;
+}

@@ -3,18 +3,43 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <h2 class="text-center mt-3 mb-3 text-box">{{ action }} MATRICULA</h2>
-  <form class="p-3 border border-primary rounded is-invalid" action="{{ form_action }}" method="POST" id="form" novalidate>
-    {% csrf_token %}
-    <div>
-      <div class="form-group">
-        {{ form | crispy }}
-      </div>
-
-    <hr size="10" class="mt-5">
-
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
+  <div class="card mt-3 div-glass">
+    <div class="card-header div-glass-blue">
+      <h3 class="text-center text-box">{{ action }} MATRICULA</h3>
     </div>
-  </form>
+    <div class="card-body">
+      <form class="p-3 is-invalid" action="{{ form_action }}" method="POST" id="form" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="row">
+            <div class="col-6">
+                {{ form.students|as_crispy_field }}
+            </div>
+            <div class="col-6">
+              {{ form.grade|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4">
+                {{ form.section|as_crispy_field }}
+            </div>
+            <div class="col-4">
+              {{ form.shift|as_crispy_field }}
+            </div>
+            <div class="col-4">
+              {{ form.academic_period|as_crispy_field }}
+            </div>
+          </div>
+        </div>
+
+    
+        <hr size="10" class="mt-5">
+    
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-glass-blue mr-auto" type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+ 
 {% endblock content %}

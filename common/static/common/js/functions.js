@@ -161,3 +161,7 @@ function block_unblock(obj){
         break;
     }
 }
+
+function come_back(){
+    window.history.back();
+}
