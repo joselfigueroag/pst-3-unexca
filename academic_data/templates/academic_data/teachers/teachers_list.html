@@ -12,7 +12,7 @@
         <th>Primer Apellido</th>
         <th>Segundo Apellido</th>
         <th>Genero</th>
-        <th>
+        <th class="buton-right">
           <a
             href="{% url 'create-teacher' %}"
             type="button"
@@ -31,7 +31,7 @@
         <td>{{ teacher.first_surname }}</td>
         <td>{{ teacher.second_surname|default:"" }}</td>
         <td>{{ teacher.gender }}</td>
-        <td>
+        <td class="buton-right">
           <a
             type="button"
             class="btn btn-sm btn-info text-dark"

@@ -11,7 +11,7 @@
         <th>Segundo Nombre</th>
         <th>Primer Apellido</th>
         <th>Segundo Apellido</th>
-        <th>  
+        <th class="buton-right">  
           <a
             href="{% url 'create-representative' %}"
             type="button"
@@ -29,7 +29,7 @@
         <td>{{ representative.second_name|default:"" }}</td>
         <td>{{ representative.first_surname }}</td>
         <td>{{ representative.second_surname|default:"" }}</td>
-        <td>
+        <td class="buton-right">
           <a
             type="button"
             class="btn btn-sm btn-info text-dark"

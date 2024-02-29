@@ -24,7 +24,7 @@
           <th>Segundo Apellido</th>
           <th>Cedula</th>
           <th>Genero</th>
-          <th>
+          <th class="buton-right">
             <a
             href="{% url 'create-student' %}"
             type="button"
@@ -44,7 +44,7 @@
             <td class="find" id="col-{{student.id}}">{{ student.second_surname|default:"" }}</td>
             <td class="find" id="col-{{student.id}}">{{ student.identity_card}}</td>
             <td class="find" id="col-{{student.id}}">{{ student.gender }}</td>
-            <td> 
+            <td class="buton-right"> 
               <a
                 type="button"
                 class="btn btn-sm btn-info text-dark"
