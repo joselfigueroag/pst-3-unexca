@@ -2,31 +2,31 @@
 
 {% block content %}
 <div class="d-flex justify-content-center">
-  <h2>Carga de notas por matricula</h2>
+  <h2 class="text-box">Carga de notas por matricula</h2>
 </div>
 <div>
-  <form action="/academic-data/qualification/upload-qualification-by-tuition/" method="POST" id="qualifications_form">
+  <form action="/academic-data/qualification/upload-qualification-by-tuition/" method="POST" id="qualifications_form" class="is-invalid">
     {% csrf_token %}
-    <select class="form-select" name="tuition" id="selectTuition" onchange="handleChangeSelectTuition(event)">
+    <select class="form-select carga" name="tuition" id="selectTuition" onchange="handleChangeSelectTuition(event),block_unblock(this)">
       <option value="0" disabled selected>Seleccionar matricula</option>
       {% for tuition in tuitions %}
         <option value="{{tuition.id}}">{{tuition}}</option>
       {% endfor %}
     </select>
-    <select class="form-select mt-3" name="subject" id="selectSubject" onchange="handleChangeSelectSubject(event)">
+    <select class="form-select mt-3 carga" name="subject" id="selectSubject" onchange="handleChangeSelectSubject(event),block_unblock(this)">
       <option value="0" disabled selected>Seleccionar materia</option>
       {% for subject in subjects %}
         <option value="{{subject.id}}">{{subject}}</option>
       {% endfor %}
     </select>
-    <select class="form-select mt-3" name="moment" id="selectMoment" onchange="handleChangeSelectMoment(event)">
+    <select class="form-select mt-3 carga" name="moment" id="selectMoment" onchange="handleChangeSelectMoment(event),block_unblock(this)">
       <option value="0" disabled selected>Seleccionar momento</option>
       {% for moment in moments %}
         <option value="{{moment.id}}">{{moment}}</option>
       {% endfor %}
     </select>
     <div class="d-flex justify-content-end mt-3">
-      <a class="btn btn-secondary mr-auto" onclick="getData(event)">Consultar</a>
+      <a class="btn btn-secondary mr-auto" id="consulta" onclick="getData(event),block_unblock(this)">Consultar</a>
     </div>
     <table class="table table-sm table-striped mt-3">
       <thead>
@@ -39,82 +39,12 @@
       </tbody>
     </table>
     <div class="d-flex justify-content-end">
-      <button class="btn btn-primary mr-auto" type="submit">Guardar</button>
+      <button class="btn btn-primary mr-auto" id="save" disabled type="submit">Guardar</button>
     </div>
   </form>
 </div>
 
 <script>
-  document.add
-  let selectedTuition = "";
-  let selectedSubject = "";
-  let selectedMoment = "";
 
-  function handleChangeSelectTuition(event) {
-    selectedTuition = event.target.value;
-    console.log("tuition", selectedTuition)
-  }
-
-  function handleChangeSelectSubject(event) {
-    selectedSubject = event.target.value;
-    console.log("subject", selectedSubject)
-  }
-
-  function handleChangeSelectMoment(event) {
-    selectedMoment = event.target.value;
-    console.log("moment", selectedMoment)
-  }
-
-  function getData(event) {
-    event.preventDefault();
-    if (selectedTuition && selectedSubject && selectedMoment){
-      let endpoint = `/academic-data/api/tuition_detail_api/${selectedTuition}/${selectedSubject}/${selectedMoment}`
-        fetch(endpoint)
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error('Error en la solicitud: ' + response.statusText);
-              }
-              return response.json();
-          })
-          .then(data => {
-              // Manejar los datos recibidos
-              generateData(data)
-              console.log(data)
-          })
-          .catch(error => {
-              // Manejar errores
-              console.error(error);
-          });
-    } else {
-      console.log("Faltan los parametros de consulta")
-    } 
-  }
-
-  function generateData(data) {
-    let body_table = document.getElementById("body_table");
-
-    body_table.innerHTML = "";
-
-    if (data.students) {
-      for (let student of data.students){
-        let row = body_table.insertRow()
-        let cellName = row.insertCell(0)
-        cellName.textContent = student.full_name
-        let cellNote = row.insertCell(1)
-        let inputNote = document.createElement("input");
-        inputNote.type = "number"
-        inputNote.name = `note_${student.id}`;
-        inputNote.value = student.qualifications[0] ? student.qualifications[0].note : 0.0; 
-        inputNote.classList.add("form-control");
-        cellNote.appendChild(inputNote);
-      }
-    } else {
-      let row = body_table.insertRow();
-      let cell = row.insertCell();
-      cell.colSpan = 2; // Para que ocupe ambas columnas
-      cell.textContent = "No hay estudiantes registrados en la matricula";
-    }
-
-  }
 </script>
 {% endblock content %}

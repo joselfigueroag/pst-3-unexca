@@ -61,3 +61,103 @@ function openMenu(opc){
         }
     })
 })();
+
+
+document.add
+let selectedTuition = "";
+let selectedSubject = "";
+let selectedMoment = "";
+
+function handleChangeSelectTuition(event) {
+  selectedTuition = event.target.value;
+  console.log("tuition", selectedTuition)
+}
+
+function handleChangeSelectSubject(event) {
+  selectedSubject = event.target.value;
+  console.log("subject", selectedSubject)
+}
+
+function handleChangeSelectMoment(event) {
+  selectedMoment = event.target.value;
+  console.log("moment", selectedMoment)
+}
+
+function getData(event) {
+  event.preventDefault();
+  if (selectedTuition && selectedSubject && selectedMoment){
+    let endpoint = `/academic-data/api/tuition_detail_api/${selectedTuition}/${selectedSubject}/${selectedMoment}`
+      fetch(endpoint)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la solicitud: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Manejar los datos recibidos
+            generateData(data)
+            console.log(data)
+        })
+        .catch(error => {
+            // Manejar errores
+            console.error(error);
+        });
+  } else {
+    console.log("Faltan los parametros de consulta")
+  } 
+}
+
+function generateData(data) {
+  let body_table = document.getElementById("body_table");
+
+  body_table.innerHTML = "";
+
+  if (data.students) {
+    for (let student of data.students){
+      let row = body_table.insertRow()
+      let cellName = row.insertCell(0)
+      cellName.textContent = student.full_name
+      let cellNote = row.insertCell(1)
+      let inputNote = document.createElement("input");
+      inputNote.type = "number"
+      inputNote.name = `note_${student.id}`;
+      inputNote.value = student.qualifications[0] ? student.qualifications[0].note : 0.0; 
+      inputNote.classList.add("form-control");
+      cellNote.appendChild(inputNote);
+    }
+  } else {
+    let row = body_table.insertRow();
+    let cell = row.insertCell();
+    cell.colSpan = 2; // Para que ocupe ambas columnas
+    cell.textContent = "No hay estudiantes registrados en la matricula";
+  }
+
+}
+
+function block_unblock(obj){
+    let save = document.getElementById('save')
+    let state = {} 
+    document.querySelectorAll('.carga').forEach((item,index) => {
+        state[index] = item.value;
+    })
+    switch (obj.id){
+        case 'selectTuition':
+            save.disabled = true
+        break;
+        case 'selectSubject':
+            save.disabled = true
+        break;
+        case 'selectMoment':
+            save.disabled = true
+        break;
+        case 'consulta':
+            if (state[0] == 0 || state[1] == 0 || state[2] == 0){
+                save.disabled = true
+            }else{
+                save.disabled = false
+            }
+            
+        break;
+    }
+}
