@@ -313,7 +313,7 @@ class TuitionDetailView(DetailView):
         "periodo": tuition.academic_period.period,
         "grado": tuition.grade.year,
         "seccion": tuition.section.group,
-        "turno": tuitionshift.turn,
+        "turno": tuition.shift.turn,
         "matricula": tuition.id
       }
 
@@ -321,24 +321,51 @@ class TuitionDetailView(DetailView):
 
     students = data.order_by("p_nombre", "s_nombre", "p_apellido", "s_apellido", "cedula", "asignacion")
 
-    self.all_students = students
-
     def full_name(student):
       return f"{student['p_nombre']} {student['s_nombre'] if student['s_nombre'] else ''} {student['p_apellido']} {student['s_apellido'] if student['s_apellido'] else ''}"
 
-    unique_students = students.distinct("cedula", "p_nombre", "s_nombre", "p_apellido", "s_apellido")
-    self.unique_students = list(unique_students.values())
+    self.unique_students = list(
+      (students.distinct(
+        "cedula", "p_nombre", "s_nombre", "p_apellido", "s_apellido")
+      ).values()
+    )
+
     for student in self.unique_students:
       student["full_name"] = full_name(student)
 
-    return self.unique_students, self.info_tuition, self.subjects, self.all_students
+      qualifications = students.filter(student_id=student["student_id"])
+
+      moment_1 = []
+      moment_2 = []
+      moment_3 = []
+
+      for qualification in qualifications:
+        note1 = "N/C"
+        note2 = "N/C"
+        note3 = "N/C"
+
+        if qualification.momento1:
+          note1 = qualification.momento1
+        if qualification.momento2:
+          note2 = qualification.momento2
+        if qualification.momento3:
+          note3 = qualification.momento3
+
+        moment_1.append(note1)
+        moment_2.append(note2)
+        moment_3.append(note3)
+
+      student["moment_1"] = moment_1
+      student["moment_2"] = moment_2
+      student["moment_3"] = moment_3
+
+    return self.unique_students, self.info_tuition, self.subjects
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['subjects'] = self.subjects
     context['info_tuition'] = self.info_tuition
     context['unique_students'] = self.unique_students
-    context['students'] = self.all_students
     return context
 
 
@@ -472,7 +499,7 @@ def export_pdf(request, tuition_id, student_id):
   context = {}
   context['id'] = student_id 
   context['all'] = data[0]
-  context['asignaciones'] = [item for item in data]
+  context['asignaciones'] = [item for item in data.order_by("asignacion")]
 
   html = render_to_string("academic_data/tuitions/report-pdf.html", context)
   response = HttpResponse(content_type="application/pdf")
