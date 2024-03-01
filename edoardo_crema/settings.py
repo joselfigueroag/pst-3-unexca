@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "method_override",
     "django_select2",
     "rest_framework",
+    "chartjs",
 
     "users",
     "common",

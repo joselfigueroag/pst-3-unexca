@@ -9,7 +9,9 @@ from .views import (
   RepresentativeListView,
   RepresentativeCreateView,
   RepresentativeUpdateView,
-  delete_representative
+  delete_representative,
+  #line_chart,
+  pie_chart_data
 )
 
 urlpatterns = [
@@ -22,4 +24,6 @@ urlpatterns = [
   path("representatives/create/", RepresentativeCreateView.as_view(), name="create-representative"),
   path("representatives/update/<int:representative_id>/", RepresentativeUpdateView.as_view(), name="update-representative"),
   path("representatives/delete/<int:representative_id>/", delete_representative, name="delete-representative"),
+  #path('chart', line_chart, name='line_chart'),
+  path('home/pie_chart_data/', pie_chart_data, name='pie_chart_data'),
 ]

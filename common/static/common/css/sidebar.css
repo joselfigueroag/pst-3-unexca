@@ -288,3 +288,16 @@ input,select
 .text-cur{
   font-style: italic;
 }
+.charts{
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+.card-chart{
+  margin: 0 auto;
+  justify-content: center;
+  height: 300px;
+  width: 300px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+

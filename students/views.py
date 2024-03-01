@@ -9,7 +9,9 @@ from django.utils.decorators import method_decorator
 from .forms import StudentForm, AdditionalStudentDataForm, RepresentativeForm
 from .models import Student, AdditionalStudentData, Representative, StudentDetail
 from academic_data.models import AcademicPeriod
-
+from chartjs.views.lines import BaseLineChartView
+from django.views.generic import TemplateView
+from django.http import JsonResponse
 
 # ESTUDIANTES
 @method_decorator(login_required, name="dispatch")
@@ -203,3 +205,19 @@ def delete_representative(request, representative_id):
   if Representative.objects.get(pk=representative_id).delete():
     messages.info(request, "Registro de representante eliminado")
   return redirect("representatives-list")
+
+
+
+@login_required
+def pie_chart_data(request):
+    Varones = Student.objects.filter(gender_id=2)
+    Hembras = Student.objects.filter(gender_id=1)
+    data = {
+        'labels': ['Hembras', 'Varones'],
+        'datasets': [{
+            'data': [Hembras.count(), Varones.count()],
+            'backgroundColor': ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)']
+        }]
+    }
+    return JsonResponse(data)
+#line_chart = TemplateView.as_view(template_name='charts/line_chart.html')
