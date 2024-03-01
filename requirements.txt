@@ -50,3 +50,4 @@ wcwidth==0.2.6
 Werkzeug==2.3.6
 zstandard==0.22.0
 weasyprint==61.0
+django-chartjs==2.3.0
