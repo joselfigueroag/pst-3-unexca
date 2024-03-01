@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "pst3.solutecvzla.com",
     "localhost",
     "127.0.0.1",
+    "104.248.121.154",
 ]
 
 # Application definition
