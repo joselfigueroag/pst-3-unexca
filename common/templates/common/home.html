@@ -158,6 +158,20 @@
           <a
             type="button" 
             class="btn-link btn border-0 btn-box border-radius-xl"
+            href="{% url 'stats' %}"
+          >
+            <div class="row row-box">
+              <div class="col-sm-12 text-box">
+                <img class="img-button-box" src="{% static 'common/img/stats.png' %}" alt="...">
+                Estadisticas
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-2 text-center mt-2">
+          <a
+            type="button" 
+            class="btn-link btn border-0 btn-box border-radius-xl"
             href="{% url 'logout' %}"
           >
             <div class="row row-box">
@@ -167,22 +181,6 @@
               </div>
             </div>
           </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-center charts">
-    <div class="col-sm-6 justify-content-center charts">
-      <div class="card div-glass mt-5  card-chart">
-        <div>
-            <canvas id="HembrasVsVarones" width="100%" height="100%" ></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 justify-content-center charts">
-      <div class="card div-glass mt-5  card-chart">
-        <div>
-            <canvas id="AprobadosReprobados" width="100%" height="100%" ></canvas>
         </div>
       </div>
     </div>

@@ -33,3 +33,7 @@ def municipality_detail_view(request, municipality_id):
     municipality = Municipality.objects.get(pk=municipality_id)
     serializer = MunicipalitySerializer(municipality)
     return Response(serializer.data)
+
+@login_required(login_url="login")
+def stats(request):
+    return render(request, "common/stats.html")
