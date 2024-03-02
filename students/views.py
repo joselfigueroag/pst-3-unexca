@@ -210,6 +210,7 @@ def delete_representative(request, representative_id):
 
 @login_required
 def pie_chart_varones_hembras(request):
+    print('Buscando datos para el pie')
     period = AcademicPeriod.objects.order_by('-id').first()
     Varones = StudentDetail.objects.filter(periodo_id=period.id).filter(genero='masculino')
     Hembras = StudentDetail.objects.filter(periodo_id=period.id).filter(genero='femenino')
@@ -224,7 +225,7 @@ def pie_chart_varones_hembras(request):
 
 @login_required
 def bar_char_cuadro_honor(request):
-    datos = {}
+    """datos = {}
     data_chart = {}
     cantidad_materias = {}
     matriculas_s = {}
@@ -263,6 +264,6 @@ def bar_char_cuadro_honor(request):
       # Agregar el ID del estudiante como etiqueta
       data_chart['labels'].append(full_name)
       # Agregar el promedio de notas para el estudiante
-      data_chart['datasets'][0]['data'].append(promedio)
+      data_chart['datasets'][0]['data'].append(promedio)"""
   
-    return JsonResponse(data_chart)
+    return JsonResponse({"uno":"1"})
