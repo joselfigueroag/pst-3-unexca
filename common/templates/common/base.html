@@ -7,29 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edoardo Crema</title>
     {% load django_bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
-    <link
-      id="pagestyle"
-      href="{% static 'common/css/sidebar.css' %}"
-      rel="stylesheet"
-    />
+    <link id="pagestyle" href="{% static 'common/css/sidebar.css' %}" rel="stylesheet" />
     <script src="{% static 'js/Chart.min.js' %}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{ form.media.css }}
   </head>
   <body>
     <nav class="navbar bg-nav">
       <div class="col-sm-1">
-        <a class="navbar-brand text-box text-cur" href="/home"><img class="img-fluid rounded img-nav" src="{% static 'common/img/ingsignea-ec.png' %}" alt="">Home</a>
+        <a class="navbar-brand text-box text-cur" href="/home"><img class="img-fluid rounded img-nav" src="{% static 'common/img/ingsignea-ec.png' %}" alt="" />Home</a>
       </div>
       <div class="col-sm-10">
         <h1 class="text-center font-nav mt-1">U.E.N EDOARDO CREMA</h1>
       </div>
       <div class="col-sm-1 text-center">
-        <a class="navbar-brand" href="#"><img class="img-fluid rounded img-nav" src="{% static 'common/img/Go-back.png' %}" alt="" onclick="come_back()"></a>
+        <a class="navbar-brand" href="#"><img class="img-fluid rounded img-nav" src="{% static 'common/img/Go-back.png' %}" alt="" onclick="come_back()" /></a>
       </div>
     </nav>
     <div class="container-sm">
-      {% block content %}{% endblock content %}
+      {% block content %}
+      {% endblock %}
     </div>
     <script src="{% static 'common/js/functions.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

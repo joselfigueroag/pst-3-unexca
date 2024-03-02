@@ -1,56 +1,61 @@
-{% extends "common/base.html" %}
+{% extends 'common/base.html' %}
 {% load static %}
 
-
 {% block content %}
-
-<div class="row justify-content-center charts">
+  <div class="row justify-content-center charts">
     <div class="col-sm-6 justify-content-center charts">
-      <div class="card div-glass mt-5  card-chart">
+      <div class="card div-glass mt-5 card-chart">
         <div>
-            <canvas id="HembrasVsVarones" width="100%" height="100%" ></canvas>
+          <canvas id="HembrasVsVarones" width="100%" height="100%"></canvas>
         </div>
       </div>
     </div>
-    <!--div class="col-sm-6 justify-content-center charts">
+    <!--   div class="col-sm-6 justify-content-center charts">
       <div class="card div-glass mt-5  card-chart">
         <div>
             <canvas id="AprobadosReprobados" width="100%" height="100%" ></canvas>
         </div>
       </div>
-    </div-->
+    </div   -->
   </div>
   <script>
-    $.get('{% url "pie_chart_varones_hembras" %}', function(data) {
-      var ctx = document.getElementById('HembrasVsVarones').getContext('2d');
-      console.log('charts')
-      new Chart(ctx, {
+    fetch('{% url "pie_chart_varones_hembras" %}')
+      .then((response) => response.json())
+      .then((data) => {
+        var ctx = document.getElementById('HembrasVsVarones').getContext('2d')
+        console.log('charts')
+        new Chart(ctx, {
           type: 'pie',
           data: data,
           options: {
             title: {
-                  display: true,
-                  text: 'Cantidad de alumnos por género' // Título de la gráfica
-              },
+              display: true,
+              text: 'Cantidad de alumnos por género' // Título de la gráfica
+            }
           }
-      });
-    });
-    $.get('{% url "cuadro-honor" %}', function(data) {
-    var ctx = document.getElementById('AprobadosReprobados').getContext('2d');
-      console.log('charts')
-      new Chart(ctx, {
+        })
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
+    fetch('{% url "cuadro-honor" %}')
+      .then((response) => response.json())
+      .then((data) => {
+        var ctx = document.getElementById('AprobadosReprobados').getContext('2d')
+        console.log('charts')
+        new Chart(ctx, {
           type: 'bar',
           data: data,
           options: {
             title: {
-                  display: true,
-                  text: 'Alumnos Aprobados y Reprobados' // Título de la gráfica
-              },
+              display: true,
+              text: 'Alumnos Aprobados y Reprobados' // Título de la gráfica
+            }
           }
-      });
-    }); 
-    
+        })
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
   </script>
-
-
-{% endblock content %}
+{% endblock %}
