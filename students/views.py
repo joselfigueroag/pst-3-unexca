@@ -11,7 +11,7 @@ from .models import Student, AdditionalStudentData, Representative, StudentDetai
 from academic_data.models import AcademicPeriod, AllNotes, Tuition
 from chartjs.views.lines import BaseLineChartView
 from django.views.generic import TemplateView
-from django.http import JsonResponse
+
 
 # ESTUDIANTES
 @method_decorator(login_required, name="dispatch")
@@ -205,65 +205,3 @@ def delete_representative(request, representative_id):
   if Representative.objects.get(pk=representative_id).delete():
     messages.info(request, "Registro de representante eliminado")
   return redirect("representatives-list")
-
-
-
-@login_required
-def pie_chart_varones_hembras(request):
-    print('Buscando datos para el pie')
-    period = AcademicPeriod.objects.order_by('-id').first()
-    Varones = StudentDetail.objects.filter(periodo_id=period.id).filter(genero='masculino')
-    Hembras = StudentDetail.objects.filter(periodo_id=period.id).filter(genero='femenino')
-    data = {
-        'labels': ['Hembras', 'Varones'],
-        'datasets': [{
-            'data': [Hembras.count(), Varones.count()],
-            'backgroundColor': ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)']
-        }]
-    }
-    return JsonResponse(data)
-
-@login_required
-def bar_char_cuadro_honor(request):
-    """datos = {}
-    data_chart = {}
-    cantidad_materias = {}
-    matriculas_s = {}
-    period = AcademicPeriod.objects.order_by('-id').first()
-    matriculas = Tuition.objects.filter(academic_period_id=period.id)
-    for matricula in matriculas:
-      promedio_por_alumno = AllNotes.objects.filter(periodo=period,matricula=matricula.id)
-      for item in promedio_por_alumno:
-        student_id = item.student_id
-        full_name = item.p_nombre +" "+ item.p_apellido +" "+ item.cedula
-        if item.student_id not in datos:
-          datos[item.student_id] = float(item.definitiva)
-          cantidad_materias[item.student_id] = 1
-        else:
-          datos[item.student_id] += float(item.definitiva)
-          cantidad_materias[item.student_id] += 1
-        matriculas_s[item.student_id] = matricula
-        
-      for student_id, total_definitiva in datos.items():
-          cantidad_materias_estudiante = cantidad_materias.get(student_id, 1)  # En caso de que no haya materias para el estudiante
-          print(f"Estudiante ID: {full_name}, Total Definitiva: {total_definitiva}, Cantidad de Materias: {cantidad_materias_estudiante}")
-          promedio = total_definitiva / cantidad_materias_estudiante
-          datos[student_id] = promedio
-
-    data_chart = {
-    'labels': [],  # Etiquetas para cada estudiante
-    'datasets': [{
-        'label': [],  # Etiqueta del conjunto de datos
-        'data': [],  # Datos de los promedios de notas para cada estudiante
-        'backgroundColor': 'rgba(54, 162, 235, 0.5)'  # Color de fondo de las barras
-    }]
-    }
-    for student_id, promedio in datos.items():
-      data_chart['datasets'][0]['label'].append(str(matriculas_s[student_id]))
-      print(matriculas_s[student_id])
-      # Agregar el ID del estudiante como etiqueta
-      data_chart['labels'].append(full_name)
-      # Agregar el promedio de notas para el estudiante
-      data_chart['datasets'][0]['data'].append(promedio)"""
-  
-    return JsonResponse({"uno":"1"})
