@@ -16,23 +16,23 @@ from django.http import JsonResponse
 # ESTUDIANTES
 @method_decorator(login_required, name="dispatch")
 class StudentListView(ListView):
-  print('student-list ######################################')
   template_name = "students/students_list.html"
   queryset = Student.objects.select_related("additionalstudentdata", "gender")
 
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-
+  def get_queryset(self):
+    queryset = super().get_queryset()
     cedula = self.request.GET.get("cedula", "")
     if cedula:
-      self.queryset = self.queryset.filter(identity_card=cedula)
+        queryset = queryset.filter(identity_card=cedula)
+    return queryset
 
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
     try:
       latest_academic_period = AcademicPeriod.objects.latest('period')
       context['period'] = latest_academic_period.period
     except AcademicPeriod.DoesNotExist:
       context['period'] = None
-    context['object_list'] = self.queryset
     return context
   
 class StudentDetailView(DetailView):
