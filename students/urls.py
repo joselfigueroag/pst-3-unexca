@@ -11,7 +11,8 @@ from .views import (
   RepresentativeUpdateView,
   delete_representative,
   #line_chart,
-  pie_chart_data
+  pie_chart_varones_hembras,
+  bar_char_cuadro_honor
 )
 
 urlpatterns = [
@@ -25,5 +26,6 @@ urlpatterns = [
   path("representatives/update/<int:representative_id>/", RepresentativeUpdateView.as_view(), name="update-representative"),
   path("representatives/delete/<int:representative_id>/", delete_representative, name="delete-representative"),
   #path('chart', line_chart, name='line_chart'),
-  path('home/pie_chart_data/', pie_chart_data, name='pie_chart_data'),
+  path('stats/pie_chart_data/', pie_chart_varones_hembras, name='pie_chart_varones_hembras'),
+  path('stats/bar_chart_data/', bar_char_cuadro_honor, name='cuadro-honor'),
 ]

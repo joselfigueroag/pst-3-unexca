@@ -91,8 +91,10 @@ class TeacherForm(forms.ModelForm):
     value = self.cleaned_data.get(field_name)
     if value:
       if field_name == "identity_card":
-        if not re.match(NUMBER, value):
+        if not value.isdigit():
           raise forms.ValidationError("El numero de cedula solo puede contener digitos")
+        if len(value) < 8 :
+          raise forms.ValidationError("La cedula debe ser no menor de 8 digitos")
       else:
         if not re.match(LETTERS_SPACES, value):
           raise forms.ValidationError("Solo puede contener letras y espacios")
@@ -117,9 +119,22 @@ class TeacherForm(forms.ModelForm):
 
 
 class AcademicPeriodForm(forms.ModelForm):
-  class Meta:
-    model = AcademicPeriod
-    fields = ["period"]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["period"].widget.attrs.update({
+            "pattern": "[0-9-]+",
+            "placeholder": "Ej: 2023-2024",
+        })
+
+    class Meta:
+        model = AcademicPeriod
+        fields = ["period"]
+  
+    def clean_period(self):
+        period = self.cleaned_data.get("period")
+        if not re.match("[0-9-]+", period):
+            raise forms.ValidationError("Solo se permiten números y el carácter '-'.")
+        return period
 
 
 class StudentMultipleWidget(s2forms.ModelSelect2MultipleWidget):

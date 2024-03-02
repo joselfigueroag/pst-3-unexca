@@ -222,39 +222,5 @@
   </div>
 </div>
 
-<script>
-  $.get('{% url "pie_chart_data" %}', function(data) {
-    var ctx = document.getElementById('HembrasVsVarones').getContext('2d');
-    console.log('charts')
-    new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: {
-          title: {
-                display: true,
-                text: 'Cantidad de alumnos por género' // Título de la gráfica
-            },
-        }
-    });
-  });
-  var ctx = document.getElementById('AprobadosReprobados').getContext('2d');
-    console.log('charts')
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: [5, 3], // Valores de los conjuntos de datos
-                backgroundColor: ['rgba(0, 128, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'], // Colores para cada conjunto de datos
-          }],
-        labels: ['Aprobado', 'Reprobado'] // Etiquetas para los conjuntos de datos
-        },
-        options: {
-          title: {
-                display: true,
-                text: 'Alumnos Aprobados y Reprobados' // Título de la gráfica
-            },
-        }
-    });
-  
-</script>
+
 {% endblock content %}

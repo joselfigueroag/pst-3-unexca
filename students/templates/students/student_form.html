@@ -9,7 +9,7 @@
       <h2 class="text-center text-box">{{ action }} ESTUDIANTE</h2>
     </div>
     <div class="card-body">
-      <form class="p-3 rounded is-valid" action="{{ form_action }}" method="POST" id="form" novalidate>
+      <form class="p-3 rounded is-invalid" action="{{ form_action }}" method="POST" id="form" novalidate>
         {% csrf_token %}
         <div>
           <h3 class="text-box">Datos Filiatorios</h3>
