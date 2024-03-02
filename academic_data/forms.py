@@ -11,8 +11,8 @@ from students.models import Student
 
 
 NUMBER = r"^\d+$"
-LETTERS_SPACES = r"^[a-zA-Z\s]+$"
-LETTERS = r"^[a-zA-Z]+$"
+LETTERS_SPACES = r"^[a-zA-ZñÑ\s]+$"
+LETTERS = r"^[a-zA-ZñÑ]+$"
 
 class SectionForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):

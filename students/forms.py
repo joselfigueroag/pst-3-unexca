@@ -5,8 +5,8 @@ import re
 from .models import Student, AdditionalStudentData, Representative
 
 NUMBER = r"^\d+$"
-LETTERS_SPACES = r"^[a-zA-Z\s]+$"
-LETTERS = r"^[a-zA-Z]+$"
+LETTERS_SPACES = r"^[a-zA-ZñÑ\s]+$"
+LETTERS = r"^[a-zA-ZñÑ]+$"
 
 class RepresentativeWidget(s2forms.ModelSelect2Widget):
     search_fields = [
