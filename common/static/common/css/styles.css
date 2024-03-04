@@ -7,7 +7,7 @@ html, body {
 body::before {
   content: "";
   /*background: color(rgb(244, 244, 244));/*radial-gradient(circle, rgba(8, 72, 235, 0.248) 0%, rgba(242,242,242,1) 100%);*/
-  background-color: rgba(65, 120, 229, 0.091);
+  background-color: rgba(65, 120, 229, 0.137);
   top: 0;
   left: 0;
   bottom: 0;
@@ -86,21 +86,21 @@ body::after {
 }
 
 .btn.btn-box:hover{
-  backdrop-filter: blur(2.4px) saturate(148%);
-  -webkit-backdrop-filter: blur(2.4px) saturate(148%);
+  backdrop-filter: blur(2px) saturate(148%);
+  -webkit-backdrop-filter: blur(2px) saturate(148%);
   background-color: rgba(6, 176, 255, 0);
-  
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn-box {
   height: 140px;
   width: 140px;
-  backdrop-filter: blur(2.4px) saturate(148%);
-  -webkit-backdrop-filter: blur(2.4px) saturate(148%);
-  background-color: rgba(6, 176, 255, 0.472);
+  backdrop-filter: blur(1px) saturate(148%);
+  -webkit-backdrop-filter: blur(1px) saturate(148%);
+  background-color: rgba(6, 176, 255, 0.531);
   border-radius: 12px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .text-box{
