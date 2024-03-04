@@ -299,5 +299,6 @@ input,select
   height: 600px;
   width: 600px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  border: solid 2px rgba(255,255,255,0.2) !important;
 }
 
