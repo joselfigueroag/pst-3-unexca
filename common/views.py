@@ -16,7 +16,8 @@ from students.models import StudentDetail
 @login_required(login_url="login")
 def home(request):
     groups = ["admin", "docente", "evaluacion", "control_estudio", "coordinador"]
-    return render(request, "common/home.html", {"groups": groups})
+    user_group = request.user.group.name
+    return render(request, "common/home.jinja", {"groups": groups, "user_group": user_group})
 
 
 @api_view(["GET"])

@@ -1,0 +1,175 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block extra_css %}
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div>
+  <div class=" d-flex justify-content-center md:ml-6 text-center row">
+    <div class="ml-3 relative">
+      <div class="row mt-5 grid-container">
+          {% if user_group == "admin" %}
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'user-list' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/usuarios.png' %}" alt="...">
+                    Usuarios
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn btn-box border-radius-xl" href="{% url 'sections' %}">
+                <div class="row row-box">
+                  <div class="container text-box">
+                    <img class="img-button-box" src="{% static 'common/img/sections.png' %}" alt="...">
+                    Secciones
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'grades' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/grades.png' %}" alt="...">
+                    Grados
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'subjects' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/materias.png' %}" alt="...">
+                    Materias
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'teachers-list' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/profesor.png' %}" alt="...">
+                    Profesores
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'academic-periods' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/calendario.png' %}" alt="...">
+                    Periodos Academicos
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+          {% if user_group == "admin" or user_group == "coordinacion" or user_group == "control_estudio" %}
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'representatives-list' %}">
+                <div class="row row-box">
+                  <div class=" col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/representantes.png' %}" alt="...">
+                    Representantes
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'students-list' %}">
+                <div class="row row-box">
+                  <div class=" col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/students.png' %}" alt="...">
+                    Estudiantes
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+          {% if user_group == "admin" or user_group == "coordinacion" %}
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'tuitions-list' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/matricula.png' %}" alt="...">
+                    Matriculas
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+          {% if user_group == "admin" or user_group == "docente" or user_group == "evaluacion" %}
+            <div class="col-sm-2 text-center mt-2">
+              <a type="button" class="btn-link btn  btn-box border-radius-xl" data-bs-toggle="modal"
+                data-bs-target="#noteModal" href="#">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box" src="{% static 'common/img/notas.png' %}" alt="...">
+                    Carga de Notas
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+          <div class="col-sm-2 text-center mt-2">
+            <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'stats' %}">
+              <div class="row row-box">
+                <div class="col-sm-12 text-box">
+                  <img class="img-button-box" src="{% static 'common/img/stats.png' %}" alt="...">
+                  Estadisticas
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-2 text-center mt-2">
+            <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'logout' %}">
+              <div class="row row-box">
+                <div class="col-sm-12 text-box">
+                  <img class="img-button-box" src="{% static 'common/img/logout.png' %}" alt="...">
+                  Salir
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content bg-modal">
+      <div class="modal-header div-glass-blue">
+        <h5 class="modal-title" id="noteModalLabel">Tipo de Carga</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="p-3">
+        <a type="button" class="btn btn-glass-blue text-box d-block" href="{% url 'upload-qualification-by-tuition' %}">
+          Carga por matricula
+        </a>
+        {% comment %} <a type="button" class="btn btn-glass-blue text-box d-block mt-2"
+          href="{% url 'upload-qualification-by-student' %}">
+          Carga por estudiante
+        </a> {% endcomment %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
