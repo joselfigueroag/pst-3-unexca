@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group
 from common.models import Country, State, Parish, Municipality, Gender, Shift, Moment
+from academic_data.models import Subject, Grade, Section
 from users.models import User
 import json
 import os
@@ -64,3 +65,26 @@ def run():
         for moment in moments:
             Moment.objects.create(number=moment)
         print("Momentos creados")
+
+    if not Subject.objects.all():
+        subjects = [
+            "LENGUA Y LITERATURA",
+            "IDIOMAS",
+            "MATEMATICAS",
+            "EDUCACION FISICA",
+            "AMBIENTE CIENCIA Y TECNOLOGIA",
+            "FISICA",
+            "QUIMICA",
+            "GEOGRAFIA HISTORIA Y CIUDADANIA",
+            "ORIENTACION VOCACIONAL",
+            "INNOVACION TECNOLOGICA Y PRODUCTIVA"
+        ]
+        for subject in subjects:
+            Subject.objects.create(name=subject)
+        print("Materias Creadas.")
+
+    if not Section.objects.all():
+        groups = ["A", "B", "C", "D", "E", "F", "G", "H", "I" ]
+        for group in groups:
+            Section.objects.create(group=group)
+        print('Grados Crerados.') 
