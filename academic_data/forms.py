@@ -93,8 +93,8 @@ class TeacherForm(forms.ModelForm):
       if field_name == "identity_card":
         if not value.isdigit():
           raise forms.ValidationError("El numero de cedula solo puede contener digitos")
-        if len(value) < 8 :
-          raise forms.ValidationError("La cedula debe ser no menor de 8 digitos")
+        if len(value) <= 7 :
+          raise forms.ValidationError("La cedula debe ser no menor de 7 digitos")
       else:
         if not re.match(LETTERS_SPACES, value):
           raise forms.ValidationError("Solo puede contener letras y espacios")

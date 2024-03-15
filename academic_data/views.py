@@ -24,6 +24,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
 from datetime import datetime
+from django.urls import reverse_lazy
 
 #SECCIONES
 @method_decorator(login_required, name="dispatch")
@@ -230,28 +231,29 @@ class TeacherListView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class TeacherCreateView(CreateView):
-  model = Teacher
-  form_class = TeacherForm
-  template_name = "academic_data/teachers/teacher_form.html"
+    model = Teacher
+    form_class = TeacherForm
+    template_name = "academic_data/teachers/teacher_form.html"
+    success_url = reverse_lazy('teachers-list')
 
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context["form_action"] = reverse('create-teacher')
-    context["action"] = "REGISTRAR"
-    context["countries"] = Country.objects.all()
-    return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form_action"] = reverse('create-teacher')
+        context["action"] = "REGISTRAR"
+        context["countries"] = Country.objects.all()
+        return context
 
-  def post(self, request, *args, **kwargs):
-    teacher_form = self.form_class(request.POST)
-    if teacher_form.is_valid():
-      teacher = teacher_form.save()
-      teacher.parish_id = request.POST.get("parish")
-      teacher.save()
-      messages.success(request, "Registro de docente exitoso")
-      return redirect("teachers-list")
-    else:
-      messages.error(request, "No se pudo registrar al docente")
-      return render(request, self.template_name, {'form': teacher_form})
+    def form_valid(self, form):
+        teacher = form.save()
+        teacher.parish_id = self.request.POST.get("parish")
+        teacher.save()
+        messages.success(self.request, "Registro de docente exitoso")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print(form.errors)
+        messages.error(self.request, "No se pudo registrar al docente")
+        return super().form_invalid(form)
 
 
 @method_decorator(login_required, name="dispatch")
