@@ -90,10 +90,15 @@
                 <div class="col-2">
                   <div>
                     <label for="id_parish" class="form-label">Parroquia</label>
-                    <select name="address" class="select form-select" id="id_parish" disabled>
+                    <select name="parish" class="select form-select" id="id_parish" disabled>
                       <option value="" selected>Seleccionar</option>
                     </select>
                   </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  {{ form.address|as_crispy_field }}
                 </div>
               </div>
             </div>
