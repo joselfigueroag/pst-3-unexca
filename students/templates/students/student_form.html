@@ -3,13 +3,12 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  
   <div class="card div-glass mt-3">
     <div class="card-header div-glass-blue">
       <h2 class="text-center text-box">{{ action }} ESTUDIANTE</h2>
     </div>
     <div class="card-body">
-      <form class="p-3 rounded is-invalid" action="{{ form_action }}" method="POST" id="form" novalidate>
+      <form class="p-3 is-invalid" action="{{ form_action }}" method="POST" id="form" novalidate>
         {% csrf_token %}
         <div>
           <h3 class="text-box">Datos Filiatorios</h3>

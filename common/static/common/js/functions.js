@@ -1,14 +1,21 @@
-/*let sidebarOffcanvas = new bootstrap.Offcanvas(document.getElementById('sidebarOffcanvas'))
-function openMenu(opc){
-  switch (opc){
-      case 'open':
-          sidebarOffcanvas.show();
-      break;
-      case 'close':
-          sidebarOffcanvas.hide();
-      break;
-  }
-}*/
+
+let sidebar = document.getElementById('sidebar');
+let section = document.querySelector('section'); // Asegúrate de que este selector coincida con tu elemento <section>
+let overlay = document.getElementById("overlay");
+
+function openMenu() {
+    if (section.matches(':hover')) {
+        // Si el cursor está sobre el <section>, muestra el sidebar
+        sidebar.classList.remove('hide-sidebar');
+        sidebar.classList.add('show-sidebar');
+        overlay.classList.add('show-overlay');
+    } else {
+        // Si el cursor sale del <section>, oculta el sidebar
+        sidebar.classList.remove('show-sidebar');
+        sidebar.classList.add('hide-sidebar');
+        overlay.classList.remove('show-overlay');
+    }
+}
 
 (function () {
     console.log('needs-validation')

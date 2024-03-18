@@ -23,6 +23,104 @@
         <a class="navbar-brand" href="#"><img class="img-fluid rounded img-nav" src="{% static 'common/img/Go-back.png' %}" alt="" onclick="come_back()" /></a>
       </div>
     </nav>
+    <div id="overlay" class="overlay hide-overlay"></div>
+      <section class="{% if is_home %}invisible{% endif %}" onmouseover="openMenu()" onmouseleave="openMenu()">
+        <div class="sidebar hide-sidebar" id="sidebar">
+          <ul>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'user-list' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/usuarios.png' %}" alt="...">
+                    Usuarios
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn btn-box-sidebar border-radius-xl" href="{% url 'sections' %}">
+                <div class="row row-box">
+                  <div class="container text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/sections.png' %}" alt="...">
+                    Secciones
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'grades' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/grades.png' %}" alt="...">
+                    Grados
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'subjects' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/materias.png' %}" alt="...">
+                    Materias
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'teachers-list' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/profesor.png' %}" alt="...">
+                    Profesores
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'academic-periods' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/calendario.png' %}" alt="...">
+                    Periodos Academicos
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="link-sidebar">
+                <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'representatives-list' %}">
+                  <div class="row row-box">
+                    <div class=" col-sm-12 text-box">
+                      <img class="img-button-box-sidebar" src="{% static 'common/img/representantes.png' %}" alt="...">
+                      Representantes
+                    </div>
+                  </div>
+                </a>
+            </li>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'students-list' %}">
+                <div class="row row-box">
+                  <div class=" col-sm-12 text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/students.png' %}" alt="...">
+                    Estudiantes
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li class="link-sidebar">
+              <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'tuitions-list' %}">
+                <div class="row row-box">
+                  <div class="col-sm-12 text-box">
+                    <img class="img-button-box-sidebar" src="{% static 'common/img/matricula.png' %}" alt="...">
+                    Matriculas
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+ 
     <div class="container-sm">
       {% block content %}
       {% endblock %}
@@ -36,3 +134,17 @@
     </div>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
