@@ -87,4 +87,4 @@ def run():
         groups = ["A", "B", "C", "D", "E", "F", "G", "H", "I" ]
         for group in groups:
             Section.objects.create(group=group)
-        print('Grados Crerados.') 
+        print('Secciones Creados.') 

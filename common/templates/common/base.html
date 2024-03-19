@@ -27,6 +27,7 @@
       <section class="{% if is_home %}invisible{% endif %}" onmouseover="openMenu()" onmouseleave="openMenu()">
         <div class="sidebar hide-sidebar" id="sidebar">
           <ul>
+            {% if user_group == "admin" %}
             <li class="link-sidebar">
               <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'user-list' %}">
                 <div class="row row-box">
@@ -87,6 +88,8 @@
                 </div>
               </a>
             </li>
+            {% endif %}
+            {% if user_group == "admin" or user_group == "coordinacion" or user_group == "control_estudio" %}
             <li class="link-sidebar">
                 <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'representatives-list' %}">
                   <div class="row row-box">
@@ -107,6 +110,8 @@
                 </div>
               </a>
             </li>
+            {% endif %}
+            {% if user_group == "admin" or user_group == "coordinacion" %}
             <li class="link-sidebar">
               <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'tuitions-list' %}">
                 <div class="row row-box">
@@ -117,6 +122,7 @@
                 </div>
               </a>
             </li>
+            {% endif %}
             <li class="link-sidebar">
               <a type="button" class="btn-link btn  btn-box-sidebar border-radius-xl" href="{% url 'logout' %}">
                 <div class="row row-box">

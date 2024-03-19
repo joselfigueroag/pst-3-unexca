@@ -13,12 +13,23 @@ from academic_data.models import AcademicPeriod
 from students.models import StudentDetail
 
 
+def check_user_type(function):
+    def wrap(request, *args, **kwargs):
+        try:
+            user_group = request.user.group.name
+        except:
+            user_group = request.request.user.group.name
+        kwargs["user_group"] = user_group
+        return function(request, *args, **kwargs)
+    return wrap
+
+
+@check_user_type
 @login_required(login_url="login")
-def home(request):
+def home(request, **kwargs):
     is_home = request.path == '/home/'
-    print(is_home)
     groups = ["admin", "docente", "evaluacion", "control_estudio", "coordinador"]
-    user_group = request.user.group.name
+    user_group = kwargs.get("user_group")
     return render(request, "common/home.jinja", {"groups": groups, "user_group": user_group, 'is_home': is_home})
 
 
@@ -48,8 +59,9 @@ def stats(request):
     return render(request, "common/stats.html")
 
 
+@check_user_type
 @login_required
-def pie_chart_varones_hembras(request):
+def pie_chart_varones_hembras(request, **kwargs):
     today = datetime.now()
 
     if today.month < 7:
@@ -71,11 +83,14 @@ def pie_chart_varones_hembras(request):
             'backgroundColor': ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)']
         }]
     }
+
+    data.update(kwargs)
     return JsonResponse(data)
 
 
+@check_user_type
 @login_required
-def bar_char_cuadro_honor(request):
+def bar_char_cuadro_honor(request, **kwargs):
     """datos = {}
     data_chart = {}
     cantidad_materias = {}

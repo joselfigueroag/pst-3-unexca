@@ -13,6 +13,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 
 from common.models import Country, Moment
+from common.views import check_user_type
 from students.models import Student
 from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Qualification, AllNotes
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
@@ -26,14 +27,17 @@ from weasyprint.text.fonts import FontConfiguration
 from datetime import datetime
 from django.urls import reverse_lazy
 
+
 #SECCIONES
 @method_decorator(login_required, name="dispatch")
 class SectionView(View):
   def __init__(self, *args, **kwargs):
     self.form = SectionForm
     self.sections = Section.objects.all()
-
+  
+  @check_user_type
   def get(self, request, *args, **kwargs):
+    user_group = kwargs.get("user_group")
     if "section_id" in kwargs:
       self.sections.get(pk=kwargs["section_id"]).delete()
       messages.info(request, message="Seccion eliminada")
@@ -42,10 +46,10 @@ class SectionView(View):
       return render(
         request,
         "academic_data/sections/sections.html",
-        {"sections": self.sections, "form": self.form}
+        {"sections": self.sections, "form": self.form, "user_group": user_group}
       )
 
-  def post(self, request):
+  def post(self, request, **kwargs):
     section_form = self.form(request.POST)
     if section_form.is_valid():
       try:
@@ -80,7 +84,9 @@ class GradeView(View):
     self.form = GradeForm
     self.grades = Grade.objects.all()
 
+  @check_user_type
   def get(self, request, *args, **kwargs):
+    user_group = kwargs.get("user_group")
     if "grade_id" in kwargs:
       self.grades.get(pk=kwargs["grade_id"]).delete()
       messages.info(request, message="Grado eliminado")
@@ -89,7 +95,7 @@ class GradeView(View):
       return render(
         request,
         "academic_data/grades/grades.html",
-        {"grades": self.grades, "form": self.form}
+        {"grades": self.grades, "form": self.form, "user_group": user_group}
       )
 
   def post(self, request):
@@ -129,7 +135,9 @@ class SubjectView(View):
     self.form = SubjectForm
     self.subjects = Subject.objects.all()
 
+  @check_user_type
   def get(self, request, *args, **kwargs):
+    user_group = kwargs.get("user_group")
     if "subject_id" in kwargs:
       if self.subjects.get(pk=kwargs["subject_id"]).delete():
         messages.info(request, message="Materia eliminada")
@@ -140,7 +148,7 @@ class SubjectView(View):
       return render(
         request,
         "academic_data/subjects/subjects.html",
-        {"subjects": self.subjects, "form": self.form}
+        {"subjects": self.subjects, "form": self.form, "user_group": user_group}
       )
 
   def post(self, request):
@@ -182,7 +190,9 @@ class AcademicPeriodView(View):
     self.form = AcademicPeriodForm
     self.academic_periods = AcademicPeriod.objects.all()
 
+  @check_user_type
   def get(self, request, *args, **kwargs):
+    user_group = kwargs.get("user_group")
     if "academic_period_id" in kwargs:
       self.academic_periods.get(pk=kwargs["academic_period_id"]).delete()
       messages.info(request, message="Periodo academico eliminado")
@@ -191,7 +201,7 @@ class AcademicPeriodView(View):
       return render(
         request,
         "academic_data/academic_periods/academic_periods.html",
-        {"academic_periods": self.academic_periods, "form": self.form}
+        {"academic_periods": self.academic_periods, "form": self.form, "user_group": user_group}
       )
 
   def post(self, request):
@@ -228,6 +238,11 @@ class TeacherListView(ListView):
   template_name = "academic_data/teachers/teachers_list.html"
   queryset = Teacher.objects.select_related("parish", "gender").prefetch_related("subjects")
 
+  @check_user_type
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    return context
+
 
 @method_decorator(login_required, name="dispatch")
 class TeacherCreateView(CreateView):
@@ -236,6 +251,7 @@ class TeacherCreateView(CreateView):
     template_name = "academic_data/teachers/teacher_form.html"
     success_url = reverse_lazy('teachers-list')
 
+    @check_user_type
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form_action"] = reverse('create-teacher')
@@ -265,6 +281,7 @@ class TeacherUpdateView(UpdateView):
   def get_object(self, queryset=None):
     return Teacher.objects.get(pk=self.kwargs.get("teacher_id"))
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     teacher = self.get_object()
@@ -297,6 +314,11 @@ def delete_teacher(request, teacher_id):
 class TuitionListView(ListView):
   template_name = "academic_data/tuitions/tuitions_list.html"
   queryset = Tuition.objects.select_related("academic_period", "grade", "section", "shift").prefetch_related("students")
+
+  @check_user_type
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    return context
 
 
 class TuitionDetailView(DetailView):
@@ -363,6 +385,7 @@ class TuitionDetailView(DetailView):
 
     return self.unique_students, self.info_tuition, self.subjects
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['subjects'] = self.subjects
@@ -377,6 +400,7 @@ class TuitionCreateView(CreateView):
   form_class = TuitionForm
   template_name = "academic_data/tuitions/tuition_form.html"
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context["form_action"] = reverse('create-tuition')
@@ -403,6 +427,7 @@ class TuitionUpdateView(UpdateView):
   def get_object(self, queryset=None):
     return Tuition.objects.get(pk=self.kwargs.get("tuition_id"))
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     tuition = self.get_object()
@@ -434,7 +459,9 @@ def upload_qualification_by_student(request):
   return render(request, "academic_data/qualifications/upload_by_student.html")
 
 
-def upload_qualification_by_tuition(request):
+@check_user_type
+@login_required
+def upload_qualification_by_tuition(request, **kwargs):
   tuitions = Tuition.objects.prefetch_related(
     Prefetch(
         "students", queryset=Student.objects.order_by("first_name", "second_name", "first_surname", "second_surname")
@@ -448,6 +475,8 @@ def upload_qualification_by_tuition(request):
     "subjects": subjects,
     "moments": moments,
   }
+
+  context_data.update(kwargs)
 
   if request.method == "GET":
     return render(request, "academic_data/qualifications/upload_by_tuition.html", context_data)

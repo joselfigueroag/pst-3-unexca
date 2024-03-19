@@ -11,6 +11,7 @@ from .models import Student, AdditionalStudentData, Representative, StudentDetai
 from academic_data.models import AcademicPeriod, AllNotes, Tuition
 from chartjs.views.lines import BaseLineChartView
 from django.views.generic import TemplateView
+from common.views import check_user_type
 
 
 # ESTUDIANTES
@@ -26,6 +27,7 @@ class StudentListView(ListView):
         queryset = queryset.filter(identity_card=cedula)
     return queryset
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     try:
@@ -48,6 +50,7 @@ class StudentDetailView(DetailView):
           print(student)
         return student
 
+    @check_user_type
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Obtener el objeto y pasarlo al contexto
@@ -61,6 +64,7 @@ class StudentCreateView(CreateView):
   model = Student
   form_class = StudentForm
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context["additional_info_form"] = AdditionalStudentDataForm
@@ -97,6 +101,7 @@ class StudentUpdateView(UpdateView):
   def get_object(self, queryset=None):
     return Student.objects.get(pk=self.kwargs.get("student_id"))
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     student = self.get_object()
@@ -139,6 +144,12 @@ class RepresentativeListView(ListView):
   template_name = "representatives/representatives_list.html"
   queryset = Representative.objects.prefetch_related("students")
 
+  @check_user_type
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context["user_group"] = kwargs.get('user_group')
+    return context
+
 
 @method_decorator(login_required, name="dispatch")
 class RepresentativeCreateView(CreateView):
@@ -146,6 +157,7 @@ class RepresentativeCreateView(CreateView):
   model = Representative
   form_class = RepresentativeForm
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context["form_action"] = reverse("create-representative")
@@ -177,6 +189,7 @@ class RepresentativeUpdateView(UpdateView):
   def get_object(self, queryset=None):
     return Representative.objects.get(pk=self.kwargs.get("representative_id"))
 
+  @check_user_type
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     representative = self.get_object()

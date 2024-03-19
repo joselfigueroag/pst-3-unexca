@@ -8,6 +8,7 @@ from django.views.generic import ListView, FormView
 
 from .models import User
 from .forms import UserForm
+from common.views import check_user_type
 
 
 class Login(LoginView):
@@ -30,6 +31,11 @@ class UserListView(ListView):
     template_name = "users/user_list.html"
     queryset = User.objects.prefetch_related("groups")
 
+    @check_user_type
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 @method_decorator(login_required, name="dispatch")
 class NewUserView(FormView):
@@ -37,6 +43,11 @@ class NewUserView(FormView):
     form_class = UserForm
     template_name = "users/new_user.html"
     login_url = "/"
+
+    @check_user_type
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 @login_required
@@ -66,7 +77,8 @@ class EditUserView(FormView):
         user = self.get_instance()
         user_form = self.form_class(instance=user)
         return user_form
-    
+
+    @check_user_type
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user_id"] = self.get_instance().id
@@ -76,6 +88,7 @@ class EditUserView(FormView):
         return User.objects.get(pk=self.kwargs["id"])
 
 
+@check_user_type
 @login_required
 def update_user(request, id):
     data = request.POST
