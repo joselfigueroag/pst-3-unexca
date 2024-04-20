@@ -12,6 +12,7 @@
       <thead class="bg-nav">
         <tr>
           <th>Año</th>
+          <th>Materias</th>
           <th class="buton-right">
             <a
               type="button"
@@ -30,6 +31,11 @@
         {% for grade in grades %}
         <tr>
           <td name="year">{{ grade.year }}</td>
+          <td>
+          {% for subject in grade.subjects.all %}
+            {{ subject }} <br>
+          {% endfor %}
+          </td>
           <td class="buton-right">
             <a
               type="button"
@@ -106,6 +112,7 @@
       title.innerHTML = "Nuevo Grado"
     } else if (buttonAction === "edit") {
       form.reset()
+      
       let gradeId = obj.getAttribute("data-id")
       let year = obj.parentNode.parentNode.querySelector('td[name="year"]').textContent
       loadData(year)

@@ -94,7 +94,7 @@ class GradeView(View):
     else:
       return render(
         request,
-        "academic_data/grades/grades.html",
+        "academic_data/grades/grades.jinja",
         {"grades": self.grades, "form": self.form, "user_group": user_group}
       )
 
