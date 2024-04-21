@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Section, Grade, Teacher, Subject
+from .models import Section, Grade, Teacher, Subject, AcademicPeriod
 
 # Register your models here.
 
@@ -21,4 +21,8 @@ class TeacherAdmin(admin.ModelAdmin):
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
+  pass
+
+@admin.register(AcademicPeriod)
+class AcademicPeriodAdmin(admin.ModelAdmin):
   pass

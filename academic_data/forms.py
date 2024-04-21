@@ -8,7 +8,7 @@ from django_select2 import forms as s2forms
 
 from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition
 from students.models import Student
-from common.utils import LETTERS, LETTERS_SPACES
+from common.utils import LETTERS, LETTERS_SPACES, ACADEMIC_PERIOD_FORMAT
 
 
 class SectionForm(forms.ModelForm):
@@ -131,6 +131,14 @@ class AcademicPeriodForm(forms.ModelForm):
         period = self.cleaned_data.get("period")
         if not re.match("[0-9-]+", period):
             raise forms.ValidationError("Solo se permiten números y el carácter '-'.")
+        if not re.match(ACADEMIC_PERIOD_FORMAT, period):
+            raise forms.ValidationError("El formato debe ser AAAA-AAAA, ej: 2020-2021.")
+        
+        period_split = period.split("-")
+        if int(period_split[0]) >= int(period_split[1]):
+          raise forms.ValidationError("Periodo academico mal formulado, el año antes del guion '-' debe ser menor al año despues de este.") 
+        if int(period_split[1]) - int(period_split[0]) != 1:
+          raise forms.ValidationError("Un periodo academico debe formularse por años consecutivos")
         return period
 
 
