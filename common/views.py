@@ -30,7 +30,7 @@ def home(request, **kwargs):
     is_home = request.path == '/home/'
     groups = ["admin", "docente", "evaluacion", "control_estudio", "coordinador"]
     user_group = kwargs.get("user_group")
-    return render(request, "common/home.jinja", {"groups": groups, "user_group": user_group, 'is_home': is_home})
+    return render(request, "common/home.html", {"groups": groups, "user_group": user_group, 'is_home': is_home})
 
 
 @api_view(["GET"])

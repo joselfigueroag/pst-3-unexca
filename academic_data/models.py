@@ -93,7 +93,7 @@ class Tuition(TimeStamp):
     academic_period = models.ForeignKey(AcademicPeriod, models.CASCADE, verbose_name="periodo academico")
     grade = models.ForeignKey(Grade, models.CASCADE, verbose_name="grado")
     section = models.ForeignKey(Section, models.CASCADE, verbose_name="seccion")
-    shift = models.ForeignKey(Shift, models.CASCADE, verbose_name="turno")
+    shift = models.ForeignKey(Shift, models.PROTECT, verbose_name="turno")
     students = models.ManyToManyField(Student, verbose_name="estudiantes", blank=True)
 
     class Meta:

@@ -1,12 +1,12 @@
+import re
+
 from django import forms
 from django.forms import widgets
 from django_select2 import forms as s2forms
-import re
-from .models import Student, AdditionalStudentData, Representative
 
-NUMBER = r"^\d+$"
-LETTERS_SPACES = r"^[a-zA-ZñÑ\s]+$"
-LETTERS = r"^[a-zA-ZñÑ]+$"
+from .models import Student, AdditionalStudentData, Representative
+from common.utils import LETTERS_SPACES, PHONE_NUMBER
+
 
 class RepresentativeWidget(s2forms.ModelSelect2Widget):
     search_fields = [
@@ -50,8 +50,8 @@ class StudentForm(forms.ModelForm):
     if type == "num":
       if not field_value.isdigit():
         raise forms.ValidationError("Solo se permiten numeros.")
-      if len(field_value) < 8:
-         raise forms.ValidationError("La cedula debe ser no menor de 8 digitos")
+      if len(field_value) < 7:
+         raise forms.ValidationError("La cedula debe ser no menor de 7 digitos")
     return field_value.upper()
   
   def clean_first_name(self):
@@ -69,6 +69,7 @@ class StudentForm(forms.ModelForm):
   def clean_identity_card(self):
     return self.clean_field("identity_card","num")
 
+
 class AdditionalStudentDataForm(forms.ModelForm):
   class Meta:
     model = AdditionalStudentData
@@ -78,18 +79,14 @@ class AdditionalStudentDataForm(forms.ModelForm):
       "email",
       "phone_number",
     ]
-  def clean_field(self, field_name):
-    field_value = self.cleaned_data.get(field_name)
-    if field_value is None:
-      return None 
-    if not field_value.isdigit():
-      raise forms.ValidationError("Solo se permiten numeros.")
-    if len(field_value) < 11:
-         raise forms.ValidationError("El telefono debe ser no menor de 11 digitos")
-    return field_value.upper()
-  
+
   def clean_phone_number(self):
-    return self.clean_field("phone_number")
+    phone_number = self.cleaned_data.get("phone_number")
+    if phone_number is None:
+      return None
+    if len(phone_number) < 11:
+      raise forms.ValidationError("El telefono debe ser no menor de 11 digitos")
+    return phone_number
   
 
 class RepresentativeForm(forms.ModelForm):
@@ -104,18 +101,22 @@ class RepresentativeForm(forms.ModelForm):
       "email",
       "phone_number",
     ]
-  def clean_field(self, field_name, type):
+
+  def clean_field(self, field_name, type_e):
     field_value = self.cleaned_data.get(field_name)
     if field_value is None:
       return None 
-    if type == "alpha" :
-      if not re.match(LETTERS_SPACES,field_value):
+    if type_e == "alpha" :
+      if not re.match(LETTERS_SPACES, field_value):
         raise forms.ValidationError("Solo se permiten letras.")
-    if type == "num":
+    if type_e == "num":
       if not field_value.isdigit():
         raise forms.ValidationError("Solo se permiten numeros.")
-      if len(field_value) < 8:
-         raise forms.ValidationError("La cedula debe ser no menor de 8 digitos")
+      if len(field_value) < 7:
+         raise forms.ValidationError("La cedula debe ser no menor de 7 digitos")
+    if type_e == "phone":
+      if not re.match(PHONE_NUMBER, field_name):
+        raise forms.ValidationError("Numero de telefono no valido")
     return field_value.upper()
   
   def clean_first_name(self):
@@ -134,4 +135,4 @@ class RepresentativeForm(forms.ModelForm):
     return self.clean_field("identity_card","num")
   
   def clean_phone_number(self):
-    return self.clean_field("phone_number","num")
+    return self.clean_field("phone_number","phone")

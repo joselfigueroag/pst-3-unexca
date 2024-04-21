@@ -8,11 +8,8 @@ from django_select2 import forms as s2forms
 
 from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition
 from students.models import Student
+from common.utils import LETTERS, LETTERS_SPACES
 
-
-NUMBER = r"^\d+$"
-LETTERS_SPACES = r"^[a-zA-ZñÑ\s]+$"
-LETTERS = r"^[a-zA-ZñÑ]+$"
 
 class SectionForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
@@ -159,20 +156,30 @@ class TuitionForm(forms.ModelForm):
       "students": StudentMultipleWidget,
     }
 
+  def validate_students_in_tuition(self, academic_period, students):
+    last_string = academic_period.period[-2:]
+
+    students_ids = []
+    # tuitions = Tuition.objects.filter(academic_period__period__endswith=last_string).exclude(pk=self.instance.id)
+    tuitions = Tuition.objects.filter(academic_period__period__endswith=last_string).exclude(pk=self.instance.id)
+    for tuition in tuitions:
+      for student in tuition.students.all():
+        students_ids.append(student.id)
+
+    for student in students:
+      if student.id in students_ids:
+        raise forms.ValidationError(f"El almuno {student.full_name} se encuentra en otra matricula {academic_period.period}")
+
+  def validate_duplicate_tuition(self, academic_period, grade, section):
+    if Tuition.objects.filter(academic_period=academic_period, grade=grade, section=section).exclude(pk=self.instance.id).exists():
+      raise forms.ValidationError(f"Matricula de {grade} grado - secccion {section} del periodo academico {academic_period}, ya existe")
+
   def clean(self):
-    try:
-      academic_period = self.cleaned_data.get("academic_period")
-      last_string = academic_period[-2]
-      students = self.cleaned_data.get("students")
+    academic_period = self.cleaned_data.get("academic_period")
+    grade = self.cleaned_data.get("grade")
+    section = self.cleaned_data.get("section")
+    students = self.cleaned_data.get("students")
 
-      students_ids = []
-      tuitions = Tuition.objects.filter(academic_period__period__endswith=last_string).exclude(pk=self.instance.id)
-      for tuition in tuitions:
-        for student in tuition.students.all():
-          students_ids.append(student.id)
-
-      for student in students:
-        if student.id in students_ids:
-          raise forms.ValidationError(f"El almuno {student.full_name} se encuentra en otra matricula")
-    except:
-      pass
+    self.validate_students_in_tuition(academic_period, students)
+    self.validate_duplicate_tuition(academic_period, grade, section)
+    

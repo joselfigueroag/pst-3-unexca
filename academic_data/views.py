@@ -1,16 +1,21 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.db.models import Prefetch
-from decimal import Decimal
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
 
 from common.models import Country, Moment
 from common.views import check_user_type
@@ -18,25 +23,18 @@ from students.models import Student
 from .models import Section, Grade, Subject, Teacher, AcademicPeriod, Tuition, Qualification, AllNotes
 from .forms import SectionForm, GradeForm, SubjectForm, TeacherForm, AcademicPeriodForm, TuitionForm
 from .serializers import TuitionSerializer
-
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from weasyprint import HTML
-from weasyprint.text.fonts import FontConfiguration
-from datetime import datetime
-from django.urls import reverse_lazy
+from audit.utils import save_audit_record
 
 
 #SECCIONES
 @method_decorator(login_required, name="dispatch")
 class SectionView(View):
-  def __init__(self, *args, **kwargs):
+  def __init__(self):
     self.form = SectionForm
     self.sections = Section.objects.all()
   
   @check_user_type
-  def get(self, request, *args, **kwargs):
+  def get(self, request, **kwargs):
     user_group = kwargs.get("user_group")
     if "section_id" in kwargs:
       self.sections.get(pk=kwargs["section_id"]).delete()
@@ -49,7 +47,7 @@ class SectionView(View):
         {"sections": self.sections, "form": self.form, "user_group": user_group}
       )
 
-  def post(self, request, **kwargs):
+  def post(self, request):
     section_form = self.form(request.POST)
     if section_form.is_valid():
       try:
@@ -186,12 +184,12 @@ class SubjectView(View):
 #PERIODO ACADEMICO
 @method_decorator(login_required, name="dispatch")
 class AcademicPeriodView(View):
-  def __init__(self, *args, **kwargs):
+  def __init__(self):
     self.form = AcademicPeriodForm
     self.academic_periods = AcademicPeriod.objects.all()
 
   @check_user_type
-  def get(self, request, *args, **kwargs):
+  def get(self, request, **kwargs):
     user_group = kwargs.get("user_group")
     if "academic_period_id" in kwargs:
       self.academic_periods.get(pk=kwargs["academic_period_id"]).delete()
@@ -208,7 +206,8 @@ class AcademicPeriodView(View):
     academic_period_form = self.form(request.POST)
     if academic_period_form.is_valid():
       try:
-        academic_period_form.save()
+        academic_period = academic_period_form.save()
+        save_audit_record(request.user, "CREAR", "PERIODO ACADEMICO", academic_period)
         messages.success(request, message="Periodo academico creado con exito")
       except:
         messages.error(request, message="Error la base de datos")
@@ -219,10 +218,11 @@ class AcademicPeriodView(View):
   
   def put(self, request, academic_period_id):
     instance = self.academic_periods.get(pk=academic_period_id)
-    academic_period_form = self.form(request.PUT, instance=instance)
+    academic_period_form = self.form(request.PUT, instance=instance)  
     if academic_period_form.is_valid():
       try:
-        academic_period_form.save()
+        academic_period = academic_period_form.save()
+        save_audit_record(request.user, "ACTUALIZAR ", "PERIODO ACADEMICO", academic_period)
         messages.success(request, message="Periodo academico actualizado con exito")
       except:
         messages.error(request, message="Error la base de datos")
@@ -414,7 +414,7 @@ class TuitionCreateView(CreateView):
       messages.success(request, "Registro de matricula exitoso")
       return redirect("tuitions-list")
     else:
-      messages.error(request, "No se pudo registrar la matricula")
+      messages.error(request, tuition_form.errors["__all__"][0])
       return render(request, self.template_name, {'form': tuition_form})
 
 
@@ -443,7 +443,7 @@ class TuitionUpdateView(UpdateView):
       messages.success(request, "Informacion de matricula actualizada")
       return redirect("tuitions-list")
     else:
-      messages.error(request, "No se pudo actualizar la informacion de la matricula")
+      messages.error(request, tuition_form.errors["__all__"][0])
       return render(request, self.template_name, {'form': tuition_form})
 
 

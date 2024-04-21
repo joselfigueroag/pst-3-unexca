@@ -27,6 +27,7 @@ urlpatterns = [
     path("", include("common.urls")),
     path("academic-data/", include("academic_data.urls")),
     path("", include("students.urls")),
+    path("", include("audit.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

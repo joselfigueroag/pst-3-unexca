@@ -127,6 +127,16 @@
             </div>
           {% endif %}
           <div class="col-sm-2 text-center mt-2">
+            <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'audit' %}">
+              <div class="row row-box">
+                <div class="col-sm-12 text-box">
+                  <img class="img-button-box" src="{% static 'common/img/crash.png' %}" alt="...">
+                  Auditoria
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-2 text-center mt-2">
             <a type="button" class="btn-link btn  btn-box border-radius-xl" href="{% url 'stats' %}">
               <div class="row row-box">
                 <div class="col-sm-12 text-box">

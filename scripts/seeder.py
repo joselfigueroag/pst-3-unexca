@@ -11,7 +11,7 @@ country_name = "Venezuela"
 
 def run():
     if not Group.objects.all():
-        groups = ["admin", "control_estudio", "evaluacion", "coordinacion", "docente"]
+        groups = ["admin", "control_estudio", "evaluacion", "coordinacion", "docente", "representante"]
 
         bulk_list_groups = []
         for group in groups:

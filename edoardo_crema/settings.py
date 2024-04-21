@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "common",
     "students",
     "academic_data",
+    "audit",
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
