@@ -19,9 +19,11 @@ django-extensions==3.2.3
 django-method-override==1.0.4
 django-redis==5.4.0
 django-select2==8.1.2
+django-soft-delete==1.0.12
 Django==4.2.3
 djangorestframework==3.14.0
 executing==1.2.0
+Faker==24.11.0
 idna==3.4
 ipdb==0.13.13
 ipython==8.14.0
@@ -52,4 +54,3 @@ wcwidth==0.2.6
 weasyprint==61.0
 Werkzeug==2.3.6
 zstandard==0.22.0
-Faker==24.11.0
